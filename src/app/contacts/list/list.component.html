@@ -1,0 +1,52 @@
+<!-- <div class="contact-item" *ngFor="let contact of contacts">
+    <p>{{contact.ID}}</p> <span>{{contact.Name}}</span>
+  </div> -->
+
+<div class="table-box">
+    <table mat-table [dataSource]="contacts" class="mat-elevation-z8">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.Name}}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef> Phone </th>
+            <td mat-cell *matCellDef="let element"> {{element.Phone}}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="responsible">
+            <th mat-header-cell *matHeaderCellDef> Responsible </th>
+            <td mat-cell *matCellDef="let element"> {{element.Responsible?.Name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef> City </th>
+            <td mat-cell *matCellDef="let element"> {{element.City}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="source">
+            <th mat-header-cell *matHeaderCellDef> Source </th>
+            <td mat-cell *matCellDef="let element"> {{element.Source?.Name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="created">
+            <th mat-header-cell *matHeaderCellDef> Created </th>
+            <td mat-cell *matCellDef="let element"> {{element.CreatedAt | date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="updated">
+            <th mat-header-cell *matHeaderCellDef> Updated </th>
+            <td mat-cell *matCellDef="let element"> {{element.UpdatedAt | date}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]="total" [pageSize]="25" aria-label="Select page">
+    </mat-paginator>
+</div>
