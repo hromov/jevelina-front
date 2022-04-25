@@ -6,14 +6,14 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { FilterToString } from 'src/app/api.service';
 import { ContactsService } from 'src/app/contacts/contacts.service';
 import { AppState } from '../app.state';
-import { selectLoaded } from './contacts.selectors';
+import { selectLoadedContacts } from './contacts.selectors';
 
 @Injectable()
 export class ContactsEffects {
 
     loadContacts$ = createEffect(() => this.actions$.pipe(
         ofType('[Contacts List] Paginator Changed required list'),
-        mergeMap((action: any) => this.store.select(selectLoaded).pipe(
+        mergeMap((action: any) => this.store.select(selectLoadedContacts).pipe(
             map(loaded => ({ current: action.current, loaded: loaded }))
         )),
         filter(res => res.loaded.indexOf(FilterToString(res.current)) == -1),

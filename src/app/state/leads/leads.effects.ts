@@ -6,14 +6,14 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { FilterToString } from 'src/app/api.service';
 import { LeadsService } from 'src/app/leads/leads.service';
 import { AppState } from '../app.state';
-import { selectLoaded } from './leads.selector';
+import { selectLoadedLeads } from './leads.selector';
 
 @Injectable()
 export class LeadsEffects {
 
     loadLeads$ = createEffect(() => this.actions$.pipe(
         ofType('[Leads List] Paginator Changed required list'),
-        mergeMap((action: any) => this.store.select(selectLoaded).pipe(
+        mergeMap((action: any) => this.store.select(selectLoadedLeads).pipe(
             map(loaded => ({ current: action.current, loaded: loaded }))
         )),
         filter(res => res.loaded.indexOf(FilterToString(res.current)) == -1),

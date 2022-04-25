@@ -1,8 +1,9 @@
-import { Contact, Lead, ListFilter } from "../models/model";
+import { Contact, Lead, ListFilter, Step } from "../models/model";
 
 export interface AppState {
   contacts: ContactsState;
   leads: LeadsState;
+  misc: MiscState;
 }
 
 export interface ContactsState {
@@ -17,4 +18,8 @@ export interface LeadsState {
   total: Readonly<number>;
   loaded: Readonly<string[]>;
   current: Readonly<ListFilter>;
+}
+
+export interface MiscState {
+  steps: ReadonlyArray<Step>
 }

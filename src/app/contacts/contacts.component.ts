@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../state/app.state';
-import { retrievedContactList } from '../state/cotacts/contacts.actions';
 import { ListFilter } from '../models/model';
 
 import { ContactsService } from './contacts.service';
-import { selectCurrent, selectTotal } from '../state/cotacts/contacts.selectors';
+import { selectContactsTotal, selectCurrentContacts } from '../state/cotacts/contacts.selectors';
+import { retrievedContactsList } from '../state/cotacts/contacts.actions';
 
 @Component({
   selector: 'app-contacts',
@@ -13,8 +13,8 @@ import { selectCurrent, selectTotal } from '../state/cotacts/contacts.selectors'
   styleUrls: ['./contacts.component.sass']
 })
 export class ContactsComponent implements OnInit {
-  contacts$ = this.store.select(selectCurrent);
-  total$ = this.store.select(selectTotal);
+  contacts$ = this.store.select(selectCurrentContacts);
+  total$ = this.store.select(selectContactsTotal);
   constructor(private contactsService: ContactsService, private store: Store<AppState>) { }
 
   ngOnInit(): void {
@@ -23,7 +23,7 @@ export class ContactsComponent implements OnInit {
       .List(filter)
       .subscribe((resp) => {
         const total = Number(resp.headers.get("X-Total-Count"))
-        this.store.dispatch(retrievedContactList({ contacts: resp.body || [], total: total, current: filter }))
+        this.store.dispatch(retrievedContactsList({ contacts: resp.body || [], total: total, current: filter }))
       });
   }
 

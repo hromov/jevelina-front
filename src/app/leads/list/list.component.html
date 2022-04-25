@@ -1,4 +1,4 @@
-<mat-card *ngFor="let lead of leads$ | async">
+<mat-card *ngFor="let lead of leads$ | async" hoverElevation>
     <mat-card-subtitle>
         <span>{{lead.Contact.Name}}</span>
         <span>{{lead.Contact.Phone}}</span>

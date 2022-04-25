@@ -18,6 +18,9 @@ import { ContactsEffects } from './state/cotacts/contacts.effects';
 import { LeadsListComponent } from './leads/list/list.component';
 import { leadsReducer } from './state/leads/leads.reducer';
 import { LeadsEffects } from './state/leads/leads.effects';
+import { miscsReducer } from './state/misc/misc.reducer';
+import { MiscEffects } from './state/misc/contacts.effects';
+import { HoverDirective } from './shared/hover.directive';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { LeadsEffects } from './state/leads/leads.effects';
     ContactsComponent,
     ContactsListComponent,
     LeadsComponent,
-    LeadsListComponent
+    LeadsListComponent,
+    HoverDirective
   ],
   imports: [
     BrowserModule,
@@ -33,9 +37,9 @@ import { LeadsEffects } from './state/leads/leads.effects';
     BrowserAnimationsModule,
     HttpClientModule,
     MaterialModule,
-    StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer}),
+    StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer, misc: miscsReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([ContactsEffects, LeadsEffects])
+    EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { Contact } from '../../models/model';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
-import { changeFilter } from 'src/app/state/cotacts/contacts.actions';
+import { changeContactsFilter } from 'src/app/state/cotacts/contacts.actions';
 
 var pageSize = 25
 
@@ -26,7 +25,7 @@ export class ContactsListComponent implements AfterViewInit {
 
   pageChanged(e: PageEvent) {
     const offset = e.pageIndex * pageSize
-    this.store.dispatch(changeFilter({current: {limit: pageSize, offset: offset}}))
+    this.store.dispatch(changeContactsFilter({current: {limit: pageSize, offset: offset}}))
   }
 
 }

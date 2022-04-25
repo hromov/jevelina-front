@@ -4,24 +4,24 @@ import { AppState, LeadsState } from '../app.state';
  
 export const selectLeads = (state: AppState) => state.leads;
 
-export const selectAll = createSelector(
+export const selectAllLeads = createSelector(
     selectLeads,
     (state: LeadsState) => state.leads
 )
 
-export const selectTotal = createSelector(
+export const selectTotalLeads = createSelector(
     selectLeads,
     (state: LeadsState) => state.total
 )
 
-export const selectCurrent = createSelector(
+export const selectCurrentLeads = createSelector(
     selectLeads,
     (state: LeadsState) => {
         return state.leads.slice(state.current.offset, state.current.offset+state.current.limit)
     }
 )
 
-export const selectLoaded = createSelector(
+export const selectLoadedLeads = createSelector(
     selectLeads,
     (state : LeadsState) => state.loaded
 )

@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { filter, map } from 'rxjs';
 import { MiscService } from '../misc/misc.service';
-import { ListFilter, Step } from '../models/model';
+import { ListFilter } from '../models/model';
 import { AppState } from '../state/app.state';
-import { retrievedLeadList } from '../state/leads/leads.actions';
-import { selectCurrent, selectLeadsByStep, selectTotal } from '../state/leads/leads.selector';
+import { retrievedLeadsList } from '../state/leads/leads.actions';
+import { selectTotalLeads } from '../state/leads/leads.selector';
+import { retrievedSteps } from '../state/misc/misc.actions';
+import { selectSteps } from '../state/misc/misc.selectors';
 import { LeadsService } from './leads.service';
 
-
+let active = true
 
 @Component({
   selector: 'app-leads',
@@ -15,9 +18,9 @@ import { LeadsService } from './leads.service';
   styleUrls: ['./leads.component.sass']
 })
 export class LeadsComponent implements OnInit {
-  steps: Step[] = []
-
-  total$ = this.store.select(selectTotal);
+  // if only active
+  steps$ = this.store.select(selectSteps).pipe(map(steps => active ? steps.filter(s => s.Active) : steps));
+  total$ = this.store.select(selectTotalLeads);
   constructor(
     private leadsService: LeadsService,
     private store: Store<AppState>,
@@ -27,12 +30,11 @@ export class LeadsComponent implements OnInit {
   ngOnInit(): void {
     const filter: ListFilter = {limit: 50, offset: 0, active: true}
     //move to store
-    this.miscService.Steps().subscribe(steps => this.steps = steps ? steps.filter(step => step.Active) : [])
     this.leadsService
       .List(filter)
       .subscribe((resp) => {
         const total = Number(resp.headers.get("X-Total-Count"))
-        this.store.dispatch(retrievedLeadList({ leads: resp.body || [], total: total, current: filter }))
+        this.store.dispatch(retrievedLeadsList({ leads: resp.body || [], total: total, current: filter }))
       });
   }
 
