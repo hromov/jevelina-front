@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, tap } from 'rxjs';
-import { Lead } from 'src/app/models/model';
+import { Lead, ListFilter } from 'src/app/models/model';
 import { AppState } from 'src/app/state/app.state';
+import { leadsRrequired } from 'src/app/state/leads/leads.actions';
 import { selectLeadsByStep } from 'src/app/state/leads/leads.selector';
 
 @Component({
@@ -16,7 +17,9 @@ export class LeadsListComponent implements OnInit {
   constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.leads$ = this.store.select(selectLeadsByStep(this.step)).pipe(tap(console.log))
+      const filter: ListFilter = {limit: 25, offset: 0, step: this.step}
+      this.store.dispatch(leadsRrequired({ filter: filter }))
+      this.leads$ = this.store.select(selectLeadsByStep(this.step)).pipe(tap(console.log))    
   }
 
   // pageChanged(e: PageEvent) {

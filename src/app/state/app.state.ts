@@ -15,9 +15,9 @@ export interface ContactsState {
 
 export interface LeadsState {
   leads: ReadonlyArray<Lead>;
-  total: Readonly<number>;
+  // total: Readonly<number>;
   loaded: Readonly<string[]>;
-  current: Readonly<ListFilter>;
+  // current: Readonly<ListFilter>;
 }
 
 export interface MiscState {

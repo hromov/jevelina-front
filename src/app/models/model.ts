@@ -2,6 +2,7 @@ export interface ListFilter {
     limit?: number;
     offset?: number;
     active?: boolean;
+    step?: number;
 }
 export interface Contact {
     ID: number;

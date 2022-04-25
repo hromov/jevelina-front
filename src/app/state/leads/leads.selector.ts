@@ -9,17 +9,17 @@ export const selectAllLeads = createSelector(
     (state: LeadsState) => state.leads
 )
 
-export const selectTotalLeads = createSelector(
-    selectLeads,
-    (state: LeadsState) => state.total
-)
+// export const selectTotalLeads = createSelector(
+//     selectLeads,
+//     (state: LeadsState) => state.total
+// )
 
-export const selectCurrentLeads = createSelector(
-    selectLeads,
-    (state: LeadsState) => {
-        return state.leads.slice(state.current.offset, state.current.offset+state.current.limit)
-    }
-)
+// export const selectCurrentLeads = createSelector(
+//     selectLeads,
+//     (state: LeadsState) => {
+//         return state.leads.slice(state.current.offset, state.current.offset+state.current.limit)
+//     }
+// )
 
 export const selectLoadedLeads = createSelector(
     selectLeads,
