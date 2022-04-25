@@ -1,6 +1,6 @@
 
 import { createReducer, on } from '@ngrx/store';
-import { FilterToString } from '../contacts/contacts.service';
+import { FilterToString } from '../api.service';
 import { ContactsState } from './app.state';
 import { changeFilter, retrievedContactList } from './contacts.actions';
 
