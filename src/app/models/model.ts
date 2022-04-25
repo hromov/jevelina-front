@@ -1,6 +1,7 @@
 export interface ListFilter {
     limit?: number;
     offset?: number;
+    active?: boolean;
 }
 export interface Contact {
     ID: number;
@@ -81,6 +82,7 @@ export interface Step {
     DeletedAt?: any;
     Name: string;
     Order: number;
+    Active: boolean;
 }
 
 export interface Product {

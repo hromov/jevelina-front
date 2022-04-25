@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../state/app.state';
-import { retrievedContactList } from '../state/contacts.actions';
-import { selectAll, selectCurrent, selectTotal } from '../state/contacts.selectors';
+import { retrievedContactList } from '../state/cotacts/contacts.actions';
 import { ListFilter } from '../models/model';
 
 import { ContactsService } from './contacts.service';
+import { selectCurrent, selectTotal } from '../state/cotacts/contacts.selectors';
 
 @Component({
   selector: 'app-contacts',

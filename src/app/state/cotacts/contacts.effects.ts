@@ -3,9 +3,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of, shareReplay, filter } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import { FilterToString } from '../api.service';
-import { ContactsService } from '../contacts/contacts.service';
-import { AppState } from './app.state';
+import { FilterToString } from 'src/app/api.service';
+import { ContactsService } from 'src/app/contacts/contacts.service';
+import { AppState } from '../app.state';
 import { selectLoaded } from './contacts.selectors';
 
 @Injectable()

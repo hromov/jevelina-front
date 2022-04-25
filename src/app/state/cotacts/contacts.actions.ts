@@ -1,5 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
-import { Contact, ListFilter } from '../models/model';
+import { Contact, ListFilter } from '../../models/model';
   
 export const retrievedContactList = createAction(
   '[Contacts Service] List Success',
@@ -10,8 +10,3 @@ export const changeFilter = createAction(
   '[Contacts List] Paginator Changed required list',
   props<{ current: ListFilter}>()
 )
-
-// export const setTotal = createAction(
-//   '[Contacts Service] Set Total',
-//   props<{total: number}>()
-// )

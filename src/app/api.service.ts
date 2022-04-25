@@ -9,14 +9,15 @@ const defaultLimit = 25
 export const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     observe: 'response' as 'response'
-  };
+};
 
 export function FilterToString(filter: ListFilter): string {
-  return `?limit=${filter.limit || defaultLimit}&offset=${filter.offset || 0}`
+    const additional = `${filter.active ? '&active=true' : ''}`
+    return `?limit=${filter.limit || defaultLimit}&offset=${filter.offset || 0}${additional}`
 }
- 
+
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
 }

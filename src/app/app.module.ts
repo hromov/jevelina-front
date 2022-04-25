@@ -5,23 +5,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactsComponent } from './contacts/contacts.component';
-import { contactsReducer } from './state/contacts.reducer';
 import { StoreModule } from '@ngrx/store';
-import { ListComponent } from './contacts/list/list.component';
+import { ContactsListComponent } from './contacts/list/list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material/material.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
-import { ContactsEffects } from './state/contacts.effects';
 import { LeadsComponent } from './leads/leads.component';
+import { contactsReducer } from './state/cotacts/contacts.reducer';
+import { ContactsEffects } from './state/cotacts/contacts.effects';
+import { LeadsListComponent } from './leads/list/list.component';
+import { leadsReducer } from './state/leads/leads.reducer';
+import { LeadsEffects } from './state/leads/leads.effects';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContactsComponent,
-    ListComponent,
-    LeadsComponent
+    ContactsListComponent,
+    LeadsComponent,
+    LeadsListComponent
   ],
   imports: [
     BrowserModule,
@@ -29,9 +33,9 @@ import { LeadsComponent } from './leads/leads.component';
     BrowserAnimationsModule,
     HttpClientModule,
     MaterialModule,
-    StoreModule.forRoot({ contacts: contactsReducer}),
+    StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([ContactsEffects])
+    EffectsModule.forRoot([ContactsEffects, LeadsEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

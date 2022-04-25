@@ -1,0 +1,11 @@
+@use '@angular/material' as mat
+
+$app-primary: mat.define-palette(mat.$indigo-palette)
+$app-accent: mat.define-palette(mat.$pink-palette)
+$app-warn: mat.define-palette(mat.$red-palette)
+
+$primary: mat.get-color-from-palette($app-primary, 'default')
+$accent: mat.get-color-from-palette($app-accent, 'default')
+$warn: mat.get-color-from-palette($app-warn, 'default')
+
+//You can also reference colors using the "default", "lighter", "darker", and "text" colors passed to define-palette.

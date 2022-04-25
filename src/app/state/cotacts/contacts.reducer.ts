@@ -1,7 +1,7 @@
 
 import { createReducer, on } from '@ngrx/store';
-import { FilterToString } from '../api.service';
-import { ContactsState } from './app.state';
+import { FilterToString } from 'src/app/api.service';
+import { ContactsState } from '../app.state';
 import { changeFilter, retrievedContactList } from './contacts.actions';
 
 
@@ -14,8 +14,7 @@ export const contactsReducer = createReducer(
         total: total ? total : state.total,
         loaded: state.loaded.concat(FilterToString(current)),
         current: current,
-    })
-    ),
+    })),
     on(changeFilter, (state, { current }) => ({
         ...state,
         current: current

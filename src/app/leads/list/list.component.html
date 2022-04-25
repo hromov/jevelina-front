@@ -1,1 +1,14 @@
-<p>list works!</p>
+<mat-card *ngFor="let lead of leads$ | async">
+    <mat-card-subtitle>
+        <span>{{lead.Contact.Name}}</span>
+        <span>{{lead.Contact.Phone}}</span>
+    </mat-card-subtitle>
+    <mat-card-title class="mat-primary">{{lead.Name}}</mat-card-title>
+    <mat-card-content>
+        <div>{{lead.Responsible.Name}}</div>
+        <div>{{lead.CreatedAt | date}}</div>
+    </mat-card-content>
+    <!-- <mat-card-footer>
+            
+        </mat-card-footer> -->
+</mat-card>

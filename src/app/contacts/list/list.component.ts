@@ -4,7 +4,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
-import { changeFilter } from 'src/app/state/contacts.actions';
+import { changeFilter } from 'src/app/state/cotacts/contacts.actions';
 
 var pageSize = 25
 
@@ -13,7 +13,7 @@ var pageSize = 25
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.sass']
 })
-export class ListComponent implements AfterViewInit {
+export class ContactsListComponent implements AfterViewInit {
   @Input() contacts: ReadonlyArray<Contact> = [];
   @Input() total: Readonly<number> = 0;
   displayedColumns: string[] = ['name', 'phone', 'responsible', 'city', 'source', 'created', 'updated'];

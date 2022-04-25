@@ -1,1 +1,6 @@
-<p>leads works!</p>
+<div class="steps">
+    <div *ngFor="let step of steps" class="step">
+        <h2>{{step.Name}}</h2>
+        <leads-list [step]="step.ID"></leads-list>
+    </div>
+</div>
