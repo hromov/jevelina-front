@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, map } from 'rxjs';
@@ -25,6 +26,7 @@ export class LeadsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
     // const filter: ListFilter = {limit: 50, offset: 0, active: true}
     // //move to store
     // this.leadsService
