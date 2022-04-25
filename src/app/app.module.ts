@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material/material.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { ContactsEffects } from './state/contacts.effects';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { environment } from '../environments/environment';
     MaterialModule,
     StoreModule.forRoot({ contacts: contactsReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([ContactsEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

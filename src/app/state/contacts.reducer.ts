@@ -5,17 +5,18 @@ import { ContactsState } from './app.state';
 import { changeFilter, retrievedContactList } from './contacts.actions';
 
 
-export const initialState: ContactsState = {contacts:[],total:0, loaded: [], current: {}};
+export const initialState: ContactsState = { contacts: [], total: 0, loaded: [], current: {} };
 
 export const contactsReducer = createReducer(
     initialState,
-    on(retrievedContactList, (state, { contacts, total, current}) => ({
-        contacts : state.contacts.concat(contacts),
-        total: total,
+    on(retrievedContactList, (state, { contacts, total, current }) => ({
+        contacts: state.contacts.concat(contacts),
+        total: total ? total : state.total,
         loaded: state.loaded.concat(FilterToString(current)),
         current: current,
-    })),
-    on(changeFilter, (state, { current}) => ({
+    })
+    ),
+    on(changeFilter, (state, { current }) => ({
         ...state,
         current: current
     }))
