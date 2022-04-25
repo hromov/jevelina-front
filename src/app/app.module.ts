@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactsComponent } from './contacts/contacts.component';
-import { contactsReducer, totalReducer } from './state/contacts.reducer';
+import { contactsReducer } from './state/contacts.reducer';
 import { StoreModule } from '@ngrx/store';
 import { ListComponent } from './contacts/list/list.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,7 +25,7 @@ import { environment } from '../environments/environment';
     BrowserAnimationsModule,
     HttpClientModule,
     MaterialModule,
-    StoreModule.forRoot({ contacts: contactsReducer, totalContacts: totalReducer}),
+    StoreModule.forRoot({ contacts: contactsReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [],

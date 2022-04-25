@@ -1,18 +1,13 @@
 
 import { createReducer, on } from '@ngrx/store';
+import { ContactsState } from './app.state';
+import { retrievedContactList } from './contacts.actions';
 
-import { retrievedContactList, setTotal } from './contacts.actions';
-import { Contact } from '../contacts/contacts.model';
 
-export const initialState: ReadonlyArray<Contact> = [];
-export const totalState: Readonly<number> = 0;
+export const initialState: ContactsState = {contacts:[],total:0};
 
 export const contactsReducer = createReducer(
     initialState,
-    on(retrievedContactList, (state, { contacts }) => contacts),
+    on(retrievedContactList, (state, { contacts, total}) => ({ contacts : state.contacts.concat(contacts), total: total}) )
 );
 
-export const totalReducer = createReducer(
-    totalState,
-    on(setTotal, (state, { total }) => total)
-)

@@ -1,5 +1,14 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { Contact } from '../contacts/contacts.model';
+import { createSelector } from '@ngrx/store';
+import { AppState, ContactsState } from './app.state';
  
-export const selectContacts = createFeatureSelector<ReadonlyArray<Contact>>('contacts');
-export const selectTotal = createFeatureSelector<Readonly<number>>('totalContacts')
+export const selectContactsState = (state: AppState) => state.contacts;
+
+export const selectContacts = createSelector(
+    selectContactsState,
+    (state: ContactsState) => state.contacts
+)
+
+export const selectTotal = createSelector(
+    selectContactsState,
+    (state: ContactsState) => state.total
+)
