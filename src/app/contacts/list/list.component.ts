@@ -1,7 +1,12 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Contact } from '../contacts.model';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/state/app.state';
+import { changeFilter } from 'src/app/state/contacts.actions';
+
+var pageSize = 25
 
 @Component({
   selector: 'contacts-list',
@@ -21,6 +26,12 @@ export class ListComponent implements AfterViewInit {
     // this.dataSource.paginator = this.paginator;
   }
 
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
+
+  pageChanged(e: PageEvent) {
+    console.log(e)
+    const offset = e.pageIndex * pageSize
+    this.store.dispatch(changeFilter({current: {limit: pageSize, offset: offset}}))
+  }
 
 }

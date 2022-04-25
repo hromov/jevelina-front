@@ -1,3 +1,7 @@
+export interface ListFilter {
+    limit?: number;
+    offset?: number;
+}
 export interface Contact {
     ID: number;
     CreatedAt: Date;

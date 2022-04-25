@@ -1,4 +1,4 @@
-import { Contact } from "../contacts/contacts.model";
+import { Contact, ListFilter } from "../contacts/contacts.model";
 
 export interface AppState {
   contacts: ContactsState;
@@ -7,4 +7,6 @@ export interface AppState {
 export interface ContactsState {
   contacts: ReadonlyArray<Contact>;
   total: Readonly<number>;
+  loaded: Readonly<string[]>;
+  current: Readonly<ListFilter>;
 }
