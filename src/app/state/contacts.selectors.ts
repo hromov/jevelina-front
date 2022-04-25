@@ -19,3 +19,8 @@ export const selectCurrent = createSelector(
         return state.contacts.slice(state.current.offset, state.current.offset+state.current.limit)
     }
 )
+
+export const selectLoaded = createSelector(
+    selectContacts,
+    (state : ContactsState) => state.loaded
+)

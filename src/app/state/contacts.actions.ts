@@ -1,4 +1,4 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, props, union } from '@ngrx/store';
 import { Contact, ListFilter } from '../contacts/contacts.model';
   
 export const retrievedContactList = createAction(
