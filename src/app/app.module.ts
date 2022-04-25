@@ -14,12 +14,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { ContactsEffects } from './state/contacts.effects';
+import { LeadsComponent } from './leads/leads.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContactsComponent,
-    ListComponent
+    ListComponent,
+    LeadsComponent
   ],
   imports: [
     BrowserModule,

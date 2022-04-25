@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
  
 import { Observable } from 'rxjs';
-import { Contact, ListFilter } from './contacts.model';
+import { Contact, ListFilter } from '../models/model';
 
 const path = 'http://localhost:8080/contacts'
 const defaultLimit = 25

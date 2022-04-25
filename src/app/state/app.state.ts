@@ -1,4 +1,4 @@
-import { Contact, ListFilter } from "../contacts/contacts.model";
+import { Contact, ListFilter } from "../models/model";
 
 export interface AppState {
   contacts: ContactsState;

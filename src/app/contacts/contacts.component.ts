@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../state/app.state';
 import { retrievedContactList } from '../state/contacts.actions';
 import { selectAll, selectCurrent, selectTotal } from '../state/contacts.selectors';
-import { ListFilter } from './contacts.model';
+import { ListFilter } from '../models/model';
 
 import { ContactsService } from './contacts.service';
 
