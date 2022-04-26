@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 @Directive({
-  selector: '[hoverElevation]'
+  selector: '[hoverElevation]',
 })
 export class HoverDirective implements OnChanges {
 
