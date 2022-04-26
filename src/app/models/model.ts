@@ -3,6 +3,7 @@ export interface ListFilter {
     offset?: number;
     active?: boolean;
     step?: number;
+    query?: string;
 }
 export interface Contact {
     ID: number;

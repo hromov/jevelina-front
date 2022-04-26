@@ -12,7 +12,7 @@ export const httpOptions = {
 };
 
 export function FilterToString(filter: ListFilter): string {
-    const additional = `${filter.active ? '&active=true' : ''}${filter.step ? '&step=' + filter.step.toString() : ''}`
+    const additional = `${filter.active ? '&active=true' : ''}${filter.step ? '&step=' + filter.step.toString() : ''}${filter.query ? '&query='+filter.query : ''}`
     return `?limit=${filter.limit || defaultLimit}&offset=${filter.offset || 0}${additional}`
 }
 

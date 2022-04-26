@@ -1,12 +1,57 @@
 <mat-icon>search</mat-icon>
-<form class="example-form">
-    <mat-form-field class="example-full-width" appearance="standard">
-        <input type="text" aria-label="Search" matInput [formControl]="myControl"
-            [matAutocomplete]="auto">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{option}}
+<form>
+    <mat-form-field appearance="standard">
+        <input type="text" aria-label="Search" matInput [formControl]="myControl" [matAutocomplete]="auto" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+        <span matSuffix>
+            <mat-spinner color="accent" [diameter]="24" *ngIf="loading"></mat-spinner>
+        </span>
+        <mat-autocomplete #auto="matAutocomplete" [panelWidth]="227">
+            <mat-option *ngFor="let option of filteredLeads | async" [value]="option.ID">
+                {{option.Name}}
+            </mat-option>
+            <mat-option *ngIf="searchLeads">
+                <a [routerLink]="searchLeads">Show All ({{totalLeads}})</a>
             </mat-option>
         </mat-autocomplete>
+
+
     </mat-form-field>
 </form>
+<!-- <div class="results">
+    <mat-selection-list [multiple]="false" class="mat-elevation-z2">
+        <mat-list-option *ngFor="let option of filteredContacts | async" [value]="option.ID">
+            {{option.Name}}
+        </mat-list-option>
+        <mat-option *ngIf="searchContacts">
+            <a [routerLink]="searchContacts">Show All ({{totalContacts}})</a>
+        </mat-option>
+    </mat-selection-list>
+    
+
+</div> -->
+<mat-selection-list [multiple]="false" class="mat-elevation-z2">
+    <mat-list-option *ngFor="let option of filteredContacts | async" [value]="option.ID">
+        {{option.Name}}
+    </mat-list-option>
+    <mat-option *ngIf="searchContacts">
+        <a [routerLink]="searchContacts">Show All ({{totalContacts}})</a>
+    </mat-option>
+</mat-selection-list>
+<!-- <div cdkOverlayOrigin #trigger="cdkOverlayOrigin"></div> -->
+<!-- <button cdkOverlayOrigin #trigger="cdkOverlayOrigin" (click)="isOpen = !isOpen" type="button">і</button> -->
+
+<!-- This button triggers the overlay and is it's origin -->
+<!-- <button (click)="isOpen = !isOpen" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+    {{isOpen ? "Close" : "Open"}}
+</button> -->
+
+<!-- This template displays the overlay content and is connected to the button -->
+<!-- [cdkConnectedOverlayOrigin]="trigger" -->
+<!-- <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayWidth]="227"
+    [cdkConnectedOverlayOpen]="true" [cdkConnectedOverlayOffsetX]="218" [cdkConnectedOverlayOffsetY]="10">
+    <mat-selection-list [multiple]="false" class="mat-elevation-z2">
+        <mat-list-option *ngFor="let option of filteredContacts | async" [value]="option.ID">
+            {{option.Name}}
+        </mat-list-option>
+    </mat-selection-list>
+</ng-template> -->

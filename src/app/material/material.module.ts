@@ -11,6 +11,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
@@ -28,6 +31,9 @@ import {MatInputModule} from '@angular/material/input';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,    
+    MatListModule,
   ],
   exports: [
     MatTableModule,
@@ -41,6 +47,9 @@ import {MatInputModule} from '@angular/material/input';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatListModule,
   ]
 })
 export class MaterialModule { }

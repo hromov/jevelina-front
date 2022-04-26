@@ -23,6 +23,7 @@ import { MiscEffects } from './state/misc/contacts.effects';
 import { HoverDirective } from './shared/hover.directive';
 import { SearchComponent } from './shared/search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {OverlayModule} from '@angular/cdk/overlay';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     MaterialModule,
     ReactiveFormsModule,
+    OverlayModule,
     StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer, misc: miscsReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects])
