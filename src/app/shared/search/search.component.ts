@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { concatMap, debounce, debounceTime, delay, exhaustMap, filter, map, Observable, startWith, tap } from 'rxjs';
+import { concatMap, debounce, debounceTime, delay, exhaustMap, filter, map, Observable, startWith, Subscription, tap } from 'rxjs';
 import { FilterToString } from 'src/app/api.service';
 import { ContactsService } from 'src/app/contacts/contacts.service';
 import { LeadsService } from 'src/app/leads/leads.service';
@@ -13,23 +13,16 @@ const SearchLimit = 5
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.sass']
 })
-export class SearchComponent implements OnInit {
-  // isOpen = false;
+export class SearchComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = []
+  isOpen = false;
   myControl = new FormControl();
-  // options: string[] = ['One', 'Two', 'Three'];
-  filteredLeads: Observable<Lead[]>;
-  filteredContacts: Observable<Contact[]>;
+  filteredLeads: Lead[];
+  filteredContacts: Contact[];
   loading: boolean = false
   filter: ListFilter = {limit: SearchLimit, offset: 0, query: ""}
-  searchContacts: string = ""
-  searchLeads: string = ""
   totalLeads: number = 0
   totalContacts: number = 0
-  // showMore: boolean = false
-  // showMoreContacts: boolean = false
-  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
-
-
   
   constructor(
     private leadsService: LeadsService,
@@ -37,7 +30,8 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.filteredContacts = this.myControl.valueChanges.pipe(
+    //was used as async at first
+    this.subscriptions.push(this.myControl.valueChanges.pipe(
       startWith(''),
       filter(val => val.length > 2),
       tap(() => this.loading = true),
@@ -47,25 +41,17 @@ export class SearchComponent implements OnInit {
         this.filter.query = val
         return this.contactsService.List(this.filter).pipe(
           map(resp => {
+            this.isOpen = true
             let contacts = resp.body
             this.totalContacts = Number(resp.headers.get("X-Total-Count"))
-            if (this.totalContacts > SearchLimit) {
-              //change to real
-              this.searchContacts = `/contacts?${FilterToString(this.filter)}`
-              // this.showMoreContacts = true
-              contacts = contacts.slice(0,SearchLimit-1)
-            } else {
-              // this.showMoreContacts = false
-              this.searchContacts = ""
-            }
             return contacts
           }),
           tap(() => this.loading = false)
         )
       })
-      // map(value => this._filter(value)),
-    );
-    this.filteredLeads = this.myControl.valueChanges.pipe(
+    ).subscribe(contacts => this.filteredContacts = contacts));
+
+    this.subscriptions.push(this.myControl.valueChanges.pipe(
       startWith(''),
       filter(val => val.length > 2),
       tap(() => this.loading = true),
@@ -75,23 +61,43 @@ export class SearchComponent implements OnInit {
         this.filter.query = val
         return this.leadsService.List(this.filter).pipe(
           map(resp => {
+            this.isOpen = true
             let leads = resp.body
             this.totalLeads = Number(resp.headers.get("X-Total-Count"))
-            if (this.totalLeads > SearchLimit) {
-              this.searchLeads = `/leads-table?${FilterToString(this.filter)}`
-              // this.showMore = true
-              leads = leads.slice(0,SearchLimit-1)
-            } else {
-              // this.showMore = false
-              this.searchLeads = ""
-            }
             return leads
           }),
           tap(() => this.loading = false)
         )
       })
-      // map(value => this._filter(value)),
-    );
+    ).subscribe(leads => this.filteredLeads = leads));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe())   
+  }
+
+  get leadsPath() {
+    return `/leads-table?${FilterToString(this.filter)}`
+  }
+
+  get contactsPath() {
+    return `/contacts?${FilterToString(this.filter)}`
+  }
+
+  get showDivider() {
+    return ((this.filteredLeads && this.filteredLeads.length) && (this.filteredContacts && this.filteredContacts.length)) > 0
+  }
+
+  get showMoreLeads() {
+    return this.filteredLeads ? this.filteredLeads.length < this.totalLeads : false
+  }
+
+  get showMoreContacts() {
+    return this.filteredContacts ? this.filteredContacts.length < this.totalContacts : false
+  }
+
+  close() {
+    this.isOpen = false
   }
 
 }

@@ -1,42 +1,32 @@
 <mat-icon>search</mat-icon>
 <form>
-    <mat-form-field appearance="standard">
-        <input type="text" aria-label="Search" matInput [formControl]="myControl" [matAutocomplete]="auto" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+    <mat-form-field appearance="standard" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+        <input type="text" aria-label="Search" matInput [formControl]="myControl">
         <span matSuffix>
             <mat-spinner color="accent" [diameter]="24" *ngIf="loading"></mat-spinner>
         </span>
-        <mat-autocomplete #auto="matAutocomplete" [panelWidth]="227">
+        <!-- <mat-autocomplete #auto="matAutocomplete" [panelWidth]="227">
             <mat-option *ngFor="let option of filteredLeads | async" [value]="option.ID">
                 {{option.Name}}
             </mat-option>
             <mat-option *ngIf="searchLeads">
                 <a [routerLink]="searchLeads">Show All ({{totalLeads}})</a>
             </mat-option>
-        </mat-autocomplete>
+        </mat-autocomplete> -->
 
 
     </mat-form-field>
-</form>
-<!-- <div class="results">
-    <mat-selection-list [multiple]="false" class="mat-elevation-z2">
-        <mat-list-option *ngFor="let option of filteredContacts | async" [value]="option.ID">
-            {{option.Name}}
-        </mat-list-option>
-        <mat-option *ngIf="searchContacts">
-            <a [routerLink]="searchContacts">Show All ({{totalContacts}})</a>
-        </mat-option>
-    </mat-selection-list>
     
+</form>
 
-</div> -->
-<mat-selection-list [multiple]="false" class="mat-elevation-z2">
+<!-- <mat-selection-list [multiple]="false" >
     <mat-list-option *ngFor="let option of filteredContacts | async" [value]="option.ID">
         {{option.Name}}
     </mat-list-option>
     <mat-option *ngIf="searchContacts">
         <a [routerLink]="searchContacts">Show All ({{totalContacts}})</a>
     </mat-option>
-</mat-selection-list>
+</mat-selection-list> -->
 <!-- <div cdkOverlayOrigin #trigger="cdkOverlayOrigin"></div> -->
 <!-- <button cdkOverlayOrigin #trigger="cdkOverlayOrigin" (click)="isOpen = !isOpen" type="button">і</button> -->
 
@@ -47,11 +37,28 @@
 
 <!-- This template displays the overlay content and is connected to the button -->
 <!-- [cdkConnectedOverlayOrigin]="trigger" -->
-<!-- <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayWidth]="227"
-    [cdkConnectedOverlayOpen]="true" [cdkConnectedOverlayOffsetX]="218" [cdkConnectedOverlayOffsetY]="10">
-    <mat-selection-list [multiple]="false" class="mat-elevation-z2">
-        <mat-list-option *ngFor="let option of filteredContacts | async" [value]="option.ID">
-            {{option.Name}}
-        </mat-list-option>
-    </mat-selection-list>
-</ng-template> -->
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayWidth]="460"
+    [cdkConnectedOverlayOpen]="isOpen" [cdkConnectedOverlayOffsetX]="0" [cdkConnectedOverlayOffsetY]="-27" [cdkConnectedOverlayHasBackdrop]="true" (backdropClick)="close()">
+    <div class="results mat-elevation-z2">
+        <mat-selection-list [multiple]="false" class="leads">
+            <mat-list-option *ngFor="let option of filteredLeads" [value]="option.ID">
+
+                <div mat-line><span>{{option.Name}}</span><span>{{option.CreatedAt | date}}</span></div>
+                <div mat-line><span>{{option.Contact.Name}}</span><span>{{option.Contact.Phone}}</span></div>
+
+            </mat-list-option>
+            <mat-option *ngIf="showMoreLeads" class="show">
+                <a [routerLink]="leadsPath">Show All ({{totalLeads}})</a>
+            </mat-option>
+        </mat-selection-list>
+        <mat-divider *ngIf="showDivider"></mat-divider>
+        <mat-selection-list [multiple]="false" class="contacts">
+            <mat-list-option *ngFor="let option of filteredContacts" [value]="option.ID">
+                <div class="one-line"><span>{{option.Name}}</span><span>{{option.Phone}}</span></div>
+            </mat-list-option>
+            <mat-option *ngIf="showMoreContacts" class="show">
+                <a [routerLink]="contactsPath">Show All ({{totalContacts}})</a>
+            </mat-option>
+        </mat-selection-list>
+    </div>
+</ng-template>
