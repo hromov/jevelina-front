@@ -1,11 +1,12 @@
 <mat-toolbar class="mat-elevation-z2" color="primary">
-    <div>
+    <div class="left-side">
         <button mat-icon-button (click)="toggle()">
             <mat-icon>menu</mat-icon>
         </button>
         <span class="name" routerLink="/">Jevelina - Free CRM</span>
     </div>
-    <div>
+    <div class="right-side">
+        <app-search></app-search>
         <a mat-icon-button href="https://github.com/hromov/jevelina" target="blank">
             <mat-icon role="img" svgicon="logos:github" class="mat-icon notranslate mat-icon-no-color"
                 aria-hidden="true" data-mat-icon-type="svg" data-mat-icon-name="github" data-mat-icon-namespace="logos">

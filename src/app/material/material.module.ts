@@ -8,6 +8,10 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatFormFieldModule } from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+
 
 @NgModule({
   declarations: [],
@@ -21,6 +25,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatSidenavModule,
     MatIconModule,
     MatToolbarModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   exports: [
     MatTableModule,
@@ -31,6 +38,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatSidenavModule,
     MatIconModule,
     MatToolbarModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
   ]
 })
 export class MaterialModule { }

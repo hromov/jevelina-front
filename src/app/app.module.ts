@@ -21,6 +21,9 @@ import { LeadsEffects } from './state/leads/leads.effects';
 import { miscsReducer } from './state/misc/misc.reducer';
 import { MiscEffects } from './state/misc/contacts.effects';
 import { HoverDirective } from './shared/hover.directive';
+import { SearchComponent } from './shared/search/search.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { HoverDirective } from './shared/hover.directive';
     ContactsListComponent,
     LeadsComponent,
     LeadsListComponent,
-    HoverDirective
+    HoverDirective,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +41,7 @@ import { HoverDirective } from './shared/hover.directive';
     BrowserAnimationsModule,
     HttpClientModule,
     MaterialModule,
+    ReactiveFormsModule,
     StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer, misc: miscsReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects])
