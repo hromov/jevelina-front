@@ -1,1 +1,3 @@
-<contacts-list [contacts]="contacts$ | async" [total]="total$ | async"></contacts-list>
+<contacts-list [contacts]="contacts$ | async"></contacts-list>
+<mat-paginator [length]="total$ | async" [pageSize]="limit" aria-label="Select page" (page)="pageChanged($event)">
+</mat-paginator>

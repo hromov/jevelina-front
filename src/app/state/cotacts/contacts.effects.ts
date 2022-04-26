@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { of, shareReplay, filter } from 'rxjs';
+import { of, shareReplay, filter, debounceTime } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { FilterToString } from 'src/app/api.service';
 import { ContactsService } from 'src/app/contacts/contacts.service';
@@ -12,17 +12,23 @@ import { selectLoadedContacts } from './contacts.selectors';
 export class ContactsEffects {
 
     loadContacts$ = createEffect(() => this.actions$.pipe(
-        ofType('[Contacts List] Paginator Changed required list'),
+        ofType('[Contacts List / Search Component] contactsRequired'),
         mergeMap((action: any) => this.store.select(selectLoadedContacts).pipe(
-            map(loaded => ({ current: action.current, loaded: loaded }))
+            map(loaded => ({ filter: action.filter, loaded: loaded }))
         )),
-        filter(res => res.loaded.indexOf(FilterToString(res.current)) == -1),
-        mergeMap((res: any) => this.contactsService.List(res.current)
+        filter(res => {
+            // console.log(res)
+            // console.log(res.loaded.has(FilterToString(res.filter)))
+            return !res.loaded.has(FilterToString(res.filter))
+        }),
+        // debounceTime(10),
+        mergeMap((res: any) => this.contactsService.List(res.filter)
             .pipe(
                 map(response => ({
                     type: '[Contacts Service] List Success',
                     contacts: response.body || [],
-                    current: res.current
+                    total: Number(response.headers.get("X-Total-Count")),
+                    filter: res.filter
                 })),
                 catchError(() => of({ type: '[Contacts Service] Get List Error' }))
             )

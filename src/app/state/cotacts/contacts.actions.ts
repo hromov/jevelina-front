@@ -3,10 +3,10 @@ import { Contact, ListFilter } from '../../models/model';
   
 export const retrievedContactsList = createAction(
   '[Contacts Service] List Success',
-  props<{ contacts: Contact[], total: number, current: ListFilter }>()
+  props<{ contacts: Contact[], total: number, filter: ListFilter }>()
 );
 
-export const changeContactsFilter = createAction(
-  '[Contacts List] Paginator Changed required list',
-  props<{ current: ListFilter}>()
+export const contactsRequired = createAction(
+  '[Contacts List / Search Component] contactsRequired',
+  props<{ filter: ListFilter}>()
 )

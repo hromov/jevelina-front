@@ -4,20 +4,14 @@ import { FilterToString } from 'src/app/api.service';
 import { LeadsState } from '../app.state';
 import { retrievedLeadsList } from './leads.actions';
 
-//no total for groups ?
-export const initialState: LeadsState = { leads: [], loaded: [] };
+export const initialState: LeadsState = { leads: [], loaded: new Map() };
 
 export const leadsReducer = createReducer(
     initialState,
-    on(retrievedLeadsList, (state, { leads, filter }) => ({
-        leads: state.leads.concat(leads),
-        // total: total ? total : state.total,
-        loaded: state.loaded.concat(FilterToString(filter)),
-        // current: current,
+    on(retrievedLeadsList, (state, { leads, total, filter }) => ({
+        leads: [...new Set([...state.leads,...leads])],
+        loaded: state.loaded.set(FilterToString(filter), total),
+
     })),
-    // on(changeFilter, (state, { current }) => ({
-    //     ...state,
-    //     current: current
-    // }))
 );
 

@@ -3,7 +3,7 @@ import { Lead, ListFilter } from '../../models/model';
   
 export const retrievedLeadsList = createAction(
   '[Leads Service] List Success',
-  props<{ leads: Lead[], filter: ListFilter }>()
+  props<{ leads: Lead[], total: number, filter: ListFilter }>()
 );
 
 // export const changeFilter = createAction(

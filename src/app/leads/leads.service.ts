@@ -10,6 +10,7 @@ export class LeadsService {
   constructor(private http: HttpClient) {}
  
   List(filter: ListFilter): Observable<HttpResponse<Array<Lead>>> {
+    // console.log(filter)
     return this.http.get<Lead[]>(`${path}/leads${FilterToString(filter)}`, httpOptions)
   }
 }

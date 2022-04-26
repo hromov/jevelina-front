@@ -8,15 +8,13 @@ export interface AppState {
 
 export interface ContactsState {
   contacts: ReadonlyArray<Contact>;
-  total: Readonly<number>;
-  loaded: Readonly<string[]>;
-  current: Readonly<ListFilter>;
+  loaded: Readonly<Map<string, number>>;
 }
 
 export interface LeadsState {
   leads: ReadonlyArray<Lead>;
   // total: Readonly<number>;
-  loaded: Readonly<string[]>;
+  loaded: Readonly<Map<string,number>>;
   // current: Readonly<ListFilter>;
 }
 

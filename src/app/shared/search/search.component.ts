@@ -31,6 +31,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     //was used as async at first
+    // Search is not cached. Don't know how 
     this.subscriptions.push(this.myControl.valueChanges.pipe(
       startWith(''),
       filter(val => val.length > 2),

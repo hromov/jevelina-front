@@ -5,7 +5,7 @@ import { Lead, ListFilter } from 'src/app/models/model';
 import { ScrollService } from 'src/app/shared/scroll.service';
 import { AppState } from 'src/app/state/app.state';
 import { leadsRrequired } from 'src/app/state/leads/leads.actions';
-import { selectLeadsByStep } from 'src/app/state/leads/leads.selector';
+import { selectFilteredLeads, selectLeads } from 'src/app/state/leads/leads.selector';
 
 @Component({
   selector: 'leads-list',
@@ -27,7 +27,8 @@ export class LeadsListComponent implements OnInit {
   ngOnInit(): void {
       const filter: ListFilter = {limit: this.limit, offset: this.offset, step: this.step}
       this.store.dispatch(leadsRrequired({ filter: filter }))
-      this.leads$ = this.store.select(selectLeadsByStep(this.step)).pipe(tap(leads => this.downloaded = leads && leads.length))
+      // console.log(this.step)
+      this.leads$ = this.store.select(selectFilteredLeads({step: this.step})).pipe(tap(leads => this.downloaded = leads && leads.length))
       this.scrollService.percentage.pipe(distinctUntilChanged()).subscribe(p => {
         
         if (p < 90 && !this.canDownload) {
