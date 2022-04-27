@@ -9,12 +9,17 @@ export interface AppState {
 export interface ContactsState {
   contacts: ReadonlyArray<Contact>;
   loaded: Readonly<Map<string, number>>;
+  currentPage: ListFilter,
+  currentSearch: ListFilter,
+  searchTotal: number,
 }
 
 export interface LeadsState {
   leads: ReadonlyArray<Lead>;
   // total: Readonly<number>;
   loaded: Readonly<Map<string,number>>;
+  currentSearch: ListFilter,
+  searchTotal: number,
   // current: Readonly<ListFilter>;
 }
 

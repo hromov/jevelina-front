@@ -10,3 +10,13 @@ export const contactsRequired = createAction(
   '[Contacts List / Search Component] contactsRequired',
   props<{ filter: ListFilter}>()
 )
+
+export const contactsPageChanged = createAction(
+  '[Contacts List] Page Changed',
+  props<{ filter: ListFilter}>()
+)
+
+export const contactsSearchChanged = createAction(
+  '[Search Component] Search Changed',
+  props<{ filter: ListFilter}>()
+)

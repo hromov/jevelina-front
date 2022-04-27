@@ -40,25 +40,25 @@
 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayWidth]="460"
     [cdkConnectedOverlayOpen]="isOpen" [cdkConnectedOverlayOffsetX]="0" [cdkConnectedOverlayOffsetY]="-27" [cdkConnectedOverlayHasBackdrop]="true" (backdropClick)="close()">
     <div class="results mat-elevation-z2">
-        <mat-selection-list [multiple]="false" class="leads">
+        <mat-selection-list [multiple]="false" class="leads" (selectionChange)="close()">
             <mat-list-option *ngFor="let option of filteredLeads" [value]="option.ID">
 
-                <div mat-line><span>{{option.Name}}</span><span>{{option.CreatedAt | date}}</span></div>
+                <div mat-line><span>{{option.Name}} ({{option.ID}})</span><span>{{option.CreatedAt | date}}</span></div>
                 <div mat-line><span>{{option.Contact.Name}}</span><span>{{option.Contact.Phone}}</span></div>
 
             </mat-list-option>
-            <mat-option *ngIf="showMoreLeads" class="show">
-                <a [routerLink]="leadsPath">Show All ({{totalLeads}})</a>
-            </mat-option>
+            <mat-list-option *ngIf="showMoreLeads" class="show">
+                <a [routerLink]="['/leads']" [queryParams]="{query: filter.query}">Show All ({{totalLeads}})</a>
+            </mat-list-option>
         </mat-selection-list>
         <mat-divider *ngIf="showDivider"></mat-divider>
-        <mat-selection-list [multiple]="false" class="contacts">
+        <mat-selection-list [multiple]="false" class="contacts" (selectionChange)="close()">
             <mat-list-option *ngFor="let option of filteredContacts" [value]="option.ID">
                 <div class="one-line"><span>{{option.Name}}</span><span>{{option.Phone}}</span></div>
             </mat-list-option>
-            <mat-option *ngIf="showMoreContacts" class="show">
-                <a [routerLink]="contactsPath">Show All ({{totalContacts}})</a>
-            </mat-option>
+            <mat-list-option *ngIf="showMoreContacts" class="show">
+                <a [routerLink]="['/contacts']" [queryParams]="{query: filter.query}">Show All ({{totalContacts}})</a>
+            </mat-list-option>
         </mat-selection-list>
     </div>
 </ng-template>

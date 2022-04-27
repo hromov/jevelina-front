@@ -1,14 +1,13 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../state/app.state';
 import { Contact, ListFilter } from '../models/model';
-
-import { ContactsService } from './contacts.service';
-import { selectAllContacts, selectContactsTotal, selectFilteredContacts } from '../state/cotacts/contacts.selectors';
-import { contactsRequired, retrievedContactsList } from '../state/cotacts/contacts.actions';
-import { map, Observable, of } from 'rxjs';
+import { selectContactsCurrentTotal, selectContactsSearchTotal, selectContactsTotal, selectCurrentPage } from '../state/cotacts/contacts.selectors';
+import { contactsPageChanged, contactsRequired } from '../state/cotacts/contacts.actions';
+import { Observable } from 'rxjs';
 import { FilterToString } from '../api.service';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-contacts',
@@ -16,24 +15,27 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrls: ['./contacts.component.sass']
 })
 export class ContactsComponent implements OnInit {
-  limit = 25
-  offset = 0
-  contacts$: Observable<Contact[]> = this.store.select(selectAllContacts).pipe(map(contacts => {
-    const last = this.limit + this.offset
-    // console.log(this.offset, this.limit + this.offset)
-    return contacts.slice(this.offset, contacts.length < last ? contacts.length : last)
-  }));
-  total$: Observable<number> = this.store.select(selectContactsTotal(FilterToString({limit: this.limit, offset: this.offset})));
-  constructor(private store: Store<AppState>) { }
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  filter: ListFilter = {limit: 25, offset: 0, query: ""}
+  contacts$: Observable<Contact[]> = this.store.select(selectCurrentPage)
+  total$: Observable<number>  = this.store.select(selectContactsCurrentTotal) //this.store.select(selectContactsTotal(FilterToString(this.filter)));
+  constructor(private store: Store<AppState>, private route: ActivatedRoute) { }
+  
   ngOnInit(): void {
-    this.store.dispatch(contactsRequired({filter: {limit: this.limit, offset: this.offset}}))
+    this.route.queryParams
+      .subscribe(params => {
+        this.filter = {...this.filter, query: params["query"], offset: 0}
+        this.store.dispatch(contactsRequired({filter: this.filter}))
+        this.store.dispatch(contactsPageChanged({filter: this.filter}))
+        this.paginator && this.paginator.firstPage()
+      }
+    );
+    
   }
   pageChanged(e: PageEvent) {
-    console.log(e)
-    // seems like it doesnt wark backward for now - no events
-    this.offset = e.pageIndex * this.limit
-    this.store.dispatch(contactsRequired({filter: {limit: this.limit, offset: this.offset}}))
+    this.filter = {...this.filter, offset: e.pageIndex * this.filter.limit}
+    this.store.dispatch(contactsRequired({filter: this.filter}))
+    this.store.dispatch(contactsPageChanged({filter: this.filter}))
   }
 
   

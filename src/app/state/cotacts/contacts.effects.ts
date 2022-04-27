@@ -10,17 +10,13 @@ import { selectLoadedContacts } from './contacts.selectors';
 
 @Injectable()
 export class ContactsEffects {
-
+    //doesn't check if base has enough to show for search, but pros - it gets total for exact search
     loadContacts$ = createEffect(() => this.actions$.pipe(
         ofType('[Contacts List / Search Component] contactsRequired'),
         mergeMap((action: any) => this.store.select(selectLoadedContacts).pipe(
             map(loaded => ({ filter: action.filter, loaded: loaded }))
         )),
-        filter(res => {
-            // console.log(res)
-            // console.log(res.loaded.has(FilterToString(res.filter)))
-            return !res.loaded.has(FilterToString(res.filter))
-        }),
+        filter(res => !res.loaded.has(FilterToString(res.filter))),
         // debounceTime(10),
         mergeMap((res: any) => this.contactsService.List(res.filter)
             .pipe(
