@@ -9,7 +9,7 @@ import { Contact, Lead, ListFilter } from 'src/app/models/model';
 import { AppState } from 'src/app/state/app.state';
 import { contactsRequired, contactsSearchChanged } from 'src/app/state/cotacts/contacts.actions';
 import { selectContactsSearch, selectContactsSearchTotal } from 'src/app/state/cotacts/contacts.selectors';
-import { leadsRrequired, leadsSearchChanged } from 'src/app/state/leads/leads.actions';
+import { leadsRequired, leadsSearchChanged } from 'src/app/state/leads/leads.actions';
 import { selectLeadsSearch, selectLeadsSearchTotal } from 'src/app/state/leads/leads.selector';
 
 const SearchLimit = 5
@@ -57,7 +57,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.filter = { ...this.filter, query: val }
         this.loading = true
         this.store.dispatch(contactsRequired({ filter: this.filter }))
-        this.store.dispatch(leadsRrequired({ filter: this.filter }))
+        this.store.dispatch(leadsRequired({ filter: this.filter }))
         this.store.dispatch(leadsSearchChanged({ filter: this.filter }))
         this.store.dispatch(contactsSearchChanged({ filter: this.filter }))
       }),

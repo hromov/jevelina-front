@@ -4,7 +4,7 @@ import { distinctUntilChanged, Observable, tap } from 'rxjs';
 import { Lead, ListFilter } from 'src/app/models/model';
 import { ScrollService } from 'src/app/shared/scroll.service';
 import { AppState } from 'src/app/state/app.state';
-import { leadsRrequired } from 'src/app/state/leads/leads.actions';
+import { leadsRequired } from 'src/app/state/leads/leads.actions';
 import { selectFilteredLeads, selectLeads } from 'src/app/state/leads/leads.selector';
 
 @Component({
@@ -26,7 +26,7 @@ export class LeadsListComponent implements OnInit {
 
   ngOnInit(): void {
       const filter: ListFilter = {limit: this.limit, offset: this.offset, step: this.step}
-      this.store.dispatch(leadsRrequired({ filter: filter }))
+      this.store.dispatch(leadsRequired({ filter: filter }))
       // console.log(this.step)
       this.leads$ = this.store.select(selectFilteredLeads({step: this.step})).pipe(tap(leads => this.downloaded = leads && leads.length))
       this.scrollService.percentage.pipe(distinctUntilChanged()).subscribe(p => {
@@ -39,7 +39,7 @@ export class LeadsListComponent implements OnInit {
           // to prevent multiple requests
           this.canDownload = false
           this.offset += this.limit
-          this.store.dispatch(leadsRrequired({filter: {limit: this.limit, offset: this.offset, step: this.step}}))
+          this.store.dispatch(leadsRequired({filter: {limit: this.limit, offset: this.offset, step: this.step}}))
 
         }
       })

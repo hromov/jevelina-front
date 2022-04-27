@@ -19,6 +19,7 @@ export interface LeadsState {
   // total: Readonly<number>;
   loaded: Readonly<Map<string,number>>;
   currentSearch: ListFilter,
+  currentPage: ListFilter,
   searchTotal: number,
   // current: Readonly<ListFilter>;
 }

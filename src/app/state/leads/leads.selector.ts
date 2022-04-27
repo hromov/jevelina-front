@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { isEmpty, of } from 'rxjs';
+import { FilterToString } from 'src/app/api.service';
 import { Lead, ListFilter } from 'src/app/models/model';
 import { AppState, LeadsState } from '../app.state';
  
@@ -36,6 +37,23 @@ export const selectLeadsSearch = createSelector(
     (state: LeadsState, filter: ListFilter) => _filter(state.leads.slice(0), filter)
 )
 
+export const selectCurrentPageFilter = createSelector(
+    selectLeads,
+    (state: LeadsState) => state.currentPage
+)
+
+export const selectCurrentPage = createSelector(
+    selectLeads,
+    selectCurrentPageFilter,
+    (state: LeadsState, filter: ListFilter) => _filter(state.leads.slice(0), filter)
+)
+
+export const selectLeadsCurrentTotal = createSelector(
+    selectLeads,
+    selectCurrentPageFilter,
+    (state: LeadsState, filter: ListFilter) => state.loaded.get(FilterToString(filter))
+)
+
 export const selectLeadsSearchTotal = createSelector(
     selectLeads,
     (state: LeadsState) => state.searchTotal
@@ -61,6 +79,7 @@ function _queryCheck(c: Lead, query: string): boolean {
 }
 
 function _filter(leads: Lead[], filter: ListFilter): Lead[] {
+    console.log(filter)
     if(Object.keys(filter).length === 0) {
         return []
     }

@@ -10,12 +10,17 @@ export const retrievedLeadsList = createAction(
 //   '[Leads List] Paginator Changed required list',
 //   props<{ current: ListFilter}>()
 // )
-export const leadsRrequired = createAction(
+export const leadsRequired = createAction(
   '[Leads List] Leads Required',
   props<{ filter: ListFilter }>()
 )
 
 export const leadsSearchChanged = createAction(
   '[Search Component] Search Changed',
+  props<{ filter: ListFilter}>()
+)
+
+export const leadsPageChanged = createAction(
+  '[Leads Table] Page Changed',
   props<{ filter: ListFilter}>()
 )
