@@ -19,13 +19,15 @@ import { LeadsListComponent } from './leads/list/list.component';
 import { leadsReducer } from './state/leads/leads.reducer';
 import { LeadsEffects } from './state/leads/leads.effects';
 import { miscsReducer } from './state/misc/misc.reducer';
-import { MiscEffects } from './state/misc/contacts.effects';
+import { MiscEffects } from './state/misc/misc.effects';
 import { HoverDirective } from './shared/hover.directive';
 import { SearchComponent } from './shared/search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { LeadsTableComponent } from './leads/table/table.component';
 import { SettingsComponent } from './misc/settings/settings.component';
+import { RolesComponent } from './misc/settings/roles/roles.component';
+
 
 
 @NgModule({
@@ -39,6 +41,7 @@ import { SettingsComponent } from './misc/settings/settings.component';
     SearchComponent,
     LeadsTableComponent,
     SettingsComponent,
+    RolesComponent
   ],
   imports: [
     BrowserModule,

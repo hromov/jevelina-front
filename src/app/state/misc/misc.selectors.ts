@@ -7,3 +7,8 @@ export const selectSteps = createSelector(
     selectMisc,
     (state: MiscState) => state.steps
 )
+
+export const selectUsers = createSelector(
+    selectMisc,
+    (state: MiscState) => state.users
+)

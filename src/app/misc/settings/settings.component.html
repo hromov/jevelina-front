@@ -1,12 +1,9 @@
 <mat-tab-group>
-    <mat-tab label="Users">
-        {{this.users | json}}
-    </mat-tab>
-    <mat-tab label="Roles">
-        {{this.roles | json}}
+    <mat-tab label="Users & Roles">
+        <app-roles [users]="this.users$ | async" [roles]="this.roles"></app-roles>
     </mat-tab>
     <mat-tab label="Steps">
-        {{this.steps | json}}
+        {{this.steps$ | async | json}}
     </mat-tab>
     <mat-tab label="Sources">
         {{this.sources | json}}
