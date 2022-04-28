@@ -6,8 +6,8 @@ import { Product } from 'src/app/models/model';
 
 @Component({
   selector: 'app-product-dialog',
-  templateUrl: './product-dialog.component.html',
-  styleUrls: ['./product-dialog.component.sass']
+  templateUrl: '../../templates/name-dialog.html',
+  styleUrls: ['../../templates/name-dialog.sass']
 })
 export class ProductDialogComponent implements AfterViewInit {
   form: FormGroup

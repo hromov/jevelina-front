@@ -6,8 +6,8 @@ import { Tag } from 'src/app/models/model';
 
 @Component({
   selector: 'app-tags-dialog',
-  templateUrl: './tags-dialog.component.html',
-  styleUrls: ['./tags-dialog.component.sass']
+  templateUrl: '../../templates/name-dialog.html',
+  styleUrls: ['../../templates/name-dialog.sass']
 })
 export class TagsDialogComponent implements AfterViewInit {
   form: FormGroup

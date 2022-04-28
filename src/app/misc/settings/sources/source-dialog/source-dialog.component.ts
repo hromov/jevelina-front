@@ -6,8 +6,8 @@ import { Source } from 'src/app/models/model';
 
 @Component({
   selector: 'app-source-dialog',
-  templateUrl: './source-dialog.component.html',
-  styleUrls: ['./source-dialog.component.sass']
+  templateUrl: '../../templates/name-dialog.html',
+  styleUrls: ['../../templates/name-dialog.sass']
 })
 export class SourceDialogComponent implements AfterViewInit {
   form: FormGroup

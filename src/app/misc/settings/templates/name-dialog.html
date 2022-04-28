@@ -1,10 +1,10 @@
-<h2 mat-dialog-title>Edit Tag</h2>
+<h2 mat-dialog-title>Edit Item</h2>
 <app-error [error]="errorMessage"></app-error>
 
 <mat-dialog-content [formGroup]="form">
 
     <mat-form-field appearance="fill">
-        <input matInput placeholder="Name" formControlName="Name">
+        <input matInput placeholder="Name" formControlName="Name" (keydown.enter)="save()">
         <mat-error *ngIf="name.invalid">Name is required</mat-error>
     </mat-form-field>
 

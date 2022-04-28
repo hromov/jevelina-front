@@ -4,7 +4,7 @@
 <mat-dialog-content [formGroup]="form">
 
     <mat-form-field appearance="fill">
-        <input matInput placeholder="Role Name" formControlName="Role">
+        <input matInput placeholder="Role Name" formControlName="Role" (keydown.enter)="save()">
         <mat-error *ngIf="roleField.invalid">Name is required</mat-error>
     </mat-form-field>
 
