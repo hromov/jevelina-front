@@ -34,6 +34,8 @@ import { StepsComponent } from './misc/settings/steps/steps.component';
 import { StepComponent } from './misc/settings/steps/step/step.component';
 import { SourcesComponent } from './misc/settings/sources/sources.component';
 import { SourceDialogComponent } from './misc/settings/sources/source-dialog/source-dialog.component';
+import { TagsComponent } from './misc/settings/tags/tags.component';
+import { TagsDialogComponent } from './misc/settings/tags/tags-dialog/tags-dialog.component';
 
 
 
@@ -56,6 +58,8 @@ import { SourceDialogComponent } from './misc/settings/sources/source-dialog/sou
     StepComponent,
     SourcesComponent,
     SourceDialogComponent,
+    TagsComponent,
+    TagsDialogComponent,
   ],
   imports: [
     BrowserModule,

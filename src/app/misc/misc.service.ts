@@ -58,6 +58,18 @@ export class MiscService {
     return this.http.get<Tag[]>(`${path}/tags`)
   }
 
+  SaveTag(item: Partial<Tag>): Observable<any>{
+    if (item.ID) {
+      return this.http.put<any>(`${path}/tags/${item.ID}`, item)
+    }
+    return this.http.post<Step>(`${path}/tags`, item)
+  }
+
+  DeleteTag(ID: number): Observable<any> {
+    return this.http.delete<any>(`${path}/tags/${ID}`)
+  }
+
+
   Sources(): Observable<Array<Source>> {
     return this.http.get<Source[]>(`${path}/sources`)
   }

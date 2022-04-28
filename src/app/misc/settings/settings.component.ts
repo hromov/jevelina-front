@@ -17,7 +17,7 @@ export class SettingsComponent implements OnInit {
   users$: Observable<ReadonlyArray<User>> = this.store.select(selectUsers)
   roles$: Observable<ReadonlyArray<Role>> = this.store.select(selectRoles)
   steps$: Observable<ReadonlyArray<Step>> = this.store.select(selectSteps)
-  tags: Tag[] = []
+  // tags: Tag[] = []
   // sources: Source[] = []
   taskTypes: TaskType[] = []
   products: Product[] = []
@@ -31,7 +31,7 @@ export class SettingsComponent implements OnInit {
     // this.misc.Users().subscribe(users => this.users = users)
     // this.misc.Roles().subscribe(roles => this.roles = roles)
     // this.misc.Steps().subscribe(steps => this.steps = steps)
-    this.misc.Tags().subscribe(tags => this.tags = tags)
+    // this.misc.Tags().subscribe(tags => this.tags = tags)
     // this.misc.Sources().subscribe(sources => this.sources = sources)
     this.misc.TaskTypes().subscribe(taskTypes => this.taskTypes = taskTypes)
     this.misc.Products().subscribe(products => this.products = products)

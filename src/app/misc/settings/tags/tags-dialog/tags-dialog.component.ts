@@ -2,22 +2,22 @@ import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MiscService } from 'src/app/misc/misc.service';
-import { Source } from 'src/app/models/model';
+import { Tag } from 'src/app/models/model';
 
 @Component({
-  selector: 'app-source-dialog',
-  templateUrl: './source-dialog.component.html',
-  styleUrls: ['./source-dialog.component.sass']
+  selector: 'app-tags-dialog',
+  templateUrl: './tags-dialog.component.html',
+  styleUrls: ['./tags-dialog.component.sass']
 })
-export class SourceDialogComponent implements AfterViewInit {
+export class TagsDialogComponent implements AfterViewInit {
   form: FormGroup
-  item: Source
+  item: Tag
   errorMessage: string = ""
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<SourceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) item: Source,
+    private dialogRef: MatDialogRef<TagsDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) item: Tag,
     private misc: MiscService,
   ) {
     this.item = item
@@ -36,7 +36,7 @@ export class SourceDialogComponent implements AfterViewInit {
       ...this.item,
       ...this.form.value
     }
-    this.misc.SaveSource(newItem).subscribe({
+    this.misc.SaveTag(newItem).subscribe({
       next: (item) => {
         this.dialogRef.close(item || newItem)
       },
@@ -49,7 +49,7 @@ export class SourceDialogComponent implements AfterViewInit {
   }
 
   delete() {
-    this.misc.DeleteSource(this.item.ID).subscribe({
+    this.misc.DeleteTag(this.item.ID).subscribe({
       next: () => {
         this.dialogRef.close(this.item)
       },
