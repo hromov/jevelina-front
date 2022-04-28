@@ -9,10 +9,19 @@ import { Manufacturer, Product, Role, Source, Step, Tag, User } from '../models/
 export class MiscService {
   constructor(private http: HttpClient) {}
  
-  
-
   Users(): Observable<Array<User>> {
     return this.http.get<User[]>(`${path}/users`)
+  }
+
+  SaveUser(user: User): Observable<any>{
+    if (user.ID) {
+      return this.http.put<any>(`${path}/users/${user.ID}`, user)
+    }
+    return this.http.post<User>(`${path}/users`, user)
+  }
+
+  DeleteUser(ID: number): Observable<any> {
+    return this.http.delete<any>(`${path}/users/${ID}`)
   }
 
   Roles(): Observable<Array<Role>> {

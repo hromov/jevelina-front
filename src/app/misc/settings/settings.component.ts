@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { Manufacturer, Product, Role, Source, Step, Tag, User } from 'src/app/models/model';
 import { AppState } from 'src/app/state/app.state';
 import { selectSteps, selectUsers } from 'src/app/state/misc/misc.selectors';
 import { MiscService } from '../misc.service';
+import { UserDialogComponent } from './roles/user-dialog/user-dialog.component';
 
 @Component({
   selector: 'app-settings',
@@ -20,7 +22,10 @@ export class SettingsComponent implements OnInit {
   taskTypes: TaskType[] = []
   products: Product[] = []
   manufactureres: Manufacturer[] = []
-  constructor(private misc: MiscService, private store: Store<AppState>) { }
+  constructor(
+    private misc: MiscService,
+    private store: Store<AppState>,
+  ) { }
 
   ngOnInit(): void {
     // this.misc.Users().subscribe(users => this.users = users)

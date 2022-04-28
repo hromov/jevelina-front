@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Edit User</h2>
+<app-error [error]="errorMessage"></app-error>
+
+<mat-dialog-content [formGroup]="form">
+
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="User Name" formControlName="Name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Email" formControlName="Email">
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+        <mat-select matNativeControl formControlName="RoleID">
+          <mat-option *ngFor="let role of roles" [value]="role.ID">{{role.Role}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div>
+        <button class="mat-accent" mat-mini-fab aria-label="delete" (click)="delete()" *ngIf="user.ID">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <div>
+        <button class="mat-raised-button" (click)="close()">
+            Close
+        </button>
+
+        <button class="mat-raised-button mat-primary save" #saveButton (click)="save()">
+            Save
+        </button>
+    </div>
+
+</mat-dialog-actions>

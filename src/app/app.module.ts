@@ -27,6 +27,8 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import { LeadsTableComponent } from './leads/table/table.component';
 import { SettingsComponent } from './misc/settings/settings.component';
 import { RolesComponent } from './misc/settings/roles/roles.component';
+import { UserDialogComponent } from './misc/settings/roles/user-dialog/user-dialog.component';
+import { ErrorComponent } from './shared/error/error.component';
 
 
 
@@ -41,7 +43,9 @@ import { RolesComponent } from './misc/settings/roles/roles.component';
     SearchComponent,
     LeadsTableComponent,
     SettingsComponent,
-    RolesComponent
+    RolesComponent,
+    UserDialogComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

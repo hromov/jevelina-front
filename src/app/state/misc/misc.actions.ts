@@ -10,3 +10,13 @@ export const retrievedUsers = createAction(
   '[Misc Service] Users Loaded',
   props<{ users: User[] }>()
 );
+
+export const userChanged = createAction(
+  '[User Dialog] User Updated or Added',
+  props<{ user: User }>()
+);
+
+export const userDeleted = createAction(
+  '[User Dialog] User Deleted',
+  props<{ userID: number }>()
+);

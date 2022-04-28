@@ -4,17 +4,19 @@
         <mat-icon mat-list-icon>person</mat-icon>
         <div mat-line><span>{{user.Name}}</span><span>{{user.Email}}</span></div>
         <div mat-line><span>{{user.Role.Role}}</span><span>{{user.CreatedAt | date}}</span></div>
-        <button mat-icon-button>
+        <button mat-icon-button (click)="editUser(user)">
             <mat-icon>edit</mat-icon>
         </button>
-
     </mat-list-item>
+    <button mat-icon-button (click)="newUser()">
+        <mat-icon>add</mat-icon>
+    </button>
     <mat-divider></mat-divider>
     <div mat-subheader>Roles</div>
     <mat-list-item *ngFor="let role of roles">
         <mat-icon mat-list-icon>people</mat-icon>
         <div mat-line><span>{{role.Role}}</span><span>{{role.CreatedAt | date}}</span></div>
-        <button mat-icon-button>
+        <button mat-icon-button (click)="editRole(role)">
             <mat-icon>edit</mat-icon>
         </button>
     </mat-list-item>
