@@ -9,8 +9,8 @@ import { TagsDialogComponent } from './tags-dialog/tags-dialog.component';
 
 @Component({
   selector: 'app-tags',
-  templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.sass']
+  templateUrl: '../templates/item-list.html',
+  styleUrls: ['../templates/item-list.sass']
 })
 export class TagsComponent implements OnInit {
   constructor(private misc: MiscService, private shared: SharedService, private dialog: MatDialog) { }

@@ -8,8 +8,8 @@ import { TaskTypesDialogComponent } from './task-types-dialog/task-types-dialog.
 
 @Component({
   selector: 'app-task-types',
-  templateUrl: './task-types.component.html',
-  styleUrls: ['./task-types.component.sass']
+  templateUrl: '../templates/item-list.html',
+  styleUrls: ['../templates/item-list.sass']
 })
 export class TaskTypesComponent implements OnInit {
   constructor(private misc: MiscService, private shared: SharedService, private dialog: MatDialog) { }

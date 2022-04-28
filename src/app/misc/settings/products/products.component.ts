@@ -8,8 +8,8 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
 
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.sass']
+  templateUrl: '../templates/item-list.html',
+  styleUrls: ['../templates/item-list.sass']
 })
 export class ProductsComponent implements OnInit {
   constructor(private misc: MiscService, private shared: SharedService, private dialog: MatDialog) { }

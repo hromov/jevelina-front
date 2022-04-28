@@ -8,8 +8,8 @@ import { ManufsDialogComponent } from './manufs-dialog/manufs-dialog.component';
 
 @Component({
   selector: 'app-manufs',
-  templateUrl: './manufs.component.html',
-  styleUrls: ['./manufs.component.sass']
+  templateUrl: '../templates/item-list.html',
+  styleUrls: ['../templates/item-list.sass']
 })
 export class ManufsComponent implements OnInit {
   constructor(private misc: MiscService, private shared: SharedService, private dialog: MatDialog) { }

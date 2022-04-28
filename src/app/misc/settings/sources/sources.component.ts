@@ -8,15 +8,15 @@ import { SourceDialogComponent } from './source-dialog/source-dialog.component';
 
 @Component({
   selector: 'app-sources',
-  templateUrl: './sources.component.html',
-  styleUrls: ['./sources.component.sass']
+  templateUrl: '../templates/item-list.html',
+  styleUrls: ['../templates/item-list.sass']
 })
 export class SourcesComponent implements OnInit {
   constructor(private misc: MiscService, private shared: SharedService, private dialog: MatDialog) { }
-  sources: Source[] = []
+  items: Source[] = []
   
   ngOnInit(): void {
-    this.misc.Sources().pipe(first()).subscribe(sources => this.sources = sources)
+    this.misc.Sources().pipe(first()).subscribe(sources => this.items = sources)
   }
 
   editItem(item?: Source) {
@@ -25,14 +25,6 @@ export class SourcesComponent implements OnInit {
     const dialogRef = this.dialog.open(SourceDialogComponent, dialogConfig)
     //if returned value - everything ok, have to update
     dialogRef.afterClosed().pipe(filter(val => val!!))
-      .subscribe(() => this.misc.Sources().pipe(first()).subscribe(s => this.sources = s))
+      .subscribe(() => this.misc.Sources().pipe(first()).subscribe(s => this.items = s))
   }
-
-  // newItem() {
-  //   const dialogConfig = this.shared.newDialog()
-  //   dialogConfig.data = {}
-  //   const dialogRef = this.dialog.open(SourceDialogComponent, dialogConfig)
-  //   dialogRef.afterClosed().pipe(filter(val => val!!))
-  //     .subscribe(() => this.misc.Sources().pipe(first()).subscribe(s => this.sources = s))
-  // }
 }
