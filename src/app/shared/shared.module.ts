@@ -1,0 +1,85 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ErrorComponent } from './error/error.component';
+import { HoverDirective } from './hover.directive';
+import { SearchComponent } from './search/search.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {OverlayModule} from '@angular/cdk/overlay';
+import { RouterModule } from '@angular/router';
+import {MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatFormFieldModule } from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatListModule} from '@angular/material/list';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
+@NgModule({
+  declarations: [
+    HoverDirective,
+    SearchComponent,
+    ErrorComponent,
+  ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    OverlayModule,
+    RouterModule,
+    CommonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatDividerModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,    
+    MatListModule,
+    MatTabsModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatCheckboxModule,
+  ],
+  exports: [
+    HoverDirective,
+    SearchComponent,
+    ErrorComponent,
+    OverlayModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatDividerModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,    
+    MatListModule,
+    MatTabsModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatCheckboxModule,    
+  ]
+})
+export class SharedModule { }

@@ -2,7 +2,7 @@ import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, map } from 'rxjs';
-import { MiscService } from '../misc/misc.service';
+import { MiscService } from '../settings/misc/misc.service';
 import { ListFilter } from '../models/model';
 import { AppState } from '../state/app.state';
 import { selectSteps } from '../state/misc/misc.selectors';

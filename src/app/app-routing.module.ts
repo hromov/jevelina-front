@@ -3,13 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContactsComponent } from './contacts/contacts.component';
 import { LeadsComponent } from './leads/leads.component';
 import { LeadsTableComponent } from './leads/table/table.component';
-import { SettingsComponent } from './misc/settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: LeadsComponent },
   { path: 'contacts', component: ContactsComponent },
   { path: 'leads', component: LeadsTableComponent},
-  { path: 'settings', component: SettingsComponent}
+  // { path: 'settings', component: SettingsComponent},
+  { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) }
 ];
 
 @NgModule({

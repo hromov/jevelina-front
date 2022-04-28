@@ -16,4 +16,5 @@ export class SharedService {
     dialogConfig.width = "400px"
     return dialogConfig
   }
+  
 }

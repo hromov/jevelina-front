@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { ContactsService } from 'src/app/contacts/contacts.service';
-import { MiscService } from 'src/app/misc/misc.service';
 import { AppState } from '../app.state';
 
 @Injectable()
@@ -31,6 +29,5 @@ export class MiscEffects {
     constructor(
         private actions$: Actions,
         private store: Store<AppState>,
-        private miscService: MiscService
     ) { }
 }

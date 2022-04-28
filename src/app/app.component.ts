@@ -1,7 +1,7 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MiscService } from './misc/misc.service';
+import { ApiService } from './api.service';
 import { AppState } from './state/app.state';
 import { retrievedRoles, retrievedSteps, retrievedUsers } from './state/misc/misc.actions';
 
@@ -13,19 +13,19 @@ import { retrievedRoles, retrievedSteps, retrievedUsers } from './state/misc/mis
 export class AppComponent implements OnInit {
   opened = false
   constructor(
-    private miscService: MiscService,
+    private api: ApiService,
     private store: Store<AppState>,
     private scrolll: ViewportScroller,
   ) { }
 
   ngOnInit(): void {
-    this.miscService.Steps().subscribe(steps => {
+    this.api.Steps().subscribe(steps => {
       this.store.dispatch(retrievedSteps({ steps: steps || [] }))
     })
-    this.miscService.Users().subscribe(users => {
+    this.api.Users().subscribe(users => {
       this.store.dispatch(retrievedUsers({ users: users || []}))
     })
-    this.miscService.Roles().subscribe(roles => {
+    this.api.Roles().subscribe(roles => {
       this.store.dispatch(retrievedRoles({ roles: roles || []}))
     })
 

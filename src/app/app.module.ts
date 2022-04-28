@@ -8,7 +8,6 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { StoreModule } from '@ngrx/store';
 import { ContactsListComponent } from './contacts/list/list.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from './material/material.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
@@ -20,30 +19,8 @@ import { leadsReducer } from './state/leads/leads.reducer';
 import { LeadsEffects } from './state/leads/leads.effects';
 import { miscsReducer } from './state/misc/misc.reducer';
 import { MiscEffects } from './state/misc/misc.effects';
-import { HoverDirective } from './shared/hover.directive';
-import { SearchComponent } from './shared/search/search.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import {OverlayModule} from '@angular/cdk/overlay';
 import { LeadsTableComponent } from './leads/table/table.component';
-import { SettingsComponent } from './misc/settings/settings.component';
-import { RolesComponent } from './misc/settings/roles/roles.component';
-import { UserDialogComponent } from './misc/settings/roles/user-dialog/user-dialog.component';
-import { ErrorComponent } from './shared/error/error.component';
-import { RolesDialogComponent } from './misc/settings/roles/roles-dialog/roles-dialog.component';
-import { StepsComponent } from './misc/settings/steps/steps.component';
-import { StepComponent } from './misc/settings/steps/step/step.component';
-import { SourcesComponent } from './misc/settings/sources/sources.component';
-import { SourceDialogComponent } from './misc/settings/sources/source-dialog/source-dialog.component';
-import { TagsComponent } from './misc/settings/tags/tags.component';
-import { TagsDialogComponent } from './misc/settings/tags/tags-dialog/tags-dialog.component';
-import { TaskTypesComponent } from './misc/settings/task-types/task-types.component';
-import { TaskTypesDialogComponent } from './misc/settings/task-types/task-types-dialog/task-types-dialog.component';
-import { ProductsComponent } from './misc/settings/products/products.component';
-import { ProductDialogComponent } from './misc/settings/products/product-dialog/product-dialog.component';
-import { ManufsComponent } from './misc/settings/manufs/manufs.component';
-import { ManufsDialogComponent } from './misc/settings/manufs/manufs-dialog/manufs-dialog.component';
-
-
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -52,38 +29,19 @@ import { ManufsDialogComponent } from './misc/settings/manufs/manufs-dialog/manu
     ContactsListComponent,
     LeadsComponent,
     LeadsListComponent,
-    HoverDirective,
-    SearchComponent,
     LeadsTableComponent,
-    SettingsComponent,
-    RolesComponent,
-    UserDialogComponent,
-    ErrorComponent,
-    RolesDialogComponent,
-    StepsComponent,
-    StepComponent,
-    SourcesComponent,
-    SourceDialogComponent,
-    TagsComponent,
-    TagsDialogComponent,
-    TaskTypesComponent,
-    TaskTypesDialogComponent,
-    ProductsComponent,
-    ProductDialogComponent,
-    ManufsComponent,
-    ManufsDialogComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    OverlayModule,
+    // MaterialModule,
+    // ReactiveFormsModule,
     StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer, misc: miscsReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects])
+    EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects]),
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
