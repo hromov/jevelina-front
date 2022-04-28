@@ -3,7 +3,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { Lead, ListFilter } from 'src/app/models/model';
+import { Lead, ListFilter } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { selectCurrentPageFilter } from 'src/app/state/cotacts/contacts.selectors';
 import { leadsPageChanged, leadsRequired, leadsSearchChanged } from 'src/app/state/leads/leads.actions';

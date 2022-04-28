@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { MiscService } from 'src/app/settings/misc/misc.service';
-import { Step } from 'src/app/models/model';
+import { Step } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { stepChanged, stepDeleted } from 'src/app/state/misc/misc.actions';
 

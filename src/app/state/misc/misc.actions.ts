@@ -1,5 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
-import { Contact, ListFilter, Role, Step, User } from '../../models/model';
+import { Contact, ListFilter, Role, Step, User } from '../../shared/model';
   
 export const retrievedSteps = createAction(
   '[Misc Service] Steps Loaded',

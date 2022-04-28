@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged, Observable, tap } from 'rxjs';
-import { Lead, ListFilter } from 'src/app/models/model';
+import { Lead, ListFilter } from 'src/app/shared/model';
 import { ScrollService } from 'src/app/shared/scroll.service';
 import { AppState } from 'src/app/state/app.state';
 import { leadsRequired } from 'src/app/state/leads/leads.actions';

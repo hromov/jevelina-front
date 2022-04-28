@@ -1,5 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
-import { Contact, ListFilter } from '../../models/model';
+import { Contact, ListFilter } from '../../shared/model';
   
 export const retrievedContactsList = createAction(
   '[Contacts Service] List Success',

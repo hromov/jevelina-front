@@ -5,7 +5,7 @@ import { concatMap, debounce, debounceTime, delay, exhaustMap, filter, forkJoin,
 import { FilterToString } from 'src/app/api.service';
 import { ContactsService } from 'src/app/contacts/contacts.service';
 import { LeadsService } from 'src/app/leads/leads.service';
-import { Contact, Lead, ListFilter } from 'src/app/models/model';
+import { Contact, Lead, ListFilter } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { contactsRequired, contactsSearchChanged } from 'src/app/state/cotacts/contacts.actions';
 import { selectContactsSearch, selectContactsSearchTotal } from 'src/app/state/cotacts/contacts.selectors';

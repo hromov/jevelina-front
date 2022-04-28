@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { isEmpty, of } from 'rxjs';
 import { FilterToString } from 'src/app/api.service';
-import { Lead, ListFilter } from 'src/app/models/model';
+import { Lead, ListFilter } from 'src/app/shared/model';
 import { AppState, LeadsState } from '../app.state';
  
 export const selectLeads = (state: AppState) => state.leads;

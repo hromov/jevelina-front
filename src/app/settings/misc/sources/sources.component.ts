@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, first, tap } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
-import { Source } from 'src/app/models/model';
+import { Source } from 'src/app/shared/model';
 import { SharedService } from 'src/app/shared/shared.service';
 import { SourceDialogComponent } from './source-dialog/source-dialog.component';
 

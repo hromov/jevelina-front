@@ -1,5 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
-import { Lead, ListFilter } from '../../models/model';
+import { Lead, ListFilter } from '../../shared/model';
 
 export const retrievedLeadsList = createAction(
   '[Leads Service] List Success',

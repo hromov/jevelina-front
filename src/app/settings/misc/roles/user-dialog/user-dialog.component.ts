@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { catchError, throwError } from 'rxjs';
 import { MiscService } from 'src/app/settings/misc/misc.service';
-import { Role, User } from 'src/app/models/model';
+import { Role, User } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { userChanged, userDeleted } from 'src/app/state/misc/misc.actions';
 import { ApiService } from 'src/app/api.service';

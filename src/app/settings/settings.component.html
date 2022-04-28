@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Users & Roles">
         <app-roles [users]="this.users$ | async" [roles]="this.roles$ | async"></app-roles>
     </mat-tab>

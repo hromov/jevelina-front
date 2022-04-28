@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, first } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
-import { TaskType } from 'src/app/models/model';
+import { TaskType } from 'src/app/shared/model';
 import { SharedService } from 'src/app/shared/shared.service';
-import { MiscService } from '../misc.service';
 import { TaskTypesDialogComponent } from './task-types-dialog/task-types-dialog.component';
 
 @Component({

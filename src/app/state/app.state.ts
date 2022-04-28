@@ -1,4 +1,4 @@
-import { Contact, Lead, ListFilter, Role, Step, User } from "../models/model";
+import { Contact, Lead, ListFilter, Role, Step, User } from "../shared/model";
 
 export interface AppState {
   contacts: ContactsState;

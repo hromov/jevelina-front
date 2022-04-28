@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MiscService } from 'src/app/settings/misc/misc.service';
-import { Tag } from 'src/app/models/model';
+import { Tag } from 'src/app/shared/model';
 
 @Component({
   selector: 'app-tags-dialog',

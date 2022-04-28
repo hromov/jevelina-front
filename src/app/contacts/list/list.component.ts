@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
-import { Contact } from '../../models/model';
+import { Contact } from '../../shared/model';
 
 @Component({
   selector: 'contacts-list',

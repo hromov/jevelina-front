@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Role, User } from 'src/app/models/model';
+import { Role, User } from 'src/app/shared/model';
 import { SharedService } from 'src/app/shared/shared.service';
 import { RolesDialogComponent } from './roles-dialog/roles-dialog.component';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';

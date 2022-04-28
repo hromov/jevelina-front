@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { FilterToString } from 'src/app/api.service';
-import { Contact, ListFilter } from 'src/app/models/model';
+import { Contact, ListFilter } from 'src/app/shared/model';
 import { AppState, ContactsState } from '../app.state';
 
 export const selectContacts = (state: AppState) => state.contacts;

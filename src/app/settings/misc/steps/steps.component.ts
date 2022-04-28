@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Step } from 'src/app/models/model';
+import { Step } from 'src/app/shared/model';
 import { stepChanged } from 'src/app/state/misc/misc.actions';
 import { MiscService } from '../misc.service';
 

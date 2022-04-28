@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
  
 import { Observable } from 'rxjs';
 import { FilterToString, httpOptions, path } from '../api.service';
-import { Contact, ListFilter } from '../models/model';
+import { Contact, ListFilter } from '../shared/model';
  
 @Injectable({ providedIn: 'root' })
 export class ContactsService {

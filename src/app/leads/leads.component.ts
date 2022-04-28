@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, map } from 'rxjs';
 import { MiscService } from '../settings/misc/misc.service';
-import { ListFilter } from '../models/model';
+import { ListFilter } from '../shared/model';
 import { AppState } from '../state/app.state';
 import { selectSteps } from '../state/misc/misc.selectors';
 import { LeadsService } from './leads.service';

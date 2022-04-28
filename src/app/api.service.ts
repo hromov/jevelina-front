@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ListFilter, Manufacturer, Product, Role, Source, Step, Tag, TaskType, User } from './models/model';
+import { ListFilter, Manufacturer, Product, Role, Source, Step, Tag, TaskType, User } from './shared/model';
 
 export const path = 'http://localhost:8080'
 const defaultLimit = 25

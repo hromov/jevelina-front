@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, first } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
-import { Tag } from 'src/app/models/model';
+import { Tag } from 'src/app/shared/model';
 import { SharedService } from 'src/app/shared/shared.service';
 import { TagsDialogComponent } from './tags-dialog/tags-dialog.component';
 

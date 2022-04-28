@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../state/app.state';
-import { Contact, ListFilter } from '../models/model';
+import { Contact, ListFilter } from '../shared/model';
 import { selectContactsCurrentTotal, selectContactsSearchTotal, selectContactsTotal, selectCurrentPage } from '../state/cotacts/contacts.selectors';
 import { contactsPageChanged, contactsRequired } from '../state/cotacts/contacts.actions';
 import { Observable } from 'rxjs';

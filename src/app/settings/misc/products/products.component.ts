@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, first } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
-import { Product } from 'src/app/models/model';
+import { Product } from 'src/app/shared/model';
 import { SharedService } from 'src/app/shared/shared.service';
 import { MiscService } from '../misc.service';
 import { ProductDialogComponent } from './product-dialog/product-dialog.component';
