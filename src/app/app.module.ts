@@ -30,6 +30,8 @@ import { RolesComponent } from './misc/settings/roles/roles.component';
 import { UserDialogComponent } from './misc/settings/roles/user-dialog/user-dialog.component';
 import { ErrorComponent } from './shared/error/error.component';
 import { RolesDialogComponent } from './misc/settings/roles/roles-dialog/roles-dialog.component';
+import { StepsComponent } from './misc/settings/steps/steps.component';
+import { StepComponent } from './misc/settings/steps/step/step.component';
 
 
 
@@ -48,6 +50,8 @@ import { RolesDialogComponent } from './misc/settings/roles/roles-dialog/roles-d
     UserDialogComponent,
     ErrorComponent,
     RolesDialogComponent,
+    StepsComponent,
+    StepComponent,
   ],
   imports: [
     BrowserModule,

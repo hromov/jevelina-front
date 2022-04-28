@@ -1,7 +1,7 @@
 
 import { createReducer, on } from '@ngrx/store';
 import { MiscState } from '../app.state';
-import { retrievedRoles, retrievedSteps, retrievedUsers, roleChanged, roleDeleted, userChanged, userDeleted } from './misc.actions';
+import { retrievedRoles, retrievedSteps, retrievedUsers, roleChanged, roleDeleted, stepChanged, stepDeleted, userChanged, userDeleted } from './misc.actions';
 
 
 export const initialState: MiscState = { steps: [], users: [], roles: [] };
@@ -55,6 +55,29 @@ export const miscsReducer = createReducer(
         return ({
             ...state,
             roles: newRoles
+        })
+    }),
+    on(stepChanged, (state, { step }) => {
+        // console.log(role)
+        const index = state.steps.map(step => step.ID).indexOf(step.ID)
+        let newSteps = state.steps.slice(0)
+        if (index == -1) {
+            newSteps.push(step)
+        } else {
+            newSteps[index] = step 
+        }
+        return ({
+            ...state,
+            steps: newSteps
+        })
+    }),
+    on(stepDeleted, (state, { stepID }) => {
+        const index = state.steps.map(step => step.ID).indexOf(stepID)
+        let newSteps = state.steps.slice(0)
+        newSteps.splice(index, 1)
+        return ({
+            ...state,
+            steps: newSteps
         })
     })
 );

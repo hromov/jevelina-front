@@ -35,3 +35,13 @@ export const roleDeleted = createAction(
   '[Role Dialog] Role Deleted',
   props<{ roleID: number }>()
 );
+
+export const stepChanged = createAction(
+  '[Settings / Steps Tab] Step Updated or Added',
+  props<{ step: Step }>()
+);
+
+export const stepDeleted = createAction(
+  '[Settings / Steps Tab] Step Deleted',
+  props<{ stepID: number }>()
+);

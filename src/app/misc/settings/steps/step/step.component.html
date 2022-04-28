@@ -1,0 +1,23 @@
+<app-error [error]="errorMessage"></app-error>
+
+<div [formGroup]="form" *ngIf="form" class="form-container">
+    <mat-form-field appearance="standard">
+        <mat-label>Step Name</mat-label>
+        <input matInput placeholder="Step Name" formControlName="Name">
+        <!-- <mat-error *ngIf="name.invalid">Name is required</mat-error> -->
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+        <mat-label>Step Order</mat-label>
+        <input matInput placeholder="Step Order" formControlName="Order" type="number" min="0" max="99">
+        <!-- <mat-error *ngIf="name.invalid">Name is required</mat-error> -->
+    </mat-form-field>
+    <mat-checkbox formControlName="Active">Active</mat-checkbox>
+
+    <button color="primary" mat-mini-fab aria-label="save" (click)="save()"
+        [disabled]="form.invalid || !form.dirty">
+        <mat-icon>save</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="delete" (click)="delete()" *ngIf="step.ID">
+        <mat-icon>delete</mat-icon>
+    </button>
+</div>

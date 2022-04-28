@@ -43,6 +43,18 @@ export class MiscService {
     return this.http.get<Step[]>(`${path}/steps`)
   }
 
+  SaveStep(step: Partial<Step>): Observable<any>{
+    console.log(step)
+    if (step.ID) {
+      return this.http.put<any>(`${path}/steps/${step.ID}`, step)
+    }
+    return this.http.post<Step>(`${path}/steps`, step)
+  }
+
+  DeleteStep(ID: number): Observable<any> {
+    return this.http.delete<any>(`${path}/steps/${ID}`)
+  }
+
   Tags(): Observable<Array<Tag>> {
     return this.http.get<Tag[]>(`${path}/tags`)
   }

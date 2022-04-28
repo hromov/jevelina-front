@@ -79,7 +79,7 @@ function _queryCheck(c: Lead, query: string): boolean {
 }
 
 function _filter(leads: Lead[], filter: ListFilter): Lead[] {
-    console.log(filter)
+    // console.log(filter)
     if(Object.keys(filter).length === 0) {
         return []
     }
