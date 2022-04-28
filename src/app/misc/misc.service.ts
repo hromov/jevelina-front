@@ -44,7 +44,6 @@ export class MiscService {
   }
 
   SaveStep(step: Partial<Step>): Observable<any>{
-    console.log(step)
     if (step.ID) {
       return this.http.put<any>(`${path}/steps/${step.ID}`, step)
     }
@@ -61,6 +60,17 @@ export class MiscService {
 
   Sources(): Observable<Array<Source>> {
     return this.http.get<Source[]>(`${path}/sources`)
+  }
+
+  SaveSource(item: Partial<Source>): Observable<any>{
+    if (item.ID) {
+      return this.http.put<any>(`${path}/sources/${item.ID}`, item)
+    }
+    return this.http.post<Step>(`${path}/sources`, item)
+  }
+
+  DeleteSource(ID: number): Observable<any> {
+    return this.http.delete<any>(`${path}/sources/${ID}`)
   }
 
   TaskTypes(): Observable<Array<TaskType>> {

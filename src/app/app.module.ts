@@ -32,6 +32,8 @@ import { ErrorComponent } from './shared/error/error.component';
 import { RolesDialogComponent } from './misc/settings/roles/roles-dialog/roles-dialog.component';
 import { StepsComponent } from './misc/settings/steps/steps.component';
 import { StepComponent } from './misc/settings/steps/step/step.component';
+import { SourcesComponent } from './misc/settings/sources/sources.component';
+import { SourceDialogComponent } from './misc/settings/sources/source-dialog/source-dialog.component';
 
 
 
@@ -52,6 +54,8 @@ import { StepComponent } from './misc/settings/steps/step/step.component';
     RolesDialogComponent,
     StepsComponent,
     StepComponent,
+    SourcesComponent,
+    SourceDialogComponent,
   ],
   imports: [
     BrowserModule,

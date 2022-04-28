@@ -6,7 +6,7 @@
         <app-steps [steps]="this.steps$ | async"></app-steps>
     </mat-tab>
     <mat-tab label="Sources">
-        {{this.sources | json}}
+        <app-sources></app-sources>
     </mat-tab>
     <mat-tab label="Tags">
         {{this.tags | json}}
