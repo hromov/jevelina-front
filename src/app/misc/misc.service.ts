@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
  
 import { Observable } from 'rxjs';
 import { path } from '../api.service';
-import { Manufacturer, Product, Role, Source, Step, Tag, User } from '../models/model';
+import { Manufacturer, Product, Role, Source, Step, Tag, User, Task, TaskType } from '../models/model';
  
 @Injectable({ providedIn: 'root' })
 export class MiscService {
@@ -88,6 +88,18 @@ export class MiscService {
   TaskTypes(): Observable<Array<TaskType>> {
     return this.http.get<TaskType[]>(`${path}/tasktypes`)
   }
+
+  SaveTaskType(item: Partial<TaskType>): Observable<any>{
+    if (item.ID) {
+      return this.http.put<any>(`${path}/tasktypes/${item.ID}`, item)
+    }
+    return this.http.post<Step>(`${path}/tasktypes`, item)
+  }
+
+  DeleteTaskType(ID: number): Observable<any> {
+    return this.http.delete<any>(`${path}/tasktypes/${ID}`)
+  }
+
 
   Products(): Observable<Array<Product>> {
     return this.http.get<Product[]>(`${path}/products`)

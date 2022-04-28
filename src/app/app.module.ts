@@ -36,6 +36,8 @@ import { SourcesComponent } from './misc/settings/sources/sources.component';
 import { SourceDialogComponent } from './misc/settings/sources/source-dialog/source-dialog.component';
 import { TagsComponent } from './misc/settings/tags/tags.component';
 import { TagsDialogComponent } from './misc/settings/tags/tags-dialog/tags-dialog.component';
+import { TaskTypesComponent } from './misc/settings/task-types/task-types.component';
+import { TaskTypesDialogComponent } from './misc/settings/task-types/task-types-dialog/task-types-dialog.component';
 
 
 
@@ -60,6 +62,8 @@ import { TagsDialogComponent } from './misc/settings/tags/tags-dialog/tags-dialo
     SourceDialogComponent,
     TagsComponent,
     TagsDialogComponent,
+    TaskTypesComponent,
+    TaskTypesDialogComponent,
   ],
   imports: [
     BrowserModule,

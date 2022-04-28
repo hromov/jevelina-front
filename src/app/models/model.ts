@@ -137,3 +137,25 @@ export interface Lead {
     Tags: Tag[];
     Analytics: Analytics;
 }
+
+export interface TaskType {
+    ID: number;
+    CreatedAt: Date;
+    UpdatedAt: Date;
+    DeletedAt?: any;
+    Name: string;
+}
+
+export interface Task {
+    ID: number;
+    ParentID: number;
+    CreatedAt: Date;
+    UpdatedAt: Date;
+    DeletedAt?: any;
+    DeadLine?: any;
+    Completed: boolean;
+    TaskTypeID?: any;
+    TaskType: TaskType;
+    Files: string;
+    Description: string;
+}
