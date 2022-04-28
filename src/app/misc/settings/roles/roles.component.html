@@ -8,9 +8,12 @@
             <mat-icon>edit</mat-icon>
         </button>
     </mat-list-item>
-    <button mat-icon-button (click)="newUser()">
-        <mat-icon>add</mat-icon>
-    </button>
+    <div class="actions">
+        <button mat-icon-button (click)="newUser()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    
     <mat-divider></mat-divider>
     <div mat-subheader>Roles</div>
     <mat-list-item *ngFor="let role of roles">
@@ -20,5 +23,10 @@
             <mat-icon>edit</mat-icon>
         </button>
     </mat-list-item>
+    <div class="actions">
+        <button mat-icon-button (click)="newRole()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
     
 </mat-list>

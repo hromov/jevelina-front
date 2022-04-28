@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Role, User } from 'src/app/models/model';
+import { RolesDialogComponent } from './roles-dialog/roles-dialog.component';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 
 @Component({
@@ -31,7 +32,15 @@ export class RolesComponent implements OnInit {
   }
 
   editRole(role: Role) {
+    const dialogConfig = this.newDialog()
+    dialogConfig.data = role
+    this.dialog.open(RolesDialogComponent, dialogConfig)
+  }
 
+  newRole() {
+    const dialogConfig = this.newDialog()
+    dialogConfig.data = {}
+    this.dialog.open(RolesDialogComponent, dialogConfig)
   }
 
   newDialog(): MatDialogConfig<any> {

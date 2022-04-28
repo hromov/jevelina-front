@@ -1,4 +1,4 @@
-import { Contact, Lead, ListFilter, Step, User } from "../models/model";
+import { Contact, Lead, ListFilter, Role, Step, User } from "../models/model";
 
 export interface AppState {
   contacts: ContactsState;
@@ -27,4 +27,5 @@ export interface LeadsState {
 export interface MiscState {
   steps: ReadonlyArray<Step>
   users: ReadonlyArray<User>
+  roles: ReadonlyArray<Role>
 }

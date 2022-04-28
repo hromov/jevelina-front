@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MiscService } from './misc/misc.service';
 import { AppState } from './state/app.state';
-import { retrievedSteps, retrievedUsers } from './state/misc/misc.actions';
+import { retrievedRoles, retrievedSteps, retrievedUsers } from './state/misc/misc.actions';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +24,9 @@ export class AppComponent implements OnInit {
     })
     this.miscService.Users().subscribe(users => {
       this.store.dispatch(retrievedUsers({ users: users || []}))
+    })
+    this.miscService.Roles().subscribe(roles => {
+      this.store.dispatch(retrievedRoles({ roles: roles || []}))
     })
 
   }

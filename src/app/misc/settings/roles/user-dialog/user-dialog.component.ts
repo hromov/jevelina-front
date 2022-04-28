@@ -72,4 +72,8 @@ export class UserDialogComponent implements AfterViewInit {
     })
   }
 
+  get email() { return this.form.get('Email') }
+  get name() { return this.form.get('Name') }
+  get role() { return this.form.get('RoleID') }
+
 }

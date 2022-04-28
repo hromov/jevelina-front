@@ -1,6 +1,6 @@
 <mat-tab-group>
     <mat-tab label="Users & Roles">
-        <app-roles [users]="this.users$ | async" [roles]="this.roles"></app-roles>
+        <app-roles [users]="this.users$ | async" [roles]="this.roles$ | async"></app-roles>
     </mat-tab>
     <mat-tab label="Steps">
         {{this.steps$ | async | json}}
