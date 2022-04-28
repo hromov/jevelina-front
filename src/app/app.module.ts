@@ -25,6 +25,7 @@ import { SearchComponent } from './shared/search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { LeadsTableComponent } from './leads/table/table.component';
+import { SettingsComponent } from './misc/settings/settings.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { LeadsTableComponent } from './leads/table/table.component';
     HoverDirective,
     SearchComponent,
     LeadsTableComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

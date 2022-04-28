@@ -17,7 +17,7 @@ export interface Contact {
     Responsible: User;
     CreatedID?: any;
     Created: User;
-    Tags: any[];
+    Tags: Tag[];
     Phone: string;
     SecondPhone: string;
     Email: string;
@@ -87,6 +87,14 @@ export interface Step {
     Active: boolean;
 }
 
+export interface Tag {
+    ID: number;
+    CreatedAt: Date;
+    UpdatedAt: Date;
+    DeletedAt?: any;
+    Name: string;
+}
+
 export interface Product {
     ID: number;
     CreatedAt: Date;
@@ -126,6 +134,6 @@ export interface Lead {
     Manufacturer: Manufacturer;
     SourceID: number;
     Source: Source;
-    Tags: any[];
+    Tags: Tag[];
     Analytics: Analytics;
 }
