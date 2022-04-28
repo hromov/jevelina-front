@@ -38,6 +38,10 @@ import { TagsComponent } from './misc/settings/tags/tags.component';
 import { TagsDialogComponent } from './misc/settings/tags/tags-dialog/tags-dialog.component';
 import { TaskTypesComponent } from './misc/settings/task-types/task-types.component';
 import { TaskTypesDialogComponent } from './misc/settings/task-types/task-types-dialog/task-types-dialog.component';
+import { ProductsComponent } from './misc/settings/products/products.component';
+import { ProductDialogComponent } from './misc/settings/products/product-dialog/product-dialog.component';
+import { ManufsComponent } from './misc/settings/manufs/manufs.component';
+import { ManufsDialogComponent } from './misc/settings/manufs/manufs-dialog/manufs-dialog.component';
 
 
 
@@ -64,6 +68,10 @@ import { TaskTypesDialogComponent } from './misc/settings/task-types/task-types-
     TagsDialogComponent,
     TaskTypesComponent,
     TaskTypesDialogComponent,
+    ProductsComponent,
+    ProductDialogComponent,
+    ManufsComponent,
+    ManufsDialogComponent,
   ],
   imports: [
     BrowserModule,
