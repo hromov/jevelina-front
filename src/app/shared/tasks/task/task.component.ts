@@ -32,6 +32,8 @@ export class TaskComponent implements OnInit {
       ...this.task,
       Results: this.results.value,
       Completed: true,
+      //fake, shoud be taken from current user after AUTH
+      Updated: this.task.Responsible
     }
     this.api.SaveTask(updatedTask).subscribe({
       next: () => this.store.dispatch(taskChanged({task: updatedTask})),
