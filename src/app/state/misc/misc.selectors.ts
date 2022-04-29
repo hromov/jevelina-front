@@ -17,3 +17,8 @@ export const selectRoles = createSelector(
     selectMisc,
     (state: MiscState) => state.roles
 )
+
+export const selectSources = createSelector(
+    selectMisc,
+    (state: MiscState) => state.sources
+)

@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { first } from 'rxjs';
 import { Contact } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
-import { selectUsers } from 'src/app/state/misc/misc.selectors';
+import { contactRecieved } from 'src/app/state/cotacts/contacts.actions';
+import { selectSources, selectUsers } from 'src/app/state/misc/misc.selectors';
+import { ContactsService } from '../../contacts.service';
 
 @Component({
   selector: 'app-contact-data',
@@ -15,7 +18,7 @@ export class ContactDataComponent implements OnChanges {
   @Input() contact: Contact
   errorMessage: string
   users$ = this.store.select(selectUsers)
-  // sources$ = this.store.select(selectSources)
+  sources$ = this.store.select(selectSources)
   form: FormGroup
 
   // implement after guard to check if form changed
@@ -27,7 +30,8 @@ export class ContactDataComponent implements OnChanges {
   // }
   constructor(
     private fb: FormBuilder,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private cs: ContactsService,
   ) {
     
   }
@@ -41,11 +45,11 @@ export class ContactDataComponent implements OnChanges {
         SecondPhone: [this.contact.SecondPhone],
         ResponsibleID: [this.contact.ResponsibleID, Validators.required],
         Email: [this.contact.Email, Validators.email],
-        SecondEmail: [this.contact.Email, Validators.email],
+        SecondEmail: [this.contact.SecondEmail, Validators.email],
         City: [this.contact.City],
         Address: [this.contact.Address],
         SourceID: [this.contact.SourceID],
-        // we don't need it in contact
+        // we don't need it here
         // Position: [this.contact.Position],
         URL: [this.contact.URL],
         
@@ -58,6 +62,18 @@ export class ContactDataComponent implements OnChanges {
 
   save() {
     console.log("save and block temporary")
+    const newContact = {
+      ...this.contact,
+      ...this.form.value
+    }
+    // console.log(newContact)
+    this.cs.Save(newContact).pipe(first()).subscribe({
+      next: (contact) => {
+        this.store.dispatch(contactRecieved({contact: newContact}))
+        // console.log(contact)
+      },
+      error: () => this.errorMessage = `Can't save item "${newContact.Name}, with ID = ${newContact.ID}"`
+    })
   }
 
   get name() {

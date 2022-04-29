@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ApiService } from './api.service';
 import { AppState } from './state/app.state';
-import { retrievedRoles, retrievedSteps, retrievedUsers } from './state/misc/misc.actions';
+import { retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers } from './state/misc/misc.actions';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +27,9 @@ export class AppComponent implements OnInit {
     })
     this.api.Roles().subscribe(roles => {
       this.store.dispatch(retrievedRoles({ roles: roles || []}))
+    })
+    this.api.Sources().subscribe(sources => {
+      this.store.dispatch(retrievedSources({ sources: sources || []}))
     })
 
   }

@@ -32,6 +32,7 @@ export const contactsReducer = createReducer(
         currentSearch: filter,
     })),
     on(contactRecieved, (state, { contact }) => {
+        // console.log(contact)
         const index = state.contacts.map(c => c.ID).indexOf(contact.ID)
         let newContacts = state.contacts.slice(0)
         if (index == -1) {

@@ -30,3 +30,8 @@ export const contactsSearchChanged = createAction(
   '[Search Component] Search Changed',
   props<{ filter: ListFilter}>()
 )
+
+// export const contactChanged = createAction(
+//   '[Contact Data] Contact Updated or Added',
+//   props<{ contact: Contact }>()
+// );

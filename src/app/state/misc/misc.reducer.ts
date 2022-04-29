@@ -1,15 +1,16 @@
 
 import { createReducer, on } from '@ngrx/store';
 import { MiscState } from '../app.state';
-import { retrievedRoles, retrievedSteps, retrievedUsers, roleChanged, roleDeleted, stepChanged, stepDeleted, userChanged, userDeleted } from './misc.actions';
+import { retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers, roleChanged, roleDeleted, stepChanged, stepDeleted, userChanged, userDeleted } from './misc.actions';
 
 
-export const initialState: MiscState = { steps: [], users: [], roles: [] };
+export const initialState: MiscState = { steps: [], users: [], roles: [], sources: [] };
 
 export const miscsReducer = createReducer(
     initialState,
     on(retrievedSteps, (state, { steps }) => ({ ...state, steps: steps })),
     on(retrievedUsers, (state, { users }) => ({ ...state, users: users })),
+    on(retrievedSources, (state, { sources }) => ({ ...state, sources: sources })),
     on(retrievedRoles, (state, { roles }) => ({ ...state, roles: roles })),
     on(userChanged, (state, { user }) => {
         // console.log(user)

@@ -17,4 +17,15 @@ export class ContactsService {
     // console.log(id)
     return this.http.get<Contact>(`${path}/contacts/${id}`, httpOptions)
   }
+
+  Save(contact: Contact): Observable<any> {
+    if (contact.ID) {
+      return this.http.put<Contact>(`${path}/contacts/${contact.ID}`, contact)
+    }
+    return this.http.post<Contact>(`${path}/contacts`, contact)
+  }
+
+  Delete(ID: number): Observable<any> {
+    return this.http.delete(`${path}/contacts/${ID}`)
+  }
 }
