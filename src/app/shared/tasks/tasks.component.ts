@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ApiService } from 'src/app/api.service';
 import { AppState } from 'src/app/state/app.state';
+import { selectUsers } from 'src/app/state/misc/misc.selectors';
 import { Task } from '../model';
 
 @Component({
@@ -15,6 +16,7 @@ export class TasksComponent implements OnInit {
   @Input() parentID: number
   tasks: Task[] = []
   form: FormGroup
+  users$ = this.store.select(selectUsers)
   constructor(private api: ApiService, private fb: FormBuilder, private store: Store<AppState>) { }
 
   ngOnInit(): void {
@@ -22,6 +24,8 @@ export class TasksComponent implements OnInit {
     this.form = this.fb.group({
       Description: ["", Validators.required],
       Deadline: [null],
+      //shoud be set by default to current user
+      ResponsibleID: [, Validators.required]
       // Files: [""]      
     })
   }
@@ -44,5 +48,9 @@ export class TasksComponent implements OnInit {
 
   get desc() {
     return this.form.get("Description")
+  }
+
+  get resp() {
+    return this.form.get("ResponsibleID")
   }
 }

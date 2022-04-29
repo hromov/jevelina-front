@@ -1,15 +1,14 @@
 <app-task [task]="task" *ngFor="let task of tasks" (taskUpdated)="taskUpdated($event)">{{task | json}}</app-task>
 <mat-card [formGroup]="form">
     <mat-card-content>
-        <mat-form-field appearance="fill">
-            <textarea [rows]="5" maxlength="1024" matInput placeholder="Description" formControlName="Description"></textarea>
-            <mat-error *ngIf="desc.invalid">Description is required</mat-error>
-        </mat-form-field>
         <div class="double">
-            <button mat-raised-button color="primary" class="save" #saveButton [color] (click)="save()"
-                [disabled]="form.invalid || !form.dirty">
-                Save
-            </button>
+            <mat-form-field appearance="standard">
+                <mat-label>Responsible</mat-label>
+                <mat-select matNativeControl formControlName="ResponsibleID">
+                    <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
+            </mat-form-field>
             <mat-form-field appearance="standard">
                 <input matInput [matDatepicker]="picker" formControlName="Deadline">
                 <mat-hint>MM/DD/YYYY</mat-hint>
@@ -17,5 +16,15 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </div>
+        <mat-form-field appearance="fill">
+            <textarea [rows]="5" maxlength="1024" matInput placeholder="Description" formControlName="Description"></textarea>
+            <mat-error *ngIf="desc.invalid">Description is required</mat-error>
+        </mat-form-field>
+        <!-- <div class="double"> -->
+            <button mat-raised-button color="primary" class="save" #saveButton [color] (click)="save()"
+                [disabled]="form.invalid || !form.dirty">
+                Save
+            </button>
+        <!-- </div> -->
     </mat-card-content>
 </mat-card>

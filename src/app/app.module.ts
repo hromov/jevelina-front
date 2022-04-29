@@ -25,6 +25,7 @@ import { ContactComponent } from './contacts/contact/contact.component';
 import { ContactDataComponent } from './contacts/contact/contact-data/contact-data.component';
 import { LeadComponent } from './leads/lead/lead.component';
 import { LeadDataComponent } from './leads/lead/lead-data/lead-data.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { LeadDataComponent } from './leads/lead/lead-data/lead-data.component';
   ],
   imports: [
     BrowserModule,
+    // CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,

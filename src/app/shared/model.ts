@@ -160,4 +160,10 @@ export interface Task {
     Files: string;
     Description: string;
     Results: string;
+    ResponsibleID: number;
+    Responsible: User;
+    CreatedID: number;
+    Created: User;
+    UpdateID: number;
+    Updated: User;
 }

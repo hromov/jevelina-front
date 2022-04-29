@@ -2,11 +2,17 @@
 <mat-card>
     <div class="double mat-small">
         <div>{{task.CreatedAt | date}}</div>
-        <div>ID: {{task.ID}}</div>
+        <div>Responsible: <span class="name">{{task.Responsible.Name}}</span></div>
     </div>
     <mat-card-content>
-        <div>{{task.Description}}</div>
-        <div *ngIf="task.Results" class="results">{{task.Results}}</div>
+        <div><span class="name">{{task.Created.Name}}</span>:&nbsp;{{task.Description}}</div>
+        <div *ngIf="task.Results" class="results">
+            <div>{{task.Results}}</div>
+            <div>
+                <div>{{task.UpdatedAt | date}}</div>
+                <div class="name">{{task.Updated.Name}}</div>
+            </div>
+        </div>
     </mat-card-content>
     <mat-card-footer *ngIf="showForm" class="double">
         <div class="actions">
