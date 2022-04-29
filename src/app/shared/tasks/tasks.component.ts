@@ -23,7 +23,7 @@ export class TasksComponent implements OnInit {
     this.api.TasksFor(this.parentID).subscribe(tasks => this.tasks = tasks)
     this.form = this.fb.group({
       Description: ["", Validators.required],
-      Deadline: [null],
+      Deadline: [],
       //shoud be set by default to current user
       ResponsibleID: [, Validators.required]
       // Files: [""]      

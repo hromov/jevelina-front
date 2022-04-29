@@ -10,7 +10,7 @@
                 <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="standard">
-                <input matInput [matDatepicker]="picker" formControlName="Deadline">
+                <input matInput [matDatepicker]="picker" readonly formControlName="Deadline">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>

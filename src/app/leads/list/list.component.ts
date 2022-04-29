@@ -25,7 +25,7 @@ export class LeadsListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-      console.log(this.step)
+      // console.log(this.step)
       const filter: ListFilter = {limit: this.limit, offset: this.offset, step: this.step}
       this.store.dispatch(leadsRequired({ filter: filter }))
       // console.log(this.step)
