@@ -159,4 +159,5 @@ export interface Task {
     TaskType: TaskType;
     Files: string;
     Description: string;
+    Results: string;
 }

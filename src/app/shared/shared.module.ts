@@ -27,6 +27,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { TasksComponent } from './tasks/tasks.component';
+import { TaskComponent } from './tasks/task/task.component';
+import {MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     SearchComponent,
     ErrorComponent,
     AnalyticsComponent,
+    TasksComponent,
+    TaskComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +67,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatCheckboxModule,
     MatTooltipModule,
     MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   exports: [
     HoverDirective,
@@ -89,6 +97,11 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatTooltipModule,
     AnalyticsComponent,
     MatExpansionModule,
+    TasksComponent,
+    MatDatepickerModule,
+  ],
+  providers:[
+    MatNativeDateModule
   ]
 })
 export class SharedModule { }

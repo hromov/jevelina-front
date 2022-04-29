@@ -1,4 +1,4 @@
-<div class="container">
-    <app-lead-data [lead]="lead$ | async"></app-lead-data>
-    <div class="tasks">tasks place</div>
+<div class="container" *ngIf="(lead$ | async) as lead">
+    <app-lead-data [lead]="lead"></app-lead-data>
+    <app-tasks [parentID]="lead.ID"></app-tasks>
 </div>

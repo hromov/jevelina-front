@@ -51,7 +51,7 @@ export class ContactDataComponent implements OnChanges {
         SourceID: [this.contact.SourceID],
         // we don't need it here
         // Position: [this.contact.Position],
-        URL: [this.contact.URL],
+        // URL: [this.contact.URL],
         
       })
     }

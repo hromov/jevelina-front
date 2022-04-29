@@ -1,0 +1,22 @@
+<app-error [error]="errorMessage"></app-error>
+<mat-card>
+    <div class="double mat-small">
+        <div>{{task.CreatedAt | date}}</div>
+        <div>ID: {{task.ID}}</div>
+    </div>
+    <mat-card-content>
+        <div>{{task.Description}}</div>
+        <div *ngIf="task.Results" class="results">{{task.Results}}</div>
+    </mat-card-content>
+    <mat-card-footer *ngIf="showForm" class="double">
+        <div class="actions">
+            <button mat-icon-button color="primary" (click)="save()" [disabled]="results.invalid || !results.dirty">
+                <mat-icon>done</mat-icon>
+            </button>
+            <mat-form-field appearance="standard">
+                <input matInput placeholder="Results" [formControl]="results" (keydown.enter)="save()">
+            </mat-form-field>
+        </div>
+        <div class="date">{{task.DeadLine | date}}</div>
+    </mat-card-footer>
+</mat-card>

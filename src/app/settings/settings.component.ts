@@ -28,7 +28,6 @@ export class SettingsComponent implements OnInit {
   }
 
   tabChanged(e: MatTabChangeEvent) {
-    console.log(e)
     const queryParams: Params = { tab: e.index };
     this.router.navigate(
       [], 
