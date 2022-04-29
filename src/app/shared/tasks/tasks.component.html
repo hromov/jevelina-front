@@ -1,4 +1,4 @@
-<app-task [task]="task" *ngFor="let task of tasks" (taskUpdated)="taskUpdated($event)">{{task | json}}</app-task>
+<app-task [task]="task" *ngFor="let task of tasks$ | async">{{task | json}}</app-task>
 <mat-card [formGroup]="form">
     <mat-card-content>
         <div class="double">

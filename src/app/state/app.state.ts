@@ -1,10 +1,17 @@
-import { Contact, Lead, ListFilter, Manufacturer, Product, Role, Source, Step, User } from "../shared/model";
+import { Contact, Lead, ListFilter, Manufacturer, Product, Role, Source, Step, Task, User } from "../shared/model";
 
 export interface AppState {
   contacts: ContactsState;
   leads: LeadsState;
   misc: MiscState;
+  tasks: TasksState;
 }
+
+export interface TasksState {
+  tasks: ReadonlyArray<Task>;
+  loaded: ReadonlyArray<number>;
+}
+
 
 export interface ContactsState {
   contacts: ReadonlyArray<Contact>;

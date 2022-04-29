@@ -26,6 +26,8 @@ import { ContactDataComponent } from './contacts/contact/contact-data/contact-da
 import { LeadComponent } from './leads/lead/lead.component';
 import { LeadDataComponent } from './leads/lead/lead-data/lead-data.component';
 import { CommonModule } from '@angular/common';
+import { TasksEffects } from './state/tasks/tasks.effects';
+import { tasksReducer } from './state/tasks/tasks.reducer';
 
 @NgModule({
   declarations: [
@@ -48,9 +50,9 @@ import { CommonModule } from '@angular/common';
     HttpClientModule,
     // MaterialModule,
     // ReactiveFormsModule,
-    StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer, misc: miscsReducer}),
+    StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer, misc: miscsReducer, tasks: tasksReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects]),
+    EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects, TasksEffects]),
     SharedModule,
   ],
   providers: [],

@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { ApiService } from 'src/app/api.service';
+import { AppState } from 'src/app/state/app.state';
+import { taskChanged } from 'src/app/state/tasks/tasks.actions';
 import { Task } from '../../model';
 
 @Component({
@@ -10,10 +13,9 @@ import { Task } from '../../model';
 })
 export class TaskComponent implements OnInit {
   @Input() task: Task
-  @Output() taskUpdated = new EventEmitter<Task>();
   results : FormControl
   errorMessage: string
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private store: Store<AppState>) { }
 
   ngOnInit(): void {
     if (this.showForm) {
@@ -32,7 +34,7 @@ export class TaskComponent implements OnInit {
       Completed: true,
     }
     this.api.SaveTask(updatedTask).subscribe({
-      next: () => this.taskUpdated.emit(updatedTask),
+      next: () => this.store.dispatch(taskChanged({task: updatedTask})),
       error: () => this.errorMessage = "Wasn't able to update task"
     })
   }
