@@ -25,12 +25,15 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
     HoverDirective,
     SearchComponent,
     ErrorComponent,
+    AnalyticsComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +60,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatSelectModule,
     MatCheckboxModule,
     MatTooltipModule,
+    MatExpansionModule,
   ],
   exports: [
     HoverDirective,
@@ -83,6 +87,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatSelectModule,
     MatCheckboxModule,
     MatTooltipModule,
+    AnalyticsComponent,
+    MatExpansionModule,
   ]
 })
 export class SharedModule { }

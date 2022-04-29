@@ -58,6 +58,7 @@
         <button mat-button (click)="save()" [disabled]="form.invalid || !form.dirty">Save</button>
     </mat-card-actions>
 </mat-card>
+<app-analytics [analytics]="contact?.Analytics"></app-analytics>
 
 <!-- <mat-dialog-content [formGroup]="form">
 

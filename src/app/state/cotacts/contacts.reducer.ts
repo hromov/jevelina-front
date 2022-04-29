@@ -10,7 +10,7 @@ export const initialState: ContactsState = { contacts: [], loaded: new Map(), cu
 export const contactsReducer = createReducer(
     initialState,
     on(retrievedContactsList, (state, { contacts, total, filter }) => {
-        console.log(contacts, total, filter)
+        // console.log(contacts, total, filter)
         let unique = new Map()
         state.contacts.forEach(l => unique.set(l.ID, l))
         contacts.forEach(l => unique.set(l.ID, l))
