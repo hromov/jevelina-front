@@ -21,6 +21,8 @@ import { miscsReducer } from './state/misc/misc.reducer';
 import { MiscEffects } from './state/misc/misc.effects';
 import { LeadsTableComponent } from './leads/table/table.component';
 import { SharedModule } from './shared/shared.module';
+import { ContactComponent } from './contacts/contact/contact.component';
+import { ContactDataComponent } from './contacts/contact/contact-data/contact-data.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { SharedModule } from './shared/shared.module';
     LeadsComponent,
     LeadsListComponent,
     LeadsTableComponent,
+    ContactComponent,
+    ContactDataComponent,
   ],
   imports: [
     BrowserModule,

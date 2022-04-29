@@ -2,13 +2,23 @@ import { createAction, props, union } from '@ngrx/store';
 import { Contact, ListFilter } from '../../shared/model';
   
 export const retrievedContactsList = createAction(
-  '[Contacts Service] List Success',
+  '[Contacts Service / Effects] List Success',
   props<{ contacts: Contact[], total: number, filter: ListFilter }>()
 );
 
 export const contactsRequired = createAction(
-  '[Contacts List / Search Component] contactsRequired',
+  '[Contacts List / Search Component] Contacts Required',
   props<{ filter: ListFilter}>()
+)
+
+export const contactRequired = createAction(
+  '[Contacts Component] Contact Requested',
+  props<{ id: number}>()
+)
+
+export const contactRecieved = createAction(
+  '[Contacts Service / Effects] Contact Recived',
+  props<{ contact: Contact}>()
 )
 
 export const contactsPageChanged = createAction(

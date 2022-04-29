@@ -10,6 +10,14 @@ export const selectAllContacts = createSelector(
     (state: ContactsState) => state.contacts.slice(0)
 )
 
+export const selectContact = (id: number) => createSelector(
+    selectContacts,
+    (state: ContactsState) => {
+        const index = state.contacts.map(c => c.ID).indexOf(Number(id))
+        return (index != -1) ? state.contacts[index] : null
+    }
+)
+
 export const selectFilteredContacts = (filter: ListFilter) => createSelector(
     selectContacts,
     (state: ContactsState) => _filter(state.contacts.slice(0), filter)

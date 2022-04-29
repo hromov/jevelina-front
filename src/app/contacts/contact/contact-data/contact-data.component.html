@@ -1,0 +1,88 @@
+<mat-card [formGroup]="form" *ngIf="form">
+    <app-error [error]="errorMessage"></app-error>
+    <mat-card-content>
+        <!-- <mat-card-title>{{contact.Name}} {{contact.SecondName}}</mat-card-title>
+      <mat-card-subtitle>{{contact.ID}}</mat-card-subtitle> -->
+        <div class="double mat-small">
+            <div>{{contact.ID}}</div>
+            <div [matTooltip]="createdBy">{{contact.CreatedAt | date}}</div>
+        </div>
+        <div class="double">
+            <mat-form-field appearance="standard">
+                <input matInput placeholder="Name" formControlName="Name" (keydown.enter)="save()">
+                <mat-error *ngIf="name.invalid">Name is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <input matInput placeholder="Second Name" formControlName="SecondName" (keydown.enter)="save()">
+            </mat-form-field>
+        </div>
+        <mat-form-field appearance="standard">
+            <mat-label>Responsible</mat-label>
+            <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="save()">
+                <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
+        </mat-form-field>
+        <div class="double">
+            <mat-form-field appearance="standard">
+                <input matInput placeholder="Phone" formControlName="Phone" (keydown.enter)="save()">
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <input matInput placeholder="SecondPhone" formControlName="SecondPhone" (keydown.enter)="save()">
+            </mat-form-field>
+        </div>
+        <mat-form-field appearance="standard">
+            <input matInput placeholder="Email" formControlName="Email" (keydown.enter)="save()">
+            <mat-error *ngIf="email.invalid">Invalid Email value</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="standard" *ngIf="(contact.SecondEmail || contact.Email)">
+            <input matInput placeholder="SecondEmail" formControlName="SecondEmail" (keydown.enter)="save()">
+            <mat-error *ngIf="secondEmail.invalid">Invalid Email value</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <input matInput placeholder="City" formControlName="City" (keydown.enter)="save()">
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+            <input matInput placeholder="Address" formControlName="Address" (keydown.enter)="save()">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>Source</mat-label>
+            <mat-select matNativeControl formControlName="SourceID" (selectionChange)="save()">
+                <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button (click)="save()" [disabled]="form.invalid || !form.dirty">Save</button>
+    </mat-card-actions>
+</mat-card>
+
+<!-- <mat-dialog-content [formGroup]="form">
+
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Name" formControlName="Name" (keydown.enter)="save()">
+        <mat-error *ngIf="name.invalid">Name is required</mat-error>
+    </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div>
+        <button class="mat-accent" mat-mini-fab aria-label="delete" (click)="delete()" *ngIf="item.ID">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <div>
+        <button mat-raised-button (click)="close()">
+            Close
+        </button>
+
+        <button mat-raised-button color="primary" class="save" #saveButton [color] (click)="save()"
+            [disabled]="form.invalid || !form.dirty">
+            Save
+        </button>
+    </div>
+
+</mat-dialog-actions> -->

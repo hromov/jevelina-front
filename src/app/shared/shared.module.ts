@@ -24,6 +24,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatDialogModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatTooltipModule,
   ],
   exports: [
     HoverDirective,
@@ -79,7 +81,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatTabsModule,
     MatDialogModule,
     MatSelectModule,
-    MatCheckboxModule,    
+    MatCheckboxModule,
+    MatTooltipModule,
   ]
 })
 export class SharedModule { }

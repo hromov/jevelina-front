@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ContactComponent } from './contacts/contact/contact.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { LeadsComponent } from './leads/leads.component';
 import { LeadsTableComponent } from './leads/table/table.component';
@@ -7,6 +8,7 @@ import { LeadsTableComponent } from './leads/table/table.component';
 const routes: Routes = [
   { path: '', component: LeadsComponent },
   { path: 'contacts', component: ContactsComponent },
+  { path: 'contacts/:id', component: ContactComponent },
   { path: 'leads', component: LeadsTableComponent},
   // { path: 'settings', component: SettingsComponent},
   { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) }

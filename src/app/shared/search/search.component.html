@@ -53,7 +53,7 @@
         </mat-selection-list>
         <mat-divider *ngIf="showDivider"></mat-divider>
         <mat-selection-list [multiple]="false" class="contacts" (selectionChange)="close()">
-            <mat-list-option *ngFor="let option of filteredContacts" [value]="option.ID">
+            <mat-list-option *ngFor="let option of filteredContacts" [value]="option.ID" [routerLink]="['/contacts', option.ID]">
                 <div class="one-line"><span>{{option.Name}}</span><span>{{option.Phone}}</span></div>
             </mat-list-option>
             <mat-list-option *ngIf="showMoreContacts" class="show">

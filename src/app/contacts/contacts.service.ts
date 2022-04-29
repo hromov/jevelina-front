@@ -12,4 +12,9 @@ export class ContactsService {
   List(filter: ListFilter): Observable<HttpResponse<Array<Contact>>> {
     return this.http.get<Contact[]>(`${path}/contacts${FilterToString(filter)}`, httpOptions)
   }
+
+  Get(id: number): Observable<HttpResponse<Contact>> {
+    // console.log(id)
+    return this.http.get<Contact>(`${path}/contacts/${id}`, httpOptions)
+  }
 }

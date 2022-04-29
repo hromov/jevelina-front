@@ -4,6 +4,7 @@ export interface ListFilter {
     active?: boolean;
     step?: number;
     query?: string;
+    id?: number;
 }
 export interface Contact {
     ID: number;
