@@ -2,7 +2,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { FilterToString } from 'src/app/api.service';
 import { LeadsState } from '../app.state';
-import { leadsPageChanged, leadsSearchChanged, retrievedLeadsList } from './leads.actions';
+import { leadRecieved, leadsPageChanged, leadsSearchChanged, retrievedLeadsList } from './leads.actions';
 
 export const initialState: LeadsState = { leads: [], loaded: new Map(), currentSearch: {}, currentPage: {}, searchTotal: 0 };
 
@@ -29,5 +29,19 @@ export const leadsReducer = createReducer(
         ...state,
         currentPage: filter,
     })),
+    on(leadRecieved, (state, { lead }) => {
+        // console.log(lead)
+        const index = state.leads.map(c => c.ID).indexOf(lead.ID)
+        let newLeads = state.leads.slice(0)
+        if (index == -1) {
+            newLeads.push(lead)
+        } else {
+            newLeads[index] = lead
+        }
+        return ({
+            ...state,
+            leads: newLeads
+        })
+    })
 );
 

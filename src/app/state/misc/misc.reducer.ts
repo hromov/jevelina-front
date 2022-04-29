@@ -1,10 +1,10 @@
 
 import { createReducer, on } from '@ngrx/store';
 import { MiscState } from '../app.state';
-import { retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers, roleChanged, roleDeleted, stepChanged, stepDeleted, userChanged, userDeleted } from './misc.actions';
+import { retrievedManufacturers, retrievedProducts, retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers, roleChanged, roleDeleted, stepChanged, stepDeleted, userChanged, userDeleted } from './misc.actions';
 
 
-export const initialState: MiscState = { steps: [], users: [], roles: [], sources: [] };
+export const initialState: MiscState = { steps: [], users: [], roles: [], sources: [], products: [], manufacturers: [] };
 
 export const miscsReducer = createReducer(
     initialState,
@@ -12,6 +12,8 @@ export const miscsReducer = createReducer(
     on(retrievedUsers, (state, { users }) => ({ ...state, users: users })),
     on(retrievedSources, (state, { sources }) => ({ ...state, sources: sources })),
     on(retrievedRoles, (state, { roles }) => ({ ...state, roles: roles })),
+    on(retrievedProducts, (state, { products }) => ({ ...state, products: products })),
+    on(retrievedManufacturers, (state, { manufacturers }) => ({ ...state, manufacturers: manufacturers })),
     on(userChanged, (state, { user }) => {
         // console.log(user)
         const index = state.users.map(user => user.ID).indexOf(user.ID)

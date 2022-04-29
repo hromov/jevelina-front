@@ -13,4 +13,20 @@ export class LeadsService {
     // console.log(filter)
     return this.http.get<Lead[]>(`${path}/leads${FilterToString(filter)}`, httpOptions)
   }
+
+  Get(id: number): Observable<HttpResponse<Lead>> {
+    // console.log(id)
+    return this.http.get<Lead>(`${path}/leads/${id}`, httpOptions)
+  }
+
+  Save(lead: Lead): Observable<any> {
+    if (lead.ID) {
+      return this.http.put<Lead>(`${path}/leads/${lead.ID}`, lead)
+    }
+    return this.http.post<Lead>(`${path}/leads`, lead)
+  }
+
+  Delete(ID: number): Observable<any> {
+    return this.http.delete(`${path}/leads/${ID}`)
+  }
 }

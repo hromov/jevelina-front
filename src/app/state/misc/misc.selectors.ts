@@ -22,3 +22,13 @@ export const selectSources = createSelector(
     selectMisc,
     (state: MiscState) => state.sources
 )
+
+export const selectProducts = createSelector(
+    selectMisc,
+    (state: MiscState) => state.products
+)
+
+export const selectManufacturers = createSelector(
+    selectMisc,
+    (state: MiscState) => state.manufacturers
+)

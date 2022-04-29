@@ -23,6 +23,8 @@ import { LeadsTableComponent } from './leads/table/table.component';
 import { SharedModule } from './shared/shared.module';
 import { ContactComponent } from './contacts/contact/contact.component';
 import { ContactDataComponent } from './contacts/contact/contact-data/contact-data.component';
+import { LeadComponent } from './leads/lead/lead.component';
+import { LeadDataComponent } from './leads/lead/lead-data/lead-data.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { ContactDataComponent } from './contacts/contact/contact-data/contact-da
     LeadsTableComponent,
     ContactComponent,
     ContactDataComponent,
+    LeadComponent,
+    LeadDataComponent,
   ],
   imports: [
     BrowserModule,

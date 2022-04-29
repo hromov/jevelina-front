@@ -15,6 +15,16 @@ export const leadsRequired = createAction(
   props<{ filter: ListFilter }>()
 )
 
+export const leadRequired = createAction(
+  '[Leads Component] Leads Requested',
+  props<{ id: number}>()
+)
+
+export const leadRecieved = createAction(
+  '[Leads Service / Effects] Lead Recived',
+  props<{ lead: Lead}>()
+)
+
 export const leadsSearchChanged = createAction(
   '[Search Component] Search Changed',
   props<{ filter: ListFilter}>()

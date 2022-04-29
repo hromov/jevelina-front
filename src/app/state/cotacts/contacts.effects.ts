@@ -13,7 +13,7 @@ import { selectLoadedContacts } from './contacts.selectors';
 export class ContactsEffects {
     //allways call backend to get fresh copy  before changes made
     loadContact$ = createEffect(() => this.actions$.pipe(
-        ofType('[Contacts Component] Contact Requested' || '[Contact Data] Contact Updated or Added'),
+        ofType('[Contacts Component] Contact Requested'),
         mergeMap((req: any) => this.contactsService.Get(req.id).pipe(
             map(response => ({type: "[Contacts Service / Effects] Contact Recived", contact: response.body})),
             catchError(() => of({type: '[Contacts Effects / Service] Get contact by ID error'}))

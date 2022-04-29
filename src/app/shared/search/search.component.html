@@ -41,7 +41,7 @@
     [cdkConnectedOverlayOpen]="isOpen" [cdkConnectedOverlayOffsetX]="0" [cdkConnectedOverlayOffsetY]="-27" [cdkConnectedOverlayHasBackdrop]="true" (backdropClick)="close()">
     <div class="results mat-elevation-z2">
         <mat-selection-list [multiple]="false" class="leads" (selectionChange)="close()">
-            <mat-list-option *ngFor="let option of filteredLeads" [value]="option.ID">
+            <mat-list-option *ngFor="let option of filteredLeads" [value]="option.ID" [routerLink]="['/leads', option.ID]">
 
                 <div mat-line><span>{{option.Name}} ({{option.ID}})</span><span>{{option.CreatedAt | date}}</span></div>
                 <div mat-line><span>{{option.Contact.Name}}</span><span>{{option.Contact.Phone}}</span></div>

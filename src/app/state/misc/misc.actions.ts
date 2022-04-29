@@ -1,5 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
-import { Contact, ListFilter, Role, Source, Step, User } from '../../shared/model';
+import { Contact, ListFilter, Manufacturer, Product, Role, Source, Step, User } from '../../shared/model';
   
 export const retrievedSteps = createAction(
   '[Misc Service] Steps Loaded',
@@ -21,6 +21,15 @@ export const retrievedSources = createAction(
   props<{ sources: Source[] }>()
 );
 
+export const retrievedProducts = createAction(
+  '[Misc Service] Products Loaded',
+  props<{ products: Product[] }>()
+);
+
+export const retrievedManufacturers = createAction(
+  '[Misc Service] Manufacturers Loaded',
+  props<{ manufacturers: Manufacturer[] }>()
+);
 
 export const userChanged = createAction(
   '[User Dialog] User Updated or Added',

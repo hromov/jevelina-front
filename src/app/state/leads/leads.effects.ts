@@ -10,6 +10,15 @@ import { selectLoadedLeads } from './leads.selector';
 
 @Injectable()
 export class LeadsEffects {
+
+    //allways call backend to get fresh copy  before changes made
+    loadLead$ = createEffect(() => this.actions$.pipe(
+        ofType('[Leads Component] Leads Requested'),
+        mergeMap((req: any) => this.leadsService.Get(req.id).pipe(
+            map(response => ({type: "[Leads Service / Effects] Lead Recived", lead: response.body})),
+            catchError(() => of({type: '[Leads Effects / Service] Get lead by ID error'}))
+        ))
+    ))
     
     //doesn't check if base has enough to show for search, but pros - it gets total for exact search
     loadLeads$ = createEffect(() => this.actions$.pipe(

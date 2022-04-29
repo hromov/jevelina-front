@@ -11,6 +11,14 @@ export const selectAllLeads = createSelector(
     (state: LeadsState) => state.leads
 )
 
+export const selectLead = (id: number) => createSelector(
+    selectLeads,
+    (state: LeadsState) => {
+        const index = state.leads.map(c => c.ID).indexOf(Number(id))
+        return (index != -1) ? state.leads[index] : null
+    }
+)
+
 export const selectLeadsTotal = (request: string) => createSelector(
     selectLeads,
     (state: LeadsState) => state.loaded.has(request) ? state.loaded.get(request) : 0
