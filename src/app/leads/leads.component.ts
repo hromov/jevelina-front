@@ -5,7 +5,7 @@ import { filter, map } from 'rxjs';
 import { MiscService } from '../settings/misc/misc.service';
 import { ListFilter } from '../shared/model';
 import { AppState } from '../state/app.state';
-import { selectSteps } from '../state/misc/misc.selectors';
+import { selectCurrentSteps, selectSteps } from '../state/misc/misc.selectors';
 import { LeadsService } from './leads.service';
 
 let active = true
@@ -17,7 +17,7 @@ let active = true
 })
 export class LeadsComponent implements OnInit {
   // if only active
-  steps$ = this.store.select(selectSteps).pipe(map(steps => active ? steps.filter(s => s.Active) : steps));
+  steps$ = this.store.select(selectCurrentSteps)
   // total$ = this.store.select(selectTotalLeads);
   constructor(
     private leadsService: LeadsService,

@@ -1,19 +1,21 @@
 
 import { createReducer, on } from '@ngrx/store';
+import { Step } from 'src/app/shared/model';
 import { MiscState } from '../app.state';
-import { retrievedManufacturers, retrievedProducts, retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers, roleChanged, roleDeleted, stepChanged, stepDeleted, userChanged, userDeleted } from './misc.actions';
+import { retrievedManufacturers, retrievedProducts, retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers, roleChanged, roleDeleted, selectedStepsChanged, stepChanged, stepDeleted, userChanged, userDeleted } from './misc.actions';
 
 
-export const initialState: MiscState = { steps: [], users: [], roles: [], sources: [], products: [], manufacturers: [] };
+export const initialState: MiscState = { steps: [], users: [], roles: [], sources: [], products: [], manufacturers: [], selectedSteps: [] };
 
 export const miscsReducer = createReducer(
     initialState,
-    on(retrievedSteps, (state, { steps }) => ({ ...state, steps: steps })),
+    on(retrievedSteps, (state, { steps }) => ({ ...state, steps: steps, selectedSteps: getCurrentSteps(steps) })),
     on(retrievedUsers, (state, { users }) => ({ ...state, users: users })),
     on(retrievedSources, (state, { sources }) => ({ ...state, sources: sources })),
     on(retrievedRoles, (state, { roles }) => ({ ...state, roles: roles })),
     on(retrievedProducts, (state, { products }) => ({ ...state, products: products })),
     on(retrievedManufacturers, (state, { manufacturers }) => ({ ...state, manufacturers: manufacturers })),
+    on(selectedStepsChanged, (state, { selected }) => ({...state, selectedSteps: saveCurrentSteps(selected)})),
     on(userChanged, (state, { user }) => {
         // console.log(user)
         const index = state.users.map(user => user.ID).indexOf(user.ID)
@@ -85,3 +87,14 @@ export const miscsReducer = createReducer(
     })
 );
 
+function getCurrentSteps(steps: Step[]): number[] {
+    if (localStorage.getItem("steps")) {
+        return JSON.parse(localStorage.getItem("steps"))
+    }
+    return steps.filter(s => s.Active).map(s => s.ID)
+}
+
+function saveCurrentSteps(selected: number[]): number[] {
+    localStorage.setItem("steps", JSON.stringify(selected))
+    return selected
+}

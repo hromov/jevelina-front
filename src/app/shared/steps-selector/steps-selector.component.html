@@ -1,0 +1,18 @@
+<button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>filter_list</mat-icon></button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="stepsSelector">Steps</button>
+
+    <!-- <mat-form-field appearance="standard">
+        <mat-select matNativeControl [formControl]="stepsControl" [multiple]="true">
+            <mat-option *ngFor="let step of steps$ | async" [value]="step.ID">{{step.Name}}</mat-option>
+        </mat-select>
+    </mat-form-field> -->
+</mat-menu>
+
+<mat-menu #stepsSelector="matMenu">
+    <mat-selection-list [formControl]="stepsControl">
+        <mat-list-option *ngFor="let step of steps$ | async" [value]="step.ID">
+            {{step.Name}}
+        </mat-list-option>
+    </mat-selection-list>
+</mat-menu>

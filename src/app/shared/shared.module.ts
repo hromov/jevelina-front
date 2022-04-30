@@ -31,6 +31,8 @@ import { TasksComponent } from './tasks/tasks.component';
 import { TaskComponent } from './tasks/task/task.component';
 import {MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { StepsSelectorComponent } from './steps-selector/steps-selector.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     AnalyticsComponent,
     TasksComponent,
     TaskComponent,
+    StepsSelectorComponent,
   ],
   imports: [
     CommonModule,
@@ -69,6 +72,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMenuModule,
   ],
   exports: [
     HoverDirective,
@@ -99,6 +103,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatExpansionModule,
     TasksComponent,
     MatDatepickerModule,
+    StepsSelectorComponent,
+    MatMenuModule,
   ],
   providers:[
     MatNativeDateModule

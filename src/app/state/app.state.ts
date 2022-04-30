@@ -38,6 +38,7 @@ export interface MiscState {
   sources: ReadonlyArray<Source>
   products: ReadonlyArray<Product>
   manufacturers: ReadonlyArray<Manufacturer>
+  selectedSteps: ReadonlyArray<number>
   // I'm no ready for this
   // tasks: ReadonlyArray<Task>
 }

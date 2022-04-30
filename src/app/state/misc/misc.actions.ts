@@ -1,10 +1,15 @@
 import { createAction, props, union } from '@ngrx/store';
 import { Contact, ListFilter, Manufacturer, Product, Role, Source, Step, User } from '../../shared/model';
-  
+
 export const retrievedSteps = createAction(
   '[Misc Service] Steps Loaded',
   props<{ steps: Step[] }>()
 );
+
+export const selectedStepsChanged = createAction(
+  '[Steps Selector] Selecteion Changed',
+  props<{ selected: number[] }>()
+)
 
 export const retrievedUsers = createAction(
   '[Misc Service] Users Loaded',

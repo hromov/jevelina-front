@@ -8,6 +8,17 @@ export const selectSteps = createSelector(
     (state: MiscState) => state.steps || []
 )
 
+export const selectedSteps = createSelector(
+    selectMisc,
+    (state: MiscState) => state.selectedSteps || []
+)
+
+export const selectCurrentSteps = createSelector(
+    selectMisc,
+    selectedSteps,
+    (state: MiscState, selected: ReadonlyArray<number>) => state.steps.filter(s => selected.includes(s.ID))
+)
+
 export const selectUsers = createSelector(
     selectMisc,
     (state: MiscState) => state.users
