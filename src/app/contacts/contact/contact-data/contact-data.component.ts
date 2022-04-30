@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { first } from 'rxjs';
-import { Contact } from 'src/app/shared/model';
+import { concatMap, debounceTime, delay, exhaustMap, filter, first, mergeMap, Observable, startWith, Subscription, tap } from 'rxjs';
+import { Contact, ListFilter } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
-import { contactRecieved } from 'src/app/state/cotacts/contacts.actions';
+import { contactRecieved, contactsRequired } from 'src/app/state/cotacts/contacts.actions';
 import { selectSources, selectUsers } from 'src/app/state/misc/misc.selectors';
 import { ContactsService } from '../../contacts.service';
 
@@ -12,15 +14,19 @@ import { ContactsService } from '../../contacts.service';
   selector: 'app-contact-data',
   templateUrl: './contact-data.component.html',
   styleUrls: ['./contact-data.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactDataComponent implements OnChanges {
   @Input() contact: Contact
+  subscriptions: Subscription[] = []
   errorMessage: string
   users$ = this.store.select(selectUsers)
   sources$ = this.store.select(selectSources)
   form: FormGroup
-
+  filtered: Contact[] = [];
+  total: number;
+  loading: boolean = false
+  filter: ListFilter = { limit: 5, offset: 0, query: "" }
+  @Output() anotherContact: EventEmitter<Contact> = new EventEmitter()
   // implement after guard to check if form changed
   // @HostListener('window:beforeunload')
   // canDeactivate(): Observable<boolean> | boolean {
@@ -32,12 +38,14 @@ export class ContactDataComponent implements OnChanges {
     private fb: FormBuilder,
     private store: Store<AppState>,
     private cs: ContactsService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.contact)  {
+    if (this.contact) {
       this.form = this.fb.group({
         Name: [this.contact.Name, Validators.required],
         SecondName: [this.contact.SecondName],
@@ -52,8 +60,23 @@ export class ContactDataComponent implements OnChanges {
         // we don't need it here
         // Position: [this.contact.Position],
         // URL: [this.contact.URL],
-        
       })
+      this.subscriptions.push(this.form.get("Phone").valueChanges.pipe(
+        startWith(''),
+        filter(val => val.length > 3),
+        concatMap(val => {
+          this.filter = { ...this.filter, query: val }
+          this.loading = true
+          return this.cs.List(this.filter)
+        }),
+        delay(1000),
+        debounceTime(300),
+      ).subscribe(res => {
+        this.loading = false
+        this.filtered = res.body || []
+        this.total = Number(res.headers.get("X-Total-Count"))
+      })
+      )
     }
   }
 
@@ -61,19 +84,37 @@ export class ContactDataComponent implements OnChanges {
   // "Position": "", "Analytics": { "CID": "", "UID": "", "TID": "", "UtmID": "", "UtmSource": "", "UtmMedium": "", "UtmCampaign": "", "Domain": "" } }
 
   save() {
-    console.log("save and block temporary")
-    const newContact = {
-      ...this.contact,
-      ...this.form.value
+    if (this.contact.ID) {
+      const newContact = {
+        ...this.contact,
+        ...this.form.value
+      }
+      // console.log(newContact)
+      this.cs.Save(newContact).pipe(first()).subscribe({
+        next: (contact) => {
+          this.store.dispatch(contactRecieved({ contact: newContact }))
+          // console.log(contact)
+        },
+        error: () => this.errorMessage = `Can't save item "${newContact.Name}, with ID = ${newContact.ID}"`
+      })
     }
-    // console.log(newContact)
-    this.cs.Save(newContact).pipe(first()).subscribe({
-      next: (contact) => {
-        this.store.dispatch(contactRecieved({contact: newContact}))
-        // console.log(contact)
-      },
-      error: () => this.errorMessage = `Can't save item "${newContact.Name}, with ID = ${newContact.ID}"`
-    })
+    console.log("save and block temporary")
+
+  }
+
+  contactSelected(e: MatAutocompleteSelectedEvent) {
+    // console.log(this.form.value.Phone ,e)
+    const phone = e.option.value    
+    const contact = this.filtered.filter(c => c.Phone == phone)[0]
+    // console.log(contact)
+    if (this.route.snapshot.routeConfig.path.startsWith("contacts")) {
+      // console.log("navigate to: ")
+      this.router.navigate(["/contacts", contact.ID])
+    } else {
+      // console.log("change leads contact")
+      this.anotherContact.emit(contact)
+    }
+
   }
 
   get name() {

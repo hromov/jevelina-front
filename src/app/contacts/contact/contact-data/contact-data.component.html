@@ -7,7 +7,7 @@
             <div>{{contact.ID}}</div>
             <div [matTooltip]="createdBy">{{contact.CreatedAt | date}}</div>
         </div>
-        
+
         <div class="double">
             <mat-form-field appearance="standard">
                 <input matInput placeholder="Name" formControlName="Name" (keydown.enter)="save()">
@@ -17,7 +17,7 @@
                 <input matInput placeholder="Second Name" formControlName="SecondName" (keydown.enter)="save()">
             </mat-form-field>
         </div>
-        
+
         <mat-form-field appearance="standard">
             <mat-label>Responsible</mat-label>
             <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="save()">
@@ -25,15 +25,21 @@
             </mat-select>
             <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
         </mat-form-field>
-        
-        <div class="double">
-            <mat-form-field appearance="standard">
-                <input matInput placeholder="Phone" formControlName="Phone" (keydown.enter)="save()">
-            </mat-form-field>
-            <mat-form-field appearance="standard">
-                <input matInput placeholder="SecondPhone" formControlName="SecondPhone" (keydown.enter)="save()">
-            </mat-form-field>
-        </div>
+
+
+        <mat-form-field appearance="standard">
+            <input matInput placeholder="Phone" formControlName="Phone" [matAutocomplete]="auto"
+                (keydown.enter)="save()">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="contactSelected($event)">
+                <mat-option *ngFor="let c of filtered" [value]="c.Phone" >
+                    {{c.Name}} {{c.Phone}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <input matInput placeholder="SecondPhone" formControlName="SecondPhone" (keydown.enter)="save()">
+        </mat-form-field>
 
         <mat-form-field appearance="standard">
             <mat-label>Source</mat-label>
@@ -62,7 +68,8 @@
         </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || !form.dirty">Save</button>
+        <button mat-raised-button color="primary" (click)="save()"
+            [disabled]="form.invalid || !form.dirty">Save</button>
     </mat-card-actions>
 </mat-card>
 <app-analytics [analytics]="contact?.Analytics"></app-analytics>

@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { first } from 'rxjs';
-import { Lead } from 'src/app/shared/model';
+import { Contact, Lead } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { leadRecieved } from 'src/app/state/leads/leads.actions';
 import { selectManufacturers, selectProducts, selectSources, selectSteps, selectUsers } from 'src/app/state/misc/misc.selectors';
@@ -34,17 +35,18 @@ export class LeadDataComponent implements OnChanges {
     private fb: FormBuilder,
     private store: Store<AppState>,
     private ls: LeadsService,
+    private router: Router,
   ) {
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.lead)  {
+    if (this.lead) {
       this.form = this.fb.group({
         Name: [this.lead.Name, Validators.required],
         StepID: [this.lead.StepID],
         ResponsibleID: [this.lead.ResponsibleID, Validators.required],
-        SourceID: [this.lead.SourceID],        
+        SourceID: [this.lead.SourceID],
         ProductID: [this.lead.ProductID],
         ManufacturerID: [this.lead.ManufacturerID],
       })
@@ -57,14 +59,38 @@ export class LeadDataComponent implements OnChanges {
       ...this.lead,
       ...this.form.value
     }
-    
+
     this.ls.Save(newLead).pipe(first()).subscribe({
       next: (contact) => {
-        this.store.dispatch(leadRecieved({lead: newLead}))
+        this.store.dispatch(leadRecieved({ lead: newLead }))
         // console.log(contact)
       },
       error: () => this.errorMessage = `Can't save item "${newLead.Name}, with ID = ${newLead.ID}"`
     })
+  }
+
+  relinkContact(contact: Contact) {
+    if (this.lead.Contact.ID && confirm(`Are you sure want to change linked contact from ${this.lead.Contact.Name} to ${contact.Name}`)) {
+      const newLead: Lead = {
+        ...this.lead,
+        ...this.form.value,
+        ContactID: contact.ID,
+        Contact: contact,
+      }
+      this.ls.Save(newLead).pipe(first()).subscribe({
+        next: (contact) => {
+          this.store.dispatch(leadRecieved({ lead: newLead }))
+          // console.log(contact)
+        },
+        error: () => this.errorMessage = `Can't link new contact to lead "${newLead.Name}, with ID = ${newLead.ID}"`
+      })
+    } else {
+      //don't know better way to reset contact back - it's already selected
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
+      });
+    }
   }
 
   get name() {

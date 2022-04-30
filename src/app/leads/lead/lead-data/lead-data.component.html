@@ -1,63 +1,68 @@
-<mat-card [formGroup]="form" *ngIf="form">
-    <app-error [error]="errorMessage"></app-error>
-    <mat-card-content>
-        <!-- <mat-card-title>{{lead.Name}} {{lead.SecondName}}</mat-card-title>
+<div *ngIf="lead" class="lead-container">
+    <mat-card [formGroup]="form" *ngIf="form">
+        <app-error [error]="errorMessage"></app-error>
+        <mat-card-content>
+            <!-- <mat-card-title>{{lead.Name}} {{lead.SecondName}}</mat-card-title>
       <mat-card-subtitle>{{lead.ID}}</mat-card-subtitle> -->
-        <div class="double mat-small">
-            <div>{{lead.ID}}</div>
-            <div [matTooltip]="createdBy">{{lead.CreatedAt | date}}</div>
-        </div>
+            <div class="double mat-small">
+                <div>{{lead.ID}}</div>
+                <div [matTooltip]="createdBy">{{lead.CreatedAt | date}}</div>
+            </div>
 
-        <mat-form-field appearance="standard">
-            <input matInput placeholder="Name" formControlName="Name" (keydown.enter)="save()">
-            <mat-error *ngIf="name.invalid">Name is required</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="standard">
+                <input matInput placeholder="Name" formControlName="Name" (keydown.enter)="save()">
+                <mat-error *ngIf="name.invalid">Name is required</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="standard">
-            <mat-label>Step</mat-label>
-            <mat-select matNativeControl formControlName="StepID" (selectionChange)="save()">
-                <mat-option *ngFor="let item of steps$ | async" [value]="item.ID">{{item.Name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="step.invalid">Step is required</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>Step</mat-label>
+                <mat-select matNativeControl formControlName="StepID" (selectionChange)="save()">
+                    <mat-option *ngFor="let item of steps$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="step.invalid">Step is required</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="standard">
-            <mat-label>Responsible</mat-label>
-            <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="save()">
-                <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>Responsible</mat-label>
+                <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="save()">
+                    <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="standard">
-            <mat-label>Source</mat-label>
-            <mat-select matNativeControl formControlName="SourceID" (selectionChange)="save()">
-                <mat-option *ngFor="let source of sources$ | async" [value]="source.ID">{{source.Name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>Source</mat-label>
+                <mat-select matNativeControl formControlName="SourceID" (selectionChange)="save()">
+                    <mat-option *ngFor="let source of sources$ | async" [value]="source.ID">{{source.Name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
 
-        <mat-form-field appearance="standard">
-            <mat-label>Products</mat-label>
-            <mat-select matNativeControl formControlName="ProductID" (selectionChange)="save()">
-                <mat-option *ngFor="let item of products$ | async" [value]="item.ID">{{item.Name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>Products</mat-label>
+                <mat-select matNativeControl formControlName="ProductID" (selectionChange)="save()">
+                    <mat-option *ngFor="let item of products$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
 
-        <mat-form-field appearance="standard">
-            <mat-label>Manufacturers</mat-label>
-            <mat-select matNativeControl formControlName="ManufacturerID" (selectionChange)="save()">
-                <mat-option *ngFor="let item of manufacturers$ | async" [value]="item.ID">{{item.Name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>Manufacturers</mat-label>
+                <mat-select matNativeControl formControlName="ManufacturerID" (selectionChange)="save()">
+                    <mat-option *ngFor="let item of manufacturers$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
 
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="save()"
-            [disabled]="form.invalid || !form.dirty">Save</button>
-    </mat-card-actions>
-</mat-card>
-<app-analytics [analytics]="lead?.Analytics"></app-analytics>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="save()"
+                [disabled]="form.invalid || !form.dirty">Save</button>
+        </mat-card-actions>
+    </mat-card>
 
+    <app-analytics [analytics]="lead.Analytics"></app-analytics>
+
+    <app-contact-data [contact]="lead.Contact" (anotherContact)="relinkContact($event)"></app-contact-data>
+
+</div>
 <!-- <mat-dialog-content [formGroup]="form">
 
     <mat-form-field appearance="fill">
