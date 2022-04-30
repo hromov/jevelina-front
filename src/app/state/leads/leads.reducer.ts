@@ -2,9 +2,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { FilterToString } from 'src/app/api.service';
 import { LeadsState } from '../app.state';
-import { leadRecieved, leadsPageChanged, leadsSearchChanged, retrievedLeadsList } from './leads.actions';
+import { leadRecieved, leadsPageChanged, leadsSearchChanged, retrievedLeadsList, selectedUserChanged } from './leads.actions';
 
-export const initialState: LeadsState = { leads: [], loaded: new Map(), currentSearch: {}, currentPage: {}, searchTotal: 0 };
+export const initialState: LeadsState = { leads: [], loaded: new Map(), currentSearch: {}, currentPage: {}, searchTotal: 0, selectedUser: null };
 
 export const leadsReducer = createReducer(
     initialState,
@@ -21,6 +21,10 @@ export const leadsReducer = createReducer(
             searchTotal: realTotal,
         })
     }),
+    on(selectedUserChanged, (state, { userID }) => ({
+        ...state,
+        selectedUser: userID
+    })),
     on(leadsSearchChanged, (state, { filter }) => ({
         ...state,
         currentSearch: filter,

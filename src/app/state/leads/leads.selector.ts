@@ -11,6 +11,11 @@ export const selectAllLeads = createSelector(
     (state: LeadsState) => state.leads
 )
 
+export const selectedUser = createSelector(
+    selectLeads,
+    (state: LeadsState) => state.selectedUser
+)
+
 export const selectLead = (id: number) => createSelector(
     selectLeads,
     (state: LeadsState) => {
@@ -69,6 +74,7 @@ export const selectLeadsSearchTotal = createSelector(
 
 //can't fully check query :-/ I have to reproduce search search algo here then
 function _valid(l: Lead, filter: ListFilter): boolean {
+    // console.log(filter)
     if (filter.active && l.ClosedAt != null) {
         return false
     }
@@ -76,6 +82,9 @@ function _valid(l: Lead, filter: ListFilter): boolean {
         return false
     }
     if (filter.query && !_queryCheck(l, filter.query)) {
+        return false
+    }
+    if (filter.responsible && l.ResponsibleID != filter.responsible) {
         return false
     }
     return true

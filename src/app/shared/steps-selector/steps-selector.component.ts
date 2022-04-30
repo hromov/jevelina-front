@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { filter, first, tap } from 'rxjs';
+import { filter, first } from 'rxjs';
 import { AppState } from 'src/app/state/app.state';
+import { selectedUserChanged } from 'src/app/state/leads/leads.actions';
 import { selectedStepsChanged } from 'src/app/state/misc/misc.actions';
-import { selectCurrentSteps, selectedSteps, selectSteps } from 'src/app/state/misc/misc.selectors';
+import { selectedSteps, selectSteps, selectUsers } from 'src/app/state/misc/misc.selectors';
 
 @Component({
   selector: 'steps-selector',
@@ -13,13 +15,17 @@ import { selectCurrentSteps, selectedSteps, selectSteps } from 'src/app/state/mi
 })
 export class StepsSelectorComponent implements OnInit {
   steps$ = this.store.select(selectSteps)
+  users$ = this.store.select(selectUsers)
   stepsControl: FormControl = new FormControl()
-  constructor(private store: Store<AppState>) { }
+  usersControl: FormControl = new FormControl()
+  constructor(private store: Store<AppState>, private router: Router) { }
 
   ngOnInit(): void {
     this.store.select(selectedSteps).pipe(filter((val:any) => val.length), first()).subscribe(selected => this.stepsControl.patchValue(selected))
     this.stepsControl.valueChanges
       .subscribe(selected => this.store.dispatch(selectedStepsChanged({ selected })))
+    this.usersControl.valueChanges
+      .subscribe(selected => this.store.dispatch(selectedUserChanged({userID: selected[0]})))
   }
 
 }

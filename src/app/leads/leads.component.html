@@ -2,6 +2,6 @@
     <div *ngFor="let step of steps$ | async" class="step step-{{step.Order}}">
         <h2>{{step.Name}}</h2>
         <mat-divider></mat-divider>
-        <leads-list [step]="step.ID"></leads-list>
+        <leads-list [step]="step.ID" [userID]="selectedUser$ | async"></leads-list>
     </div>
 </div>

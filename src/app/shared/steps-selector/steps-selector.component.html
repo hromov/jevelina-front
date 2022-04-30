@@ -1,10 +1,13 @@
-<button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>filter_list</mat-icon></button>
+<button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>filter_list</mat-icon>
+</button>
 <mat-menu #menu="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="stepsSelector">Steps</button>
+    <button mat-menu-item [matMenuTriggerFor]="usersSelector">Users</button>
 
     <!-- <mat-form-field appearance="standard">
-        <mat-select matNativeControl [formControl]="stepsControl" [multiple]="true">
-            <mat-option *ngFor="let step of steps$ | async" [value]="step.ID">{{step.Name}}</mat-option>
+        <mat-select matNativeControl [formControl]="usersControl">
+            <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
         </mat-select>
     </mat-form-field> -->
 </mat-menu>
@@ -13,6 +16,17 @@
     <mat-selection-list [formControl]="stepsControl">
         <mat-list-option *ngFor="let step of steps$ | async" [value]="step.ID">
             {{step.Name}}
+        </mat-list-option>
+    </mat-selection-list>
+</mat-menu>
+
+<mat-menu #usersSelector="matMenu">
+    <mat-selection-list [formControl]="usersControl" [multiple]="false">
+        <mat-list-option [value]="null">
+            All
+        </mat-list-option>
+        <mat-list-option *ngFor="let user of users$ | async" [value]="user.ID">
+            {{user.Name}}
         </mat-list-option>
     </mat-selection-list>
 </mat-menu>

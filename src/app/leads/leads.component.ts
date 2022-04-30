@@ -1,12 +1,8 @@
-import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, map } from 'rxjs';
-import { MiscService } from '../settings/misc/misc.service';
-import { ListFilter } from '../shared/model';
 import { AppState } from '../state/app.state';
-import { selectCurrentSteps, selectSteps } from '../state/misc/misc.selectors';
-import { LeadsService } from './leads.service';
+import { selectedUser } from '../state/leads/leads.selector';
+import { selectCurrentSteps } from '../state/misc/misc.selectors';
 
 let active = true
 
@@ -18,11 +14,10 @@ let active = true
 export class LeadsComponent implements OnInit {
   // if only active
   steps$ = this.store.select(selectCurrentSteps)
+  selectedUser$ = this.store.select(selectedUser)
   // total$ = this.store.select(selectTotalLeads);
   constructor(
-    private leadsService: LeadsService,
     private store: Store<AppState>,
-    private miscService: MiscService,
   ) { }
 
   ngOnInit(): void {

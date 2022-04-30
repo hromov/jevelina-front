@@ -34,3 +34,8 @@ export const leadsPageChanged = createAction(
   '[Leads Table] Page Changed',
   props<{ filter: ListFilter}>()
 )
+
+export const selectedUserChanged = createAction(
+  '[User Selector] Selected User Changed',
+  props<{ userID: number }>()
+)

@@ -5,6 +5,7 @@ export interface ListFilter {
     step?: number;
     query?: string;
     id?: number;
+    responsible?: number;
 }
 export interface Contact {
     ID: number;

@@ -28,6 +28,7 @@ export interface LeadsState {
   currentSearch: ListFilter,
   currentPage: ListFilter,
   searchTotal: number,
+  selectedUser: number,
   // current: Readonly<ListFilter>;
 }
 
