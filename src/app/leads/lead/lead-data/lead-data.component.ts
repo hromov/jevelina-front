@@ -53,9 +53,12 @@ export class LeadDataComponent implements OnChanges {
         ProductID: [this.lead.ProductID],
         ManufacturerID: [this.lead.ManufacturerID],
       })
-      
-      this.store.dispatch(contactRequired({id: this.lead.ContactID}))
-      this.contact$ = this.store.select(selectContact(this.lead.ContactID))
+      if (this.lead.ContactID) {
+        this.store.dispatch(contactRequired({ id: this.lead.ContactID }))
+        this.contact$ = this.store.select(selectContact(this.lead.ContactID))
+      } else {
+        this.contact$ = null
+      }
     }
   }
 
@@ -76,13 +79,14 @@ export class LeadDataComponent implements OnChanges {
   }
 
   relinkContact(contact: Contact) {
-    if (this.lead.Contact.ID && confirm(`Are you sure want to change linked contact from ${this.lead.Contact.Name} to ${contact.Name}`)) {
+    if (!this.lead.ContactID || confirm(`Are you sure want to change linked contact from ${this.lead.Contact.Name} to ${contact.Name}`)) {
       const newLead: Lead = {
         ...this.lead,
         ...this.form.value,
         ContactID: contact.ID,
         Contact: contact,
       }
+      this.contact$ = this.store.select(selectContact(newLead.ContactID))
       this.ls.Save(newLead).pipe(first()).subscribe({
         next: (contact) => {
           this.store.dispatch(leadRecieved({ lead: newLead }))
@@ -92,7 +96,7 @@ export class LeadDataComponent implements OnChanges {
       })
     } else {
       //don't know better way to reset contact back - it's already selected
-      this.store.dispatch(contactRequired({id: this.lead.ContactID}))
+      this.store.dispatch(contactRequired({ id: this.lead.ContactID }))
       // const currentUrl = this.router.url;
       // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       //   this.router.navigate([currentUrl]);

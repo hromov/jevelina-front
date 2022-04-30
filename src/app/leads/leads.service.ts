@@ -19,7 +19,7 @@ export class LeadsService {
     return this.http.get<Lead>(`${path}/leads/${id}`, httpOptions)
   }
 
-  Save(lead: Lead): Observable<any> {
+  Save(lead: Partial<Lead>): Observable<any> {
     if (lead.ID) {
       return this.http.put<Lead>(`${path}/leads/${lead.ID}`, lead)
     }

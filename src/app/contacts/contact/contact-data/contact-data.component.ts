@@ -45,6 +45,11 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // if it's null - we are creating new lead now
+    if (this.contact === null) {
+      this.contact = this.getBlankContact()
+      console.log(this.contact)
+    }
     if (this.contact) {
       this.form = this.fb.group({
         Name: [this.contact.Name, Validators.required],
@@ -83,8 +88,8 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
   // "URL": "", "City": "Днепр", "Address": "", "SourceID":
   // "Position": "", "Analytics": { "CID": "", "UID": "", "TID": "", "UtmID": "", "UtmSource": "", "UtmMedium": "", "UtmCampaign": "", "Domain": "" } }
 
-  save() {
-    if (this.contact.ID) {
+  save(force?: boolean) {
+    if (force || this.contact.ID) {
       const newContact: Contact = {
         ...this.contact,
         ...this.form.value,
@@ -94,8 +99,10 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
       // console.log(newContact)
       this.cs.Save(newContact).pipe(first()).subscribe({
         next: (contact) => {
-          this.store.dispatch(contactRecieved({ contact: newContact }))
-          // console.log(contact)
+          this.store.dispatch(contactRecieved({ contact: contact }))
+          if (!this.contact.ID) {
+            this.anotherContact.emit(contact)
+          }
         },
         error: () => this.errorMessage = `Can't save item "${newContact.Name}, with ID = ${newContact.ID}"`
       })
@@ -108,7 +115,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
     console.log(this.form.value.Phone ,e)
     const phone = e.option.value    
     const contact = this.filtered.filter(c => c.Phone == phone)[0]
-    // console.log(contact)
+    console.log(contact)
     if (this.route.snapshot.routeConfig.path.startsWith("contacts")) {
       // console.log("navigate to: ")
       this.router.navigate(["/contacts", contact.ID])
@@ -128,7 +135,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
   }
 
   get createdBy() {
-    return `Created by ${this.contact.Created.Name || 'unknown'}`
+    return `Created by ${this.contact.Created?.Name || 'unknown'}`
   }
 
   get email() {
@@ -141,6 +148,35 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.map(s => s.unsubscribe())
+  }
+
+  getBlankContact(): Contact {
+    return {
+      ID: null,
+      CreatedAt: new Date(),
+      UpdatedAt: new Date(),
+      IsPerson: true,
+      Name: "",
+      SecondName: "",
+      // TODO: put real after AUTH
+      ResponsibleID: 0,
+      Responsible: null,
+      // we don't need it - it will be set on server
+      Created: null,
+      Tags: [],
+      Phone: "",
+      SecondPhone: "",
+      Email: "",
+      SecondEmail: "",
+      URL: "",
+      City: "",
+      Address: "",
+      //probably put some default
+      SourceID: null,
+      Source: null,
+      Position: "",
+      Analytics: null,
+    }
   }
 
 }

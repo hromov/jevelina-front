@@ -1,7 +1,9 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ApiService } from './api.service';
+import { LeadsService } from './leads/leads.service';
 import { AppState } from './state/app.state';
 import { retrievedManufacturers, retrievedProducts, retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers } from './state/misc/misc.actions';
 
@@ -16,6 +18,8 @@ export class AppComponent implements OnInit {
     private api: ApiService,
     private store: Store<AppState>,
     private scrolll: ViewportScroller,
+    private leads: LeadsService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -40,5 +44,8 @@ export class AppComponent implements OnInit {
       this.scrolll.scrollToPosition([0, 0])
     }
     this.opened = !this.opened
+  }
+  newLead() {
+    this.leads.Save({}).subscribe(lead => this.router.navigate(['leads', lead.ID]))
   }
  }

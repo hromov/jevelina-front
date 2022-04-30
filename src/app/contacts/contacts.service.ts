@@ -18,7 +18,7 @@ export class ContactsService {
     return this.http.get<Contact>(`${path}/contacts/${id}`, httpOptions)
   }
 
-  Save(contact: Contact): Observable<any> {
+  Save(contact: Contact): Observable<Contact> {
     if (contact.ID) {
       return this.http.put<Contact>(`${path}/contacts/${contact.ID}`, contact)
     }
