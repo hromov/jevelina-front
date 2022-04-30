@@ -2,9 +2,11 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { first } from 'rxjs';
-import { Contact, Lead } from 'src/app/shared/model';
+import { first, Observable } from 'rxjs';
+import { Contact, Lead, Step } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
+import { contactRequired } from 'src/app/state/cotacts/contacts.actions';
+import { selectContact } from 'src/app/state/cotacts/contacts.selectors';
 import { leadRecieved } from 'src/app/state/leads/leads.actions';
 import { selectManufacturers, selectProducts, selectSources, selectSteps, selectUsers } from 'src/app/state/misc/misc.selectors';
 import { LeadsService } from '../../leads.service';
@@ -22,6 +24,7 @@ export class LeadDataComponent implements OnChanges {
   steps$ = this.store.select(selectSteps)
   products$ = this.store.select(selectProducts)
   manufacturers$ = this.store.select(selectManufacturers)
+  contact$: Observable<Readonly<Contact>>
   form: FormGroup
 
   // implement after guard to check if form changed
@@ -50,14 +53,17 @@ export class LeadDataComponent implements OnChanges {
         ProductID: [this.lead.ProductID],
         ManufacturerID: [this.lead.ManufacturerID],
       })
+      
+      this.store.dispatch(contactRequired({id: this.lead.ContactID}))
+      this.contact$ = this.store.select(selectContact(this.lead.ContactID))
     }
   }
 
   save() {
     console.log("save and block temporary")
-    const newLead = {
+    const newLead: Lead = {
       ...this.lead,
-      ...this.form.value
+      ...this.form.value,
     }
 
     this.ls.Save(newLead).pipe(first()).subscribe({
@@ -86,10 +92,11 @@ export class LeadDataComponent implements OnChanges {
       })
     } else {
       //don't know better way to reset contact back - it's already selected
-      const currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate([currentUrl]);
-      });
+      this.store.dispatch(contactRequired({id: this.lead.ContactID}))
+      // const currentUrl = this.router.url;
+      // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      //   this.router.navigate([currentUrl]);
+      // });
     }
   }
 
@@ -108,5 +115,4 @@ export class LeadDataComponent implements OnChanges {
   get createdBy() {
     return `Created by ${this.lead.Created.Name || 'unknown'}`
   }
-
 }

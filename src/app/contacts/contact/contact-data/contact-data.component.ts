@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { ContactsService } from '../../contacts.service';
   templateUrl: './contact-data.component.html',
   styleUrls: ['./contact-data.component.sass'],
 })
-export class ContactDataComponent implements OnChanges {
+export class ContactDataComponent implements OnChanges, OnDestroy {
   @Input() contact: Contact
   subscriptions: Subscription[] = []
   errorMessage: string
@@ -85,9 +85,11 @@ export class ContactDataComponent implements OnChanges {
 
   save() {
     if (this.contact.ID) {
-      const newContact = {
+      const newContact: Contact = {
         ...this.contact,
-        ...this.form.value
+        ...this.form.value,
+        Phone: this.form.value.Phone.replace(/\D/g, ''),
+        SecondPhone: this.form.value.SecondPhone.replace(/\D/g, '')
       }
       // console.log(newContact)
       this.cs.Save(newContact).pipe(first()).subscribe({
@@ -103,7 +105,7 @@ export class ContactDataComponent implements OnChanges {
   }
 
   contactSelected(e: MatAutocompleteSelectedEvent) {
-    // console.log(this.form.value.Phone ,e)
+    console.log(this.form.value.Phone ,e)
     const phone = e.option.value    
     const contact = this.filtered.filter(c => c.Phone == phone)[0]
     // console.log(contact)
@@ -135,6 +137,10 @@ export class ContactDataComponent implements OnChanges {
 
   get secondEmail() {
     return this.form.get("SecondEmail")
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.map(s => s.unsubscribe())
   }
 
 }

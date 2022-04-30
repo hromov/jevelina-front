@@ -1,4 +1,4 @@
-<mat-card [formGroup]="form" *ngIf="form">
+<mat-card [formGroup]="form" *ngIf="form && contact">
     <app-error [error]="errorMessage"></app-error>
     <mat-card-content>
         <!-- <mat-card-title>{{contact.Name}} {{contact.SecondName}}</mat-card-title>
@@ -9,26 +9,18 @@
         </div>
 
         <div class="double">
-            <mat-form-field appearance="standard">
+            <mat-form-field appearance="standard" class="item-name">
                 <input matInput placeholder="Name" formControlName="Name" (keydown.enter)="save()">
                 <mat-error *ngIf="name.invalid">Name is required</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="standard">
+            <mat-form-field appearance="standard" class="item-name">
                 <input matInput placeholder="Second Name" formControlName="SecondName" (keydown.enter)="save()">
             </mat-form-field>
         </div>
 
         <mat-form-field appearance="standard">
-            <mat-label>Responsible</mat-label>
-            <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="save()">
-                <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
-        </mat-form-field>
-
-
-        <mat-form-field appearance="standard">
-            <input matInput placeholder="Phone" formControlName="Phone" [matAutocomplete]="auto"
+            <span matPrefix>+38 &nbsp;</span>
+            <input type="tel" matInput placeholder="Phone" formControlName="Phone" [matAutocomplete]="auto"
                 (keydown.enter)="save()">
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="contactSelected($event)">
                 <mat-option *ngFor="let c of filtered" [value]="c.Phone" >
@@ -39,6 +31,14 @@
 
         <mat-form-field appearance="standard">
             <input matInput placeholder="SecondPhone" formControlName="SecondPhone" (keydown.enter)="save()">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" class="resp-name">
+            <mat-label>Responsible</mat-label>
+            <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="save()">
+                <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="standard">

@@ -2,15 +2,15 @@
 <mat-card>
     <div class="double mat-small">
         <div>{{task.CreatedAt | date}}</div>
-        <div>Responsible: <span class="name">{{task.Responsible.Name}}</span></div>
+        <div>Responsible: <span class="resp-name">{{task.Responsible.Name}}</span></div>
     </div>
     <mat-card-content>
-        <div><span class="name">{{task.Created.Name}}</span>:&nbsp;{{task.Description}}</div>
+        <div><span class="resp-name">{{task.Created.Name}}</span>:&nbsp;{{task.Description}}</div>
         <div *ngIf="task.Results" class="results">
             <div>{{task.Results}}</div>
             <div>
                 <div>{{task.UpdatedAt | date}}</div>
-                <div class="name">{{task.Updated.Name}}</div>
+                <div class="resp-name">{{task.Updated.Name}}</div>
             </div>
         </div>
     </mat-card-content>

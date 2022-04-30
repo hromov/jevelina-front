@@ -4,7 +4,7 @@
         <div class="double">
             <mat-form-field appearance="standard">
                 <mat-label>Responsible</mat-label>
-                <mat-select matNativeControl formControlName="ResponsibleID">
+                <mat-select matNativeControl formControlName="ResponsibleID" class="resp-name">
                     <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>

@@ -5,7 +5,7 @@ export const selectMisc = (state: AppState) => state.misc;
 
 export const selectSteps = createSelector(
     selectMisc,
-    (state: MiscState) => state.steps
+    (state: MiscState) => state.steps || []
 )
 
 export const selectUsers = createSelector(

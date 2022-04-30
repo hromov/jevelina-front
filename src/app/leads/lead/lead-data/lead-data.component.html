@@ -9,7 +9,7 @@
                 <div [matTooltip]="createdBy">{{lead.CreatedAt | date}}</div>
             </div>
 
-            <mat-form-field appearance="standard">
+            <mat-form-field appearance="standard" class="item-name">
                 <input matInput placeholder="Name" formControlName="Name" (keydown.enter)="save()">
                 <mat-error *ngIf="name.invalid">Name is required</mat-error>
             </mat-form-field>
@@ -17,12 +17,14 @@
             <mat-form-field appearance="standard">
                 <mat-label>Step</mat-label>
                 <mat-select matNativeControl formControlName="StepID" (selectionChange)="save()">
-                    <mat-option *ngFor="let item of steps$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+                    <mat-option *ngFor="let item of steps$ | async"  [value]="item.ID" ngClass="step-{{item.Order}}">
+                        {{item.Name}}
+                    </mat-option>
                 </mat-select>
                 <mat-error *ngIf="step.invalid">Step is required</mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="standard">
+            <mat-form-field appearance="standard" class="resp-name">
                 <mat-label>Responsible</mat-label>
                 <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="save()">
                     <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
@@ -60,7 +62,7 @@
 
     <app-analytics [analytics]="lead.Analytics"></app-analytics>
 
-    <app-contact-data [contact]="lead.Contact" (anotherContact)="relinkContact($event)"></app-contact-data>
+    <app-contact-data [contact]="contact$ | async" (anotherContact)="relinkContact($event)"></app-contact-data>
 
 </div>
 <!-- <mat-dialog-content [formGroup]="form">

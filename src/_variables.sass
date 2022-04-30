@@ -1,11 +1,28 @@
 @use '@angular/material' as mat
 
-$app-primary: mat.define-palette(mat.$deep-purple-palette)
-$app-accent: mat.define-palette(mat.$amber-palette)
+$app-primary: mat.define-palette(mat.$deep-purple-palette, 600)
+$app-accent: mat.define-palette(mat.$green-palette, 500)
 $app-warn: mat.define-palette(mat.$red-palette)
+$app-primary-light: mat.define-palette(mat.$purple-palette, 500)
+$app-primary-dark: mat.define-palette(mat.$deep-purple-palette, 800)
 
 $primary: mat.get-color-from-palette($app-primary, 'default')
+$primary-light: mat.get-color-from-palette($app-primary-light, 'default')
+$primary-dark: mat.get-color-from-palette($app-primary-dark, 'default')
+
 $accent: mat.get-color-from-palette($app-accent, 'default')
 $warn: mat.get-color-from-palette($app-warn, 'default')
+$triadic-1: #aa2441
+$triadic-2: #aa8d24
+
+$step-opacity: 0.5
+$step-0: $triadic-2
+$step-6: $primary
+$step-7: $primary-light
+$step-8: $accent
+$step-10: $triadic-1
+
+
+
 
 //You can also reference colors using the "default", "lighter", "darker", and "text" colors passed to define-palette.

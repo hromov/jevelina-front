@@ -1,7 +1,51 @@
 @use '@angular/material' as mat
 @import '@angular/cdk/overlay-prebuilt.css'
+@import "src/_variables.sass"
 
 @include mat.core()
 
+@mixin step($name, $color)
+    .step-#{$name}
+        mat-divider 
+            border-top-color: #{$color}
+            border-top-width: 2px          
+        span.mat-option-text
+            color: #{$color}
 body
     margin: 0
+@include step('0', $step-0)
+@include step('6', $step-6)
+@include step('7', $step-7)
+@include step('8', $step-8)
+@include step('10', $step-10)
+.item-name
+    color: $primary-light
+.resp-name
+    color: $primary
+    .mat-select-value-text
+        color: $primary
+// .step-0
+//     mat-divider
+//         border-top-color: $step-0
+// mat-option.step-0
+//     text-decoration-color: $step-0
+// .step-6
+//     mat-divider
+//         border-top-color: $step-6
+// mat-option.step-6
+//     text-decoration-color: $step-6
+// .step-7
+//     mat-divider
+//         border-top-color: $step-7
+// mat-option.step-7
+//     text-decoration-color: $step-7
+// .step-8
+//     mat-divider
+//         border-top-color: $step-8
+// mat-option.step-8
+//     text-decoration-color: $step-8
+// .step-10
+//     mat-divider
+//         border-top-color: $step-10
+// mat-option.step-10
+//     text-decoration-color: $step-10

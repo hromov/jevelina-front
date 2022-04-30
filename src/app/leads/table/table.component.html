@@ -7,7 +7,7 @@
 
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-            <mat-cell *matCellDef="let element" [routerLink]="['/leads', element.ID]" class="name"><span>{{element.Name}}</span>
+            <mat-cell *matCellDef="let element" [routerLink]="['/leads', element.ID]" class="item-name"><span>{{element.Name}}</span>
             </mat-cell>
         </ng-container>
 
