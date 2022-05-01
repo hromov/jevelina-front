@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ListFilter, Manufacturer, Product, Role, Source, Step, Tag, Task, TaskType, User } from './shared/model';
 const prod = true
-export const path = prod ? 'https://jevelinafree3-env.eba-vgjrn7wj.eu-central-1.elasticbeanstalk.com' : 'http://localhost:5000'
+export const path = prod ? 'https://vorota-ua.ew.r.appspot.com' : 'https://localhost:8080'
 const defaultLimit = 25
 
 export const httpOptions = {

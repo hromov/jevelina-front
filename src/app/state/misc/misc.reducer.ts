@@ -91,7 +91,7 @@ function getCurrentSteps(steps: Step[]): number[] {
     if (localStorage.getItem("steps")) {
         return JSON.parse(localStorage.getItem("steps"))
     }
-    return steps.filter(s => s.Active).map(s => s.ID)
+    return saveCurrentSteps(steps.filter(s => s.Active).map(s => s.ID))
 }
 
 function saveCurrentSteps(selected: number[]): number[] {
