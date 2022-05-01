@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ListFilter, Manufacturer, Product, Role, Source, Step, Tag, Task, TaskType, User } from './shared/model';
-
-export const path = 'http://localhost:8080'
+const prod = true
+export const path = prod ? 'https://jevelinafree3-env.eba-vgjrn7wj.eu-central-1.elasticbeanstalk.com' : 'http://localhost:5000'
 const defaultLimit = 25
 
 export const httpOptions = {

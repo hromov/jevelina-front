@@ -48,7 +48,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
     // if it's null - we are creating new lead now
     if (this.contact === null) {
       this.contact = this.getBlankContact()
-      console.log(this.contact)
+      // console.log(this.contact)
     }
     if (this.contact) {
       this.form = this.fb.group({
@@ -99,7 +99,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
       // console.log(newContact)
       this.cs.Save(newContact).pipe(first()).subscribe({
         next: (contact) => {
-          this.store.dispatch(contactRecieved({ contact: contact }))
+          this.store.dispatch(contactRecieved({ contact: this.contact.ID ? newContact : contact }))
           if (!this.contact.ID) {
             this.anotherContact.emit(contact)
           }
@@ -107,15 +107,15 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
         error: () => this.errorMessage = `Can't save item "${newContact.Name}, with ID = ${newContact.ID}"`
       })
     }
-    console.log("save and block temporary")
+    // console.log("save and block temporary")
 
   }
 
   contactSelected(e: MatAutocompleteSelectedEvent) {
-    console.log(this.form.value.Phone ,e)
+    // console.log(this.form.value.Phone ,e)
     const phone = e.option.value    
     const contact = this.filtered.filter(c => c.Phone == phone)[0]
-    console.log(contact)
+    // console.log(contact)
     if (this.route.snapshot.routeConfig.path.startsWith("contacts")) {
       // console.log("navigate to: ")
       this.router.navigate(["/contacts", contact.ID])

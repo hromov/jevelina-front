@@ -13,6 +13,13 @@
  *
  * Learn more in https://angular.io/guide/browser-support
  */
+(window as any).global = window;
+(window as any).process = {
+    env: { DEBUG: undefined },
+};
+
+import 'core-js/es/typed-array';
+import 'core-js/es/object';
 
 /***************************************************************************************************
  * BROWSER POLYFILLS
