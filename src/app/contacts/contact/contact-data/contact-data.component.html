@@ -22,8 +22,11 @@
             <span matPrefix>+38 &nbsp;</span>
             <input type="tel" matInput placeholder="Phone" formControlName="Phone" [matAutocomplete]="auto"
                 (keydown.enter)="save()">
+            <span matSuffix>
+                <mat-spinner color="accent" [diameter]="24" *ngIf="loading"></mat-spinner>
+            </span>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="contactSelected($event)">
-                <mat-option *ngFor="let c of filtered" [value]="c.Phone" >
+                <mat-option *ngFor="let c of filtered" [value]="c.Phone">
                     {{c.Name}} {{c.Phone}}
                 </mat-option>
             </mat-autocomplete>
@@ -71,6 +74,9 @@
         <button mat-raised-button color="primary" (click)="save(true)"
             [disabled]="form.invalid || !form.dirty">Save</button>
     </mat-card-actions>
+    <mat-card-footer>
+        <mat-progress-bar mode="indeterminate" *ngIf="saving"></mat-progress-bar>
+    </mat-card-footer>
 </mat-card>
 <app-analytics [analytics]="contact?.Analytics"></app-analytics>
 

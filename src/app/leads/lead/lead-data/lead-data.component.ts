@@ -26,6 +26,7 @@ export class LeadDataComponent implements OnChanges {
   manufacturers$ = this.store.select(selectManufacturers)
   contact$: Observable<Readonly<Contact>>
   form: FormGroup
+  saving: boolean
 
   // implement after guard to check if form changed
   // @HostListener('window:beforeunload')
@@ -63,7 +64,8 @@ export class LeadDataComponent implements OnChanges {
   }
 
   save() {
-    console.log("save and block temporary")
+    this.form.disable()
+    this.saving = true
     const newLead: Lead = {
       ...this.lead,
       ...this.form.value,
@@ -72,9 +74,9 @@ export class LeadDataComponent implements OnChanges {
     this.ls.Save(newLead).pipe(first()).subscribe({
       next: (contact) => {
         this.store.dispatch(leadRecieved({ lead: newLead }))
-        // console.log(contact)
       },
-      error: () => this.errorMessage = `Can't save item "${newLead.Name}, with ID = ${newLead.ID}"`
+      error: () => this.errorMessage = `Can't save item "${newLead.Name}, with ID = ${newLead.ID}"`,
+      complete: () => {this.saving = false, this.form.enable()}
     })
   }
 

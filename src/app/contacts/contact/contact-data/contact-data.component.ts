@@ -23,9 +23,10 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
   sources$ = this.store.select(selectSources)
   form: FormGroup
   filtered: Contact[] = [];
-  total: number;
+  total: number
   loading: boolean = false
   filter: ListFilter = { limit: 5, offset: 0, query: "" }
+  saving: boolean
   @Output() anotherContact: EventEmitter<Contact> = new EventEmitter()
   // implement after guard to check if form changed
   // @HostListener('window:beforeunload')
@@ -74,8 +75,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
           this.loading = true
           return this.cs.List(this.filter)
         }),
-        delay(1000),
-        debounceTime(300),
+        debounceTime(50),
       ).subscribe(res => {
         this.loading = false
         this.filtered = res.body || []
@@ -90,6 +90,8 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
 
   save(force?: boolean) {
     if (force || this.contact.ID) {
+      this.saving = true
+      this.form.disable()
       const newContact: Contact = {
         ...this.contact,
         ...this.form.value,
@@ -104,7 +106,8 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
             this.anotherContact.emit(contact)
           }
         },
-        error: () => this.errorMessage = `Can't save item "${newContact.Name}, with ID = ${newContact.ID}"`
+        error: () => this.errorMessage = `Can't save item "${newContact.Name}, with ID = ${newContact.ID}"`,
+        complete: () => {this.saving = false, this.form.enable()}
       })
     }
     // console.log("save and block temporary")
