@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ListFilter, Manufacturer, Product, Role, Source, Step, Tag, Task, TaskType, User } from './shared/model';
-const prod = true
-export const path = prod ? 'https://vorota-ua.ew.r.appspot.com' : 'https://localhost:8080'
+const prod = false
+export const path = prod ? 'https://vorota-ua.ew.r.appspot.com' : 'http://localhost:8080'
 const defaultLimit = 25
 
 export const httpOptions = {

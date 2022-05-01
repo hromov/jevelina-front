@@ -1,0 +1,29 @@
+<div *ngIf="authService.user$ | async as user; else login">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <img src="{{ user.photoUrl }}">
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="signOut()">
+            Logout
+        </button>
+    </mat-menu>
+</div>
+<ng-template #login>
+    <button mat-button (click)="signIn()">
+        Login
+    </button>
+</ng-template>
+
+
+<!-- <img src="{{ user.photoUrl }}"> -->
+<!-- <div>
+    <h4>{{ user.name }}</h4>
+    <p>{{ user.email }}</p>
+</div>
+</div> -->
+<!-- <button mat-raised-button color="primary" (click)="signIn()">
+    Login
+</button>
+<button mat-raised-button color="primary" (click)="signOut()">
+    Logout
+</button> -->

@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactsComponent } from './contacts/contacts.component';
 import { StoreModule } from '@ngrx/store';
 import { ContactsListComponent } from './contacts/list/list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
@@ -28,6 +28,15 @@ import { LeadDataComponent } from './leads/lead/lead-data/lead-data.component';
 import { CommonModule } from '@angular/common';
 import { TasksEffects } from './state/tasks/tasks.effects';
 import { tasksReducer } from './state/tasks/tasks.reducer';
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from '@abacritt/angularx-social-login';
+import { LoginComponent } from './login/login.component';
+import { AuthInterceptor } from './login/auth.interceptor';
+
+const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleusercontent.com"
 
 @NgModule({
   declarations: [
@@ -41,6 +50,7 @@ import { tasksReducer } from './state/tasks/tasks.reducer';
     ContactDataComponent,
     LeadComponent,
     LeadDataComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,12 +60,35 @@ import { tasksReducer } from './state/tasks/tasks.reducer';
     HttpClientModule,
     // MaterialModule,
     // ReactiveFormsModule,
-    StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer, misc: miscsReducer, tasks: tasksReducer}),
+    StoreModule.forRoot({ contacts: contactsReducer, leads: leadsReducer, misc: miscsReducer, tasks: tasksReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects, TasksEffects]),
     SharedModule,
+    SocialLoginModule,
   ],
-  providers: [],
+  providers: [{
+    provide: 'SocialAuthServiceConfig',
+    useValue: {
+      autoLogin: false,
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider(
+            AuthClientID
+          )
+        },
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider(AuthClientID)
+        }
+      ],
+      onError: (err) => {
+        console.error(err);
+      }
+    } as SocialAuthServiceConfig,
+  },
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
