@@ -41,4 +41,9 @@ export class TaskComponent implements OnInit {
     })
   }
 
+  getClass(t: string): string {
+    // console.log(new Date(t), new Date(), t > new Date())
+    return (new Date(t) < new Date()) ? "outdated" : "date"
+  }
+
 }

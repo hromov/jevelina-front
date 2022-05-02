@@ -3,7 +3,7 @@ import {
     HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
 } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, interval, Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
 
 /** Pass untouched request through to the next request handler. */
@@ -11,11 +11,13 @@ import { AuthService } from './auth.service';
 export class AuthInterceptor implements HttpInterceptor {
 
     authToken: string
+    refresher = interval(1000*60*50)
+    refresherSub: Subscription
 
     intercept(req: HttpRequest<any>, next: HttpHandler):
         Observable<HttpEvent<any>> {
         if (this.authToken) {
-             const authReq = req.clone({
+            const authReq = req.clone({
                 headers: req.headers.set('Authorization', `Bearer ${this.authToken}`)
             })
             return next.handle(authReq)
@@ -24,6 +26,15 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     constructor(private auth: AuthService) {
-        this.auth.socialUser$.subscribe(user => user ? this.authToken = user.authToken : this.authToken = "")
+        this.auth.socialUser$.subscribe(user => {
+            if (user) {
+                this.authToken = user.authToken
+                this.refresherSub = this.refresher.subscribe(() => this.auth.refreshToken())
+
+            } else {
+                this.authToken = ""
+                this.refresherSub.unsubscribe()
+            }
+        })
     }
 }

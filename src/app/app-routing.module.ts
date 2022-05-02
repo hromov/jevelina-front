@@ -9,6 +9,7 @@ import { LeadsTableComponent } from './leads/table/table.component';
 import { RestrictedComponent } from './login/restricted/restricted.component';
 import { PrivacyComponent } from './additional/privacy/privacy.component';
 import { TermsComponent } from './additional/terms/terms.component';
+import { TaskListComponent } from './task-list/task-list.component';
 
 const routes: Routes = [
   { path: '', component: LeadsComponent, canActivate: [BasicGuard]},
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'contacts/:id', component: ContactComponent, canActivate: [BasicGuard] },
   { path: 'leads', component: LeadsTableComponent, canActivate: [BasicGuard] },
   { path: 'leads/:id', component: LeadComponent, canActivate: [BasicGuard] },
+  { path: 'tasks', component: TaskListComponent, canActivate: [BasicGuard]},
   { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) }
 ];
 

@@ -38,6 +38,8 @@ import { BasicGuard } from './guards/basic.guard';
 import { PrivacyComponent } from './additional/privacy/privacy.component';
 import { TermsComponent } from './additional/terms/terms.component';
 import { LeadsStepComponent } from './leads/leads-step/leads-step.component';
+import { TaskListComponent } from './task-list/task-list.component';
+import { TaskColComponent } from './task-list/task-col/task-col.component';
 
 const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleusercontent.com"
 
@@ -57,6 +59,8 @@ const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleu
     PrivacyComponent,
     TermsComponent,
     LeadsStepComponent,
+    TaskListComponent,
+    TaskColComponent,
   ],
   imports: [
     BrowserModule,

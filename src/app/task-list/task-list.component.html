@@ -1,0 +1,14 @@
+<div class="container">
+    <div>
+        <h2>Outdated</h2>
+        <app-task-col [maxDate]="outdated.maxDate" class="outdated"></app-task-col> 
+    </div>
+    <div>
+        <h2>Today</h2>
+        <app-task-col [minDate]="today.minDate" [maxDate]="today.maxDate"></app-task-col> 
+    </div>
+    <div>
+        <h2>Tomorrow</h2>
+        <app-task-col [minDate]="tomorrow.minDate" [maxDate]="tomorrow.maxDate"></app-task-col> 
+    </div>
+</div>

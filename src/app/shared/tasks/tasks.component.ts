@@ -28,15 +28,20 @@ export class TasksComponent implements OnInit {
     this.store.dispatch(tasksRequired({parentID: this.parentID}))
     this.form = this.fb.group({
       Description: ["", Validators.required],
-      Deadline: [],
+      DeadLine: [],
       ResponsibleID: [this.auth.currentUser.ID, Validators.required]
     })
   }
 
   save() {
-    const newTask = {
+    let deadLine: Date = this.form.value.DeadLine
+    if (deadLine) {
+      deadLine.setHours(21)
+    }
+    const newTask: Task = {
       ...this.form.value,
       ParentID: this.parentID,
+      DeadLine: deadLine
     }
     
     this.api.SaveTask(newTask).subscribe(task => {

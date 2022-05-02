@@ -23,6 +23,6 @@
                 <input matInput placeholder="Results" [formControl]="results" (keydown.enter)="save()">
             </mat-form-field>
         </div>
-        <div class="date">{{task.DeadLine | date}}</div>
+        <div [ngClass]="getClass(task.DeadLine)">{{task.DeadLine | date}}</div>
     </mat-card-footer>
 </mat-card>

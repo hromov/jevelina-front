@@ -108,6 +108,7 @@ import { LeadsListComponent } from './leads-list/leads-list.component';
     StepsSelectorComponent,
     MatMenuModule,
     LeadsListComponent,
+    TaskComponent,
   ],
   providers:[
     MatNativeDateModule

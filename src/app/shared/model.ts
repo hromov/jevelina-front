@@ -7,6 +7,8 @@ export interface ListFilter {
     id?: number;
     responsible?: number;
     contact?: number;
+    min_date?: Date
+    max_date?: Date
 }
 export interface Contact {
     ID: number;
