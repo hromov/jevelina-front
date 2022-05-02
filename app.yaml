@@ -8,5 +8,9 @@ handlers:
   static_files: dist/jevelina/index.html
   upload: dist/jevelina/index.html
 
+- url: /restricted
+  static_files: dist/jevelina/index.html
+  upload: dist/jevelina/index.html
+
 - url: /
   static_dir: dist/jevelina

@@ -12,24 +12,13 @@ let active = true
   styleUrls: ['./leads.component.sass']
 })
 export class LeadsComponent implements OnInit {
-  // if only active
   steps$ = this.store.select(selectCurrentSteps)
   selectedUser$ = this.store.select(selectedUser)
-  // total$ = this.store.select(selectTotalLeads);
   constructor(
     private store: Store<AppState>,
   ) { }
 
   ngOnInit(): void {
-    
-    // const filter: ListFilter = {limit: 50, offset: 0, active: true}
-    // //move to store
-    // this.leadsService
-    //   .List(filter)
-    //   .subscribe((resp) => {
-    //     const total = Number(resp.headers.get("X-Total-Count"))
-    //     this.store.dispatch(retrievedLeadsList({ leads: resp.body || [], total: total, current: filter }))
-    //   });
   }
 
 }

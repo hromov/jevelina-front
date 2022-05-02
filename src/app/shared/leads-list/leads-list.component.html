@@ -1,4 +1,4 @@
-<mat-card *ngFor="let lead of leads$ | async" hoverElevation [routerLink]="['/leads', lead.ID]">
+<mat-card *ngFor="let lead of leads" hoverElevation [routerLink]="['/leads', lead.ID]">
     <mat-card-subtitle>
         <span>{{lead.Contact.Name}}</span>
         <span>{{lead.Contact.Phone}}</span>

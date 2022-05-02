@@ -10,14 +10,6 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    // Get the auth token from the service.
-    // const authToken = this.auth.getAuthorizationToken();
-
-    // Clone the request and replace the original headers with
-    // cloned headers, updated with the authorization.
-    // const authReq = req.clone({
-    //   headers: req.headers.set('Authorization', authToken)
-    // });
     authToken: string
 
     intercept(req: HttpRequest<any>, next: HttpHandler):
@@ -26,11 +18,8 @@ export class AuthInterceptor implements HttpInterceptor {
              const authReq = req.clone({
                 headers: req.headers.set('Authorization', `Bearer ${this.authToken}`)
             })
-            // console.log(authReq)
             return next.handle(authReq)
-
         }
-        
         return next.handle(req);
     }
 

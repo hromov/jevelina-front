@@ -87,6 +87,9 @@ function _valid(l: Lead, filter: ListFilter): boolean {
     if (filter.responsible && l.ResponsibleID != filter.responsible) {
         return false
     }
+    if (filter.contact && l.ContactID != filter.contact) {
+        return false
+    }
     return true
 }
 

@@ -14,7 +14,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { LeadsComponent } from './leads/leads.component';
 import { contactsReducer } from './state/cotacts/contacts.reducer';
 import { ContactsEffects } from './state/cotacts/contacts.effects';
-import { LeadsListComponent } from './leads/list/list.component';
 import { leadsReducer } from './state/leads/leads.reducer';
 import { LeadsEffects } from './state/leads/leads.effects';
 import { miscsReducer } from './state/misc/misc.reducer';
@@ -25,7 +24,6 @@ import { ContactComponent } from './contacts/contact/contact.component';
 import { ContactDataComponent } from './contacts/contact/contact-data/contact-data.component';
 import { LeadComponent } from './leads/lead/lead.component';
 import { LeadDataComponent } from './leads/lead/lead-data/lead-data.component';
-import { CommonModule } from '@angular/common';
 import { TasksEffects } from './state/tasks/tasks.effects';
 import { tasksReducer } from './state/tasks/tasks.reducer';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
@@ -36,10 +34,10 @@ import {
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './login/auth.interceptor';
 import { RestrictedComponent } from './login/restricted/restricted.component';
-import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { BasicGuard } from './guards/basic.guard';
 import { PrivacyComponent } from './additional/privacy/privacy.component';
 import { TermsComponent } from './additional/terms/terms.component';
+import { LeadsStepComponent } from './leads/leads-step/leads-step.component';
 
 const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleusercontent.com"
 
@@ -49,7 +47,6 @@ const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleu
     ContactsComponent,
     ContactsListComponent,
     LeadsComponent,
-    LeadsListComponent,
     LeadsTableComponent,
     ContactComponent,
     ContactDataComponent,
@@ -59,6 +56,7 @@ const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleu
     RestrictedComponent,
     PrivacyComponent,
     TermsComponent,
+    LeadsStepComponent,
   ],
   imports: [
     BrowserModule,

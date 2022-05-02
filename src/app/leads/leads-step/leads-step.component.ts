@@ -1,18 +1,18 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged, Observable, tap } from 'rxjs';
 import { Lead, ListFilter } from 'src/app/shared/model';
 import { ScrollService } from 'src/app/shared/scroll.service';
 import { AppState } from 'src/app/state/app.state';
 import { leadsRequired } from 'src/app/state/leads/leads.actions';
-import { selectedUser, selectFilteredLeads, selectLeads } from 'src/app/state/leads/leads.selector';
+import { selectFilteredLeads } from 'src/app/state/leads/leads.selector';
 
 @Component({
-  selector: 'leads-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.sass']
+  selector: 'leads-step',
+  templateUrl: './leads-step.component.html',
+  styleUrls: ['./leads-step.component.sass']
 })
-export class LeadsListComponent implements OnInit, OnChanges {
+export class LeadsStepComponent implements OnChanges, OnInit {
   @Input() step: number = null
   @Input() userID: number = null
   leads$: Observable<Lead[]>
@@ -32,13 +32,10 @@ export class LeadsListComponent implements OnInit, OnChanges {
   }
   ngOnInit(): void {
     this.scrollService.percentage.pipe(distinctUntilChanged()).subscribe(p => {
-
       if (p < 90 && !this.canDownload) {
         this.canDownload = true
       }
       if (p > 90 && this.canDownload && this.downloaded == (this.limit + this.offset)) {
-        // console.log(p, this.downloaded, `step = ${this.step}`)
-        // to prevent multiple requests
         this.canDownload = false
         this.offset += this.limit
         this.store.dispatch(leadsRequired({ filter: { limit: this.limit, offset: this.offset, step: this.step, responsible: this.userID } }))
@@ -46,10 +43,5 @@ export class LeadsListComponent implements OnInit, OnChanges {
       }
     })
   }
-
-  // pageChanged(e: PageEvent) {
-  //   const offset = e.pageIndex * pageSize
-  //   this.store.dispatch(changeFilter({current: {limit: pageSize, offset: offset}}))
-  // }
 
 }

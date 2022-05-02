@@ -6,6 +6,7 @@ export interface ListFilter {
     query?: string;
     id?: number;
     responsible?: number;
+    contact?: number;
 }
 export interface Contact {
     ID: number;

@@ -1,4 +1,7 @@
 <div class="container" *ngIf="(contact$ | async) as contact">
-    <app-contact-data [contact]="contact"></app-contact-data>
+    <div>
+        <app-contact-data [contact]="contact"></app-contact-data>
+        <leads-list [leads]="leads$ | async"></leads-list>
+    </div>
     <app-tasks [parentID]="contact.ID"></app-tasks>
 </div>
