@@ -1,5 +1,5 @@
 <div class="container" *ngIf="(contact$ | async) as contact">
-    <div>
+    <div class="left-block">
         <app-contact-data [contact]="contact"></app-contact-data>
         <leads-list [leads]="leads$ | async"></leads-list>
     </div>
