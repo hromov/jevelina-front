@@ -35,7 +35,6 @@ export class LeadsStepComponent implements OnChanges, OnInit {
     this.subs.forEach(s => s.unsubscribe())
     this.subs.push(this.store.select(selectFilteredLeads({ step: this.step, responsible: this.userID }))
       .pipe(
-        delay(3000),
         tap(leads => this.downloaded = leads && leads.length),
       ).subscribe(leads => {
         this.leads = leads
