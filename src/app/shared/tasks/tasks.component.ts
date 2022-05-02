@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/login/auth.service';
 import { AppState } from 'src/app/state/app.state';
 import { selectUsers } from 'src/app/state/misc/misc.selectors';
 import { taskChanged, tasksRequired } from 'src/app/state/tasks/tasks.actions';
-import { selectTasksFor } from 'src/app/state/tasks/tasks.selectors';
+import { selectFilteredTasks, selectTasks } from 'src/app/state/tasks/tasks.selectors';
 import { Task } from '../model';
 
 @Component({
@@ -24,8 +24,8 @@ export class TasksComponent implements OnInit {
   constructor(private api: ApiService, private fb: FormBuilder, private store: Store<AppState>, private auth: AuthService) { }
 
   ngOnInit(): void {
-    this.tasks$ = this.store.select(selectTasksFor(this.parentID))
-    this.store.dispatch(tasksRequired({parentID: this.parentID}))
+    this.tasks$ = this.store.select(selectFilteredTasks({parent: this.parentID}))
+    this.store.dispatch(tasksRequired({filter: {parent: this.parentID}}))
     this.form = this.fb.group({
       Description: ["", Validators.required],
       DeadLine: [],

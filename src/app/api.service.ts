@@ -21,7 +21,7 @@ export function convertTime(t: Date): string {
 export function FilterToString(filter: ListFilter): string {
     const additional = `${filter.active ? '&active=true' : ''}${filter.step ? '&step=' + filter.step.toString() : ''}` +
         `${filter.query ? '&query=' + filter.query : ''}${filter.responsible ? '&responsible=' + filter.responsible : ''}` +
-        `${filter.contact ? '&contact_id=' + filter.contact : ''}` +
+        `${filter.contact ? '&contact_id=' + filter.contact : ''}${filter.parent ? '&parent=' + filter.parent : ''}` +
         `${filter.min_date ? '&min_date=' + convertTime(filter.min_date) : ''}${filter.max_date ? '&max_date=' + convertTime(filter.max_date) : ''}`
     return `?limit=${filter.limit || defaultLimit}&offset=${filter.offset || 0}${additional}`
 }
@@ -66,9 +66,9 @@ export class ApiService {
         return this.http.get<Manufacturer[]>(`${path}/manufacturers`)
     }
 
-    TasksFor(parentID: number): Observable<Array<Task>> {
-        return this.http.get<Task[]>(`${path}/tasks?parent=${parentID}`)
-    }
+    // TasksFor(parentID: number): Observable<Array<Task>> {
+    //     return this.http.get<Task[]>(`${path}/tasks?parent=${parentID}`)
+    // }
 
     Tasks(filter: ListFilter): Observable<Array<Task>> {
         return this.http.get<Task[]>(`${path}/tasks${FilterToString(filter)}`)

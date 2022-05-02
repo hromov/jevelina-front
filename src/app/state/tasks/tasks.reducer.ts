@@ -5,20 +5,18 @@ import { TasksState } from '../app.state';
 import { retrievedTasks, taskChanged } from './tasks.actions';
 
 
-export const initialState: TasksState = { tasks: [], loaded: [] };
+export const initialState: TasksState = { tasks: [], loaded: new Map() };
 
 export const tasksReducer = createReducer(
     initialState,
-    on(retrievedTasks, (state, { tasks, parentID }) => {
-        let newTasks = state.tasks.filter(t => t.ParentID != parentID)
-        newTasks.push(...tasks)
-        let newLoaded = state.loaded.slice(0)
-        if (newLoaded.indexOf(parentID) == -1) {
-            newLoaded.push(parentID)
-        }
+    on(retrievedTasks, (state, { tasks, filter }) => {
+        let unique = new Map()
+        state.tasks.forEach(l => unique.set(l.ID, l))
+        tasks.forEach(l => unique.set(l.ID, l))
+        state.loaded.set(FilterToString(filter), true)
         return ({
-            tasks: newTasks,
-            loaded: newLoaded
+            tasks: [...unique.values()],
+            loaded: state.loaded,
         })
     }),
     on(taskChanged, (state, { task }) => {

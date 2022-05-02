@@ -20,6 +20,7 @@ export class LeadsStepComponent implements OnChanges, OnInit {
   offset = 0
   downloaded = 0
   canDownload = true
+  loading: boolean
   constructor(
     private store: Store<AppState>,
     private scrollService: ScrollService,
@@ -28,7 +29,9 @@ export class LeadsStepComponent implements OnChanges, OnInit {
   ngOnChanges(): void {
     const filter: ListFilter = { limit: this.limit, offset: this.offset, step: this.step, responsible: this.userID }
     this.store.dispatch(leadsRequired({ filter: filter }))
-    this.leads$ = this.store.select(selectFilteredLeads({ step: this.step, responsible: this.userID })).pipe(tap(leads => this.downloaded = leads && leads.length))
+    this.loading = true
+    this.leads$ = this.store.select(selectFilteredLeads({ step: this.step, responsible: this.userID }))
+      .pipe(tap(leads => this.downloaded = leads && leads.length), tap(() => this.loading = false))
   }
   ngOnInit(): void {
     this.scrollService.percentage.pipe(distinctUntilChanged()).subscribe(p => {

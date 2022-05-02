@@ -22,20 +22,20 @@ export class TasksEffects {
     //doesn't check if base has enough to show for search, but pros - it gets total for exact search
     loadTasks$ = createEffect(() => this.actions$.pipe(
         ofType('[Lead or Contact Data Page] Tasks Required'),
-        mergeMap((action: any) => this.store.select(isTaskLoaded(action.parentID)).pipe(
-            map(loaded => ({ parentID: action.parentID, loaded: loaded }))
+        mergeMap((action: any) => this.store.select(isTaskLoaded(action.filter)).pipe(
+            map(loaded => ({ filter: action.filter, loaded: loaded }))
         )),
         // tap(console.log),
         filter(res => !res.loaded),
         // tap(console.log),
         // debounceTime(10),
-        mergeMap((res: any) => this.apiService.TasksFor(res.parentID)
+        mergeMap((res: any) => this.apiService.Tasks(res.filter)
             .pipe(
                 // tap(console.log),
                 map(tasks => ({
                     type: '[Lead or Contact Data Page] Tasks Loaded',
                     tasks: tasks || [],
-                    parentID: res.parentID,
+                    filter: res.filter
                 })),
                 catchError(() => of({ type: '[Api Service] Get TasksFor Error' }))
             )

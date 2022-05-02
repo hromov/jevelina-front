@@ -14,6 +14,7 @@ import { Task } from '../../model';
 })
 export class TaskComponent implements OnInit {
   @Input() task: Task
+  @Input() clickable: boolean
   results : FormControl
   errorMessage: string
   constructor(private api: ApiService, private store: Store<AppState>, private auth: AuthService) { }
@@ -42,8 +43,12 @@ export class TaskComponent implements OnInit {
   }
 
   getClass(t: string): string {
-    // console.log(new Date(t), new Date(), t > new Date())
     return (new Date(t) < new Date()) ? "outdated" : "date"
+  }
+
+  get parentRoute(): string {
+    //TODO: who knows what
+    return this.task.ParentID.toString().startsWith("2") ? "/leads" : "/contacts"
   }
 
 }

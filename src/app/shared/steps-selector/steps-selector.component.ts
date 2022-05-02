@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, first } from 'rxjs';
+import { AuthService } from 'src/app/login/auth.service';
 import { AppState } from 'src/app/state/app.state';
 import { selectedUserChanged } from 'src/app/state/leads/leads.actions';
 import { selectedStepsChanged } from 'src/app/state/misc/misc.actions';
@@ -18,7 +18,7 @@ export class StepsSelectorComponent implements OnInit {
   users$ = this.store.select(selectUsers)
   stepsControl: FormControl = new FormControl()
   usersControl: FormControl = new FormControl()
-  constructor(private store: Store<AppState>, private router: Router) { }
+  constructor(private store: Store<AppState>, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.store.select(selectedSteps).pipe(filter((val:any) => val.length), first()).subscribe(selected => this.stepsControl.patchValue(selected))
@@ -26,6 +26,7 @@ export class StepsSelectorComponent implements OnInit {
       .subscribe(selected => this.store.dispatch(selectedStepsChanged({ selected })))
     this.usersControl.valueChanges
       .subscribe(selected => this.store.dispatch(selectedUserChanged({userID: selected[0]})))
+    this.auth.user$.pipe(filter(user => !!user)).subscribe(user => this.store.dispatch(selectedUserChanged({userID: user.ID})))
   }
 
 }

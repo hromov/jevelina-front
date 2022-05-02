@@ -9,7 +9,7 @@ export interface AppState {
 
 export interface TasksState {
   tasks: ReadonlyArray<Task>;
-  loaded: ReadonlyArray<number>;
+  loaded: Readonly<Map<string, true>>;
 }
 
 

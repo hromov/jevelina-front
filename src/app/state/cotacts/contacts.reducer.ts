@@ -16,10 +16,11 @@ export const contactsReducer = createReducer(
         contacts.forEach(l => unique.set(l.ID, l))
         //server gives 0 total if offset
         const realTotal = filter.offset ? state.searchTotal : total
+        state.loaded.set(FilterToString(filter), realTotal)
         return ({
             ...state,
             contacts: [...unique.values()],
-            loaded: state.loaded.set(FilterToString(filter), realTotal),
+            loaded: state.loaded,
             searchTotal: realTotal,
         })
     }),

@@ -5,7 +5,7 @@
         <div>Responsible: <span class="resp-name">{{task.Responsible.Name}}</span></div>
     </div>
     <mat-card-content>
-        <div><span class="resp-name">{{task.Created.Name}}</span>:&nbsp;{{task.Description}}</div>
+        <div *ngIf="clickable; else defaultBlock"><span class="resp-name">{{task.Created.Name}}</span>:&nbsp;<a [routerLink]="[parentRoute, task.ParentID]">{{task.Description}}</a></div>
         <div *ngIf="task.Results" class="results">
             <div>{{task.Results}}</div>
             <div>
@@ -26,3 +26,7 @@
         <div [ngClass]="getClass(task.DeadLine)">{{task.DeadLine | date}}</div>
     </mat-card-footer>
 </mat-card>
+
+<ng-template #defaultBlock>
+    <span class="resp-name">{{task.Created.Name}}</span>:&nbsp;{{task.Description}}
+</ng-template>

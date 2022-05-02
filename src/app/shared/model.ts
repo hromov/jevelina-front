@@ -9,6 +9,7 @@ export interface ListFilter {
     contact?: number;
     min_date?: Date
     max_date?: Date
+    parent?: number;
 }
 export interface Contact {
     ID: number;
