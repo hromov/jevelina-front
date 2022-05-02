@@ -19,6 +19,7 @@ import { SettingsComponent } from './settings.component';
 import { RolesComponent } from './misc/roles/roles.component';
 import { UserDialogComponent } from './misc/roles/user-dialog/user-dialog.component';
 import { SharedModule } from '../shared/shared.module';
+import { SettingsGuard } from '../guards/settings.guard';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     SettingsRoutingModule,
     SharedModule,
-  ]
+  ],
+  providers: [SettingsGuard]
 })
-export class SettingsModule { }
+export class SettingsModule {}

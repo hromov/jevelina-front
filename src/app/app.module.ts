@@ -35,6 +35,11 @@ import {
 } from '@abacritt/angularx-social-login';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './login/auth.interceptor';
+import { RestrictedComponent } from './login/restricted/restricted.component';
+import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { BasicGuard } from './guards/basic.guard';
+import { PrivacyComponent } from './additional/privacy/privacy.component';
+import { TermsComponent } from './additional/terms/terms.component';
 
 const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleusercontent.com"
 
@@ -51,6 +56,9 @@ const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleu
     LeadComponent,
     LeadDataComponent,
     LoginComponent,
+    RestrictedComponent,
+    PrivacyComponent,
+    TermsComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,28 +74,30 @@ const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleu
     SharedModule,
     SocialLoginModule,
   ],
-  providers: [{
-    provide: 'SocialAuthServiceConfig',
-    useValue: {
-      autoLogin: false,
-      providers: [
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider(
-            AuthClientID
-          )
-        },
-        {
-          id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider(AuthClientID)
+  providers: [
+    BasicGuard,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              AuthClientID
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider(AuthClientID)
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
         }
-      ],
-      onError: (err) => {
-        console.error(err);
-      }
-    } as SocialAuthServiceConfig,
-  },
-  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+      } as SocialAuthServiceConfig,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
