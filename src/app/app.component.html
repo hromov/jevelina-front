@@ -36,7 +36,7 @@
             <button mat-fab color="primary" aria-label="Contacts" routerLink="/contacts">
                 <mat-icon>contacts</mat-icon>
             </button>
-            <button mat-fab color="primary" aria-label="Settings" routerLink="/settings">
+            <button mat-fab color="primary" aria-label="Settings" routerLink="/settings" *ngIf="auth.isAdmin">
                 <mat-icon>settings</mat-icon>
             </button>
         </div>

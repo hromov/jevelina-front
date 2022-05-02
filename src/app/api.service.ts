@@ -21,6 +21,9 @@ export function FilterToString(filter: ListFilter): string {
 export class ApiService {
     constructor(private http: HttpClient) { }
 
+    UserCheck(): Observable<User> {
+        return this.http.get<User>(`${path}/usercheck`)
+    }
 
     Users(): Observable<Array<User>> {
         return this.http.get<User[]>(`${path}/users`)

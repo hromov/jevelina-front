@@ -2,8 +2,10 @@ import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { filter, first } from 'rxjs';
 import { ApiService } from './api.service';
 import { LeadsService } from './leads/leads.service';
+import { AuthService } from './login/auth.service';
 import { AppState } from './state/app.state';
 import { retrievedManufacturers, retrievedProducts, retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers } from './state/misc/misc.actions';
 
@@ -13,31 +15,26 @@ import { retrievedManufacturers, retrievedProducts, retrievedRoles, retrievedSou
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent implements OnInit {
-  opened = false
+  opened: boolean
+  isAdmin: boolean
   constructor(
     private api: ApiService,
     private store: Store<AppState>,
     private scrolll: ViewportScroller,
     private leads: LeadsService,
     private router: Router,
+    public auth: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.api.Steps().subscribe(steps => {
-      this.store.dispatch(retrievedSteps({ steps: steps || [] }))
+    this.auth.user$.pipe(filter(user => !!user), first()).subscribe(() => {
+      this.api.Steps().subscribe(steps => this.store.dispatch(retrievedSteps({ steps: steps || [] })))
+      this.api.Users().subscribe(users => this.store.dispatch(retrievedUsers({ users: users || [] })))
+      this.api.Roles().subscribe(roles => this.store.dispatch(retrievedRoles({ roles: roles || [] })))
+      this.api.Sources().subscribe(sources => this.store.dispatch(retrievedSources({ sources: sources || [] })))
+      this.api.Products().subscribe(products => this.store.dispatch(retrievedProducts({ products: products || [] })))
+      this.api.Manufacturers().subscribe(manufacturers => this.store.dispatch(retrievedManufacturers({ manufacturers: manufacturers || [] })))
     })
-    this.api.Users().subscribe(users => {
-      this.store.dispatch(retrievedUsers({ users: users || []}))
-    })
-    this.api.Roles().subscribe(roles => {
-      this.store.dispatch(retrievedRoles({ roles: roles || []}))
-    })
-    this.api.Sources().subscribe(sources => {
-      this.store.dispatch(retrievedSources({ sources: sources || []}))
-    })
-    this.api.Products().subscribe(products => this.store.dispatch(retrievedProducts({products: products || []})))
-    this.api.Manufacturers().subscribe(manufacturers => this.store.dispatch(retrievedManufacturers({manufacturers: manufacturers || []})))
-
   }
   toggle() {
     if (this.scrolll.getScrollPosition()[1] != 0) {
@@ -48,4 +45,4 @@ export class AppComponent implements OnInit {
   newLead() {
     this.leads.Save({}).subscribe(lead => this.router.navigate(['leads', lead.ID]))
   }
- }
+}

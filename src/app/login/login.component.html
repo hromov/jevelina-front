@@ -1,4 +1,4 @@
-<div *ngIf="authService.user$ | async as user; else login">
+<div *ngIf="authService.socialUser$ | async as user; else login">
     <button mat-icon-button [matMenuTriggerFor]="menu" style="background: url({{user.photoUrl}}) no-repeat center center;" class="user">
         <!-- <img src="{{ user.photoUrl }}"> -->
     </button>

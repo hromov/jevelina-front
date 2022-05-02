@@ -35,6 +35,6 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     constructor(private auth: AuthService) {
-        this.auth.user$.subscribe(user => user ? this.authToken = user.authToken : this.authToken = "")
+        this.auth.socialUser$.subscribe(user => user ? this.authToken = user.authToken : this.authToken = "")
     }
 }
