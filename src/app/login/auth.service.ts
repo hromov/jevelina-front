@@ -64,6 +64,10 @@ export class AuthService {
     return user && user.Role.Role == "Admin"
   }
 
+  get currentUser(): User {
+    return this.userSubject.getValue()
+  }
+
   refreshToken(): void {
     this.authService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
   }

@@ -39,7 +39,6 @@ export class LeadDataComponent implements OnChanges {
     private fb: FormBuilder,
     private store: Store<AppState>,
     private ls: LeadsService,
-    private router: Router,
   ) {
 
   }

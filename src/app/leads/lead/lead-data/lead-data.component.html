@@ -5,12 +5,12 @@
             <!-- <mat-card-title>{{lead.Name}} {{lead.SecondName}}</mat-card-title>
       <mat-card-subtitle>{{lead.ID}}</mat-card-subtitle> -->
             <div class="double mat-small">
-                <div>{{lead.ID}}</div>
                 <div [matTooltip]="createdBy">{{lead.CreatedAt | date}}</div>
+                <a [routerLink]="['/leads', lead.ID]" [title]="lead.ID">{{lead.Name}}</a>
             </div>
 
             <mat-form-field appearance="standard" class="item-name">
-                <input matInput placeholder="Name" formControlName="Name" (keydown.enter)="save()">
+                <input matInput placeholder="Lead Title" formControlName="Name" (keydown.enter)="save()">
                 <mat-error *ngIf="name.invalid">Name is required</mat-error>
             </mat-form-field>
 

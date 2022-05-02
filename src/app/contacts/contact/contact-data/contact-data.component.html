@@ -1,11 +1,13 @@
 <mat-card [formGroup]="form" *ngIf="form">
     <app-error [error]="errorMessage"></app-error>
+    <mat-card-header>
+
+    </mat-card-header>
     <mat-card-content>
-        <!-- <mat-card-title>{{contact.Name}} {{contact.SecondName}}</mat-card-title>
-      <mat-card-subtitle>{{contact.ID}}</mat-card-subtitle> -->
-        <div class="double mat-small">
-            <div>{{contact.ID}}</div>
+        <div class="double">
             <div [matTooltip]="createdBy">{{contact.CreatedAt | date}}</div>
+            <div><a [routerLink]="['/contacts', contact.ID]" [title]="contact.ID">{{contact.Name}}
+                    {{contact.SecondName}}</a></div>
         </div>
 
         <div class="double">

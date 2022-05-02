@@ -4,6 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, delay, exhaustMap, filter, first, mergeMap, Observable, startWith, Subscription, tap } from 'rxjs';
+import { AuthService } from 'src/app/login/auth.service';
 import { Contact, ListFilter } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { contactRecieved, contactsRequired } from 'src/app/state/cotacts/contacts.actions';
@@ -40,7 +41,8 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
     private store: Store<AppState>,
     private cs: ContactsService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private auth: AuthService,
   ) {
 
   }
@@ -162,8 +164,8 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
       Name: "",
       SecondName: "",
       // TODO: put real after AUTH
-      ResponsibleID: 0,
-      Responsible: null,
+      ResponsibleID: this.auth.currentUser ? this.auth.currentUser.ID : 0,
+      Responsible: this.auth.currentUser,
       // we don't need it - it will be set on server
       Created: null,
       Tags: [],
