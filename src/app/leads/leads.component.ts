@@ -5,8 +5,6 @@ import { AppState } from '../state/app.state';
 import { selectedUser } from '../state/leads/leads.selector';
 import { selectCurrentSteps } from '../state/misc/misc.selectors';
 
-let active = true
-
 @Component({
   selector: 'app-leads',
   templateUrl: './leads.component.html',

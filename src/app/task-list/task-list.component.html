@@ -1,14 +1,44 @@
-<div class="container">
-    <div>
-        <h2>Outdated</h2>
-        <app-task-col [maxDate]="outdated.maxDate" class="outdated"></app-task-col> 
-    </div>
-    <div>
-        <h2>Today</h2>
-        <app-task-col [minDate]="today.minDate" [maxDate]="today.maxDate"></app-task-col> 
-    </div>
-    <div>
-        <h2>Tomorrow</h2>
-        <app-task-col [minDate]="tomorrow.minDate" [maxDate]="tomorrow.maxDate"></app-task-col> 
-    </div>
-</div>
+<mat-tab-group>
+    <mat-tab label="Current">
+        <div class="current">
+            <div>
+                <h2>Outdated</h2>
+                <app-task-col [maxDate]="outdated.maxDate" class="outdated"></app-task-col>
+            </div>
+            <div>
+                <h2>Today</h2>
+                <app-task-col [minDate]="today.minDate" [maxDate]="today.maxDate"></app-task-col>
+            </div>
+            <div>
+                <h2>Tomorrow</h2>
+                <app-task-col [minDate]="tomorrow.minDate" [maxDate]="tomorrow.maxDate"></app-task-col>
+            </div>
+        </div>
+
+    </mat-tab>
+    <mat-tab label="Upcoming">
+        <ng-template matTabContent>
+            <div class="Upcoming">
+                <div class="date-selector" [formGroup]="form">
+                    <mat-form-field appearance="standard">
+                        <mat-label>From</mat-label>
+                        <input matInput [matDatepicker]="pickerFrom" readonly formControlName="From">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matPrefix [for]="pickerFrom"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerFrom></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="standard">
+                        <mat-label>To</mat-label>
+                        <input matInput [matDatepicker]="pickerTo" readonly formControlName="To">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matPrefix [for]="pickerTo"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerTo></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="single-col">
+                    <app-task-col [minDate]="future.minDate" [maxDate]="future.maxDate"></app-task-col>
+                </div>
+            </div>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { mergeMap, Observable, Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { selectFilteredTasks } from 'src/app/state/tasks/tasks.selectors';
   templateUrl: './task-col.component.html',
   styleUrls: ['./task-col.component.sass']
 })
-export class TaskColComponent implements OnInit, OnDestroy {
+export class TaskColComponent implements OnChanges, OnDestroy {
   @Input() minDate: Date
   @Input() maxDate: Date
   //should be from selecet, probably
@@ -23,8 +23,10 @@ export class TaskColComponent implements OnInit, OnDestroy {
   sub: Subscription
   constructor(private store: Store<AppState>) { }
 
-  ngOnInit(): void {
-    
+  ngOnChanges(): void {
+    if (this.sub) {
+      this.sub.unsubscribe()
+    }
     this.sub = this.store.select(selectedUser).pipe(
       mergeMap(selectedUser => {
         const filter: ListFilter = { min_date: this.minDate, max_date: this.maxDate, responsible: selectedUser }
@@ -35,7 +37,7 @@ export class TaskColComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe()  
+    this.sub.unsubscribe()
   }
 
 }
