@@ -33,6 +33,7 @@ export class UserDialogComponent implements AfterViewInit {
     this.form = fb.group({
       Name: [user.Name, Validators.required],
       Email: [user.Email, [Validators.required, Validators.email]],
+      Hash: [user.Hash, Validators.required],
       RoleID: [user.RoleID, Validators.required],
     })
     //move to store?

@@ -54,6 +54,7 @@ export interface User {
     Email: string;
     RoleID: number;
     Role: Role;
+    Hash: string;
 }
 
 export interface Source {
