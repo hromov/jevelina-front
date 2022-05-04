@@ -34,6 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { StepsSelectorComponent } from './steps-selector/steps-selector.component';
 import {MatMenuModule} from '@angular/material/menu';
 import { LeadsListComponent } from './leads-list/leads-list.component';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { LeadsListComponent } from './leads-list/leads-list.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMenuModule,
+    MatSliderModule,
   ],
   exports: [
     HoverDirective,
@@ -109,6 +111,7 @@ import { LeadsListComponent } from './leads-list/leads-list.component';
     MatMenuModule,
     LeadsListComponent,
     TaskComponent,
+    MatSliderModule,
   ],
   providers:[
     MatNativeDateModule

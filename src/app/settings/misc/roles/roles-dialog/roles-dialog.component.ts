@@ -28,6 +28,7 @@ export class RolesDialogComponent implements AfterViewInit {
 
     this.form = fb.group({
       Role: [role.Role, Validators.required],
+      Priority: [role.Priority]
     })
   }
 

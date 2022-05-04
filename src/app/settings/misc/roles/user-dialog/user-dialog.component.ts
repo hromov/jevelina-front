@@ -19,6 +19,9 @@ export class UserDialogComponent implements AfterViewInit {
   user: User
   roles: Role[] = []
   errorMessage: string = ""
+  formatLabel(value: number) {
+    return Math.round(value * 100) + '%';
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -35,6 +38,7 @@ export class UserDialogComponent implements AfterViewInit {
       Email: [user.Email, [Validators.required, Validators.email]],
       Hash: [user.Hash, Validators.required],
       RoleID: [user.RoleID, Validators.required],
+      Distribution: [user.Distribution]
     })
     //move to store?
     this.api.Roles().subscribe(roles => this.roles = roles)

@@ -3,7 +3,7 @@
     <mat-list-item *ngFor="let user of users">
         <mat-icon mat-list-icon>person</mat-icon>
         <div mat-line><span>{{user.Name}}</span><span>{{user.Email}}</span></div>
-        <div mat-line><span>{{user.Role.Role}}</span><span>{{user.CreatedAt | date}}</span></div>
+        <div mat-line><span>{{user.Role.Role}}<span *ngIf="user.Distribution">&nbsp;{{user.Distribution | percent}}</span></span><span>{{user.CreatedAt | date}}</span></div>
         <button mat-icon-button (click)="editUser(user)">
             <mat-icon>edit</mat-icon>
         </button>

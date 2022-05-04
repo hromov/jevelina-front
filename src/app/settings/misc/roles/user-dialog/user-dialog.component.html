@@ -29,6 +29,11 @@
         <mat-error *ngIf="role.invalid">Role is required</mat-error>
       </mat-form-field>
 
+      <label>Distribution: {{form.value.Distribution | percent}}</label>
+    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="0.01" min="0" max="1" step="0.01"
+        formControlName="Distribution">
+    </mat-slider>
+
 
 </mat-dialog-content>
 

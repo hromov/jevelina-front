@@ -8,6 +8,10 @@
         <mat-error *ngIf="roleField.invalid">Name is required</mat-error>
     </mat-form-field>
 
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Priority" formControlName="Priority" (keydown.enter)="save()" type="number" min="0" max="256">
+    </mat-form-field>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>

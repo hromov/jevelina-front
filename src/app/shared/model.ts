@@ -43,6 +43,7 @@ export interface Role {
     UpdatedAt: Date;
     DeletedAt?: any;
     Role: string;
+    Priority: number;
 }
 
 export interface User {
@@ -55,6 +56,7 @@ export interface User {
     RoleID: number;
     Role: Role;
     Hash: string;
+    Distribution: number;
 }
 
 export interface Source {
