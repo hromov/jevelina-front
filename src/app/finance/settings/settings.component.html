@@ -1,0 +1,22 @@
+<mat-tab-group>
+    <mat-tab label="Wallets">
+        <ng-template matTabContent>
+            <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let item of wallets$ | async">
+                    <div mat-line><span>{{item.Name}}</span><span>{{item.Balance | date}}</span></div>
+                    <button mat-icon-button (click)="editWallet(item)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </mat-list-item>
+            </mat-list>
+            <div class="actions">
+                <button mat-icon-button (click)="editWallet()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Second">
+        Second tab goes here
+    </mat-tab>
+</mat-tab-group>

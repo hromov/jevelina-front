@@ -3,15 +3,19 @@ import { CommonModule } from '@angular/common';
 
 import { FinanceRoutingModule } from './finance-routing.module';
 import { FinanceComponent } from './finance.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
   declarations: [
-    FinanceComponent
+    FinanceComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,
-    FinanceRoutingModule
+    FinanceRoutingModule,
+    SharedModule,
   ]
 })
 export class FinanceModule { }

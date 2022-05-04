@@ -1,10 +1,11 @@
-import { Contact, Lead, ListFilter, Manufacturer, Product, Role, Source, Step, Task, User } from "../shared/model";
+import { Contact, Lead, ListFilter, Manufacturer, Product, Role, Source, Step, Task, User, Wallet } from "../shared/model";
 
 export interface AppState {
   contacts: ContactsState;
   leads: LeadsState;
   misc: MiscState;
   tasks: TasksState;
+  finance: FinanceState;
 }
 
 export interface TasksState {
@@ -42,4 +43,8 @@ export interface MiscState {
   selectedSteps: ReadonlyArray<number>
   // I'm no ready for this
   // tasks: ReadonlyArray<Task>
+}
+
+export interface FinanceState {
+  wallets: ReadonlyArray<Wallet>
 }
