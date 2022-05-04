@@ -5,7 +5,7 @@ import { filter, first, Observable, tap } from 'rxjs';
 import { Wallet } from 'src/app/shared/model';
 import { SharedService } from 'src/app/shared/shared.service';
 import { AppState } from 'src/app/state/app.state';
-import { retrievedWallets, walletChanged } from 'src/app/state/finance/finance.actions';
+import { retrievedWallets, walletChanged, walletsRequired } from 'src/app/state/finance/finance.actions';
 import { selectWallets } from 'src/app/state/finance/finance.selectors';
 import { FinanceService } from '../finance.service';
 import { WalletDialogComponent } from './wallet-dialog/wallet-dialog.component';
@@ -20,7 +20,7 @@ export class SettingsComponent implements OnInit {
   constructor(private fs: FinanceService, private store: Store<AppState>, private shared: SharedService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.fs.Wallets().pipe(first()).subscribe(wallets => this.store.dispatch(retrievedWallets({wallets})))
+    this.store.dispatch(walletsRequired())
   }
 
   editWallet(item?: Wallet) {

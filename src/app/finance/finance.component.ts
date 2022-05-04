@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../state/app.state';
+import { walletsRequired } from '../state/finance/finance.actions';
 
 @Component({
   selector: 'app-finance',
@@ -7,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FinanceComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
+    this.store.dispatch(walletsRequired())
   }
 
 }

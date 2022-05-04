@@ -1,0 +1,62 @@
+<div class="selectors" [formGroup]="form">
+    <div class="date-selector">
+        <mat-form-field appearance="standard">
+            <mat-label>From</mat-label>
+            <input matInput [matDatepicker]="pickerFrom" readonly formControlName="minDate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matPrefix [for]="pickerFrom"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFrom></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+            <mat-label>To</mat-label>
+            <input matInput [matDatepicker]="pickerTo" readonly formControlName="maxDate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matPrefix [for]="pickerTo"></mat-datepicker-toggle>
+            <mat-datepicker #pickerTo></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <mat-form-field appearance="standard">
+        <mat-label>Wallet</mat-label>
+        <mat-select matNativeControl formControlName="wallet">
+            <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="transfers$ | async">
+
+        <ng-container matColumnDef="created">
+            <mat-header-cell *matHeaderCellDef> Created </mat-header-cell>
+            <mat-cell *matCellDef="let element"><span>{{element.Created}}</span>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
+            <mat-cell *matCellDef="let element"><span>{{element.Category}}</span>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="wallet">
+            <mat-header-cell *matHeaderCellDef> Wallet </mat-header-cell>
+            <!-- TODO: Make ng template or mini component here -->
+            <mat-cell *matCellDef="let element"><span>{{element.From}} / {{element.To}}</span>
+            </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="amount">
+            <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <!-- TODO: colored chips goes here -->
+                <span>{{element.Amount}}</span>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="total$ | async" [pageSize]="page_limit" aria-label="Select page"
+        (page)="pageChanged($event)">
+    </mat-paginator>
+</div>

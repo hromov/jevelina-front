@@ -1,6 +1,10 @@
 import { createAction, props } from "@ngrx/store";
 import { Wallet } from "src/app/shared/model";
 
+export const walletsRequired = createAction(
+  '[Components] Wallets Required'
+);
+
 export const retrievedWallets = createAction(
     '[Finance Service] Wallets Loaded',
     props<{ wallets: Wallet[] }>()

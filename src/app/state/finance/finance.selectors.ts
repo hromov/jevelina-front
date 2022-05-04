@@ -5,5 +5,5 @@ export const selectFinance = (state: AppState) => state.finance;
 
 export const selectWallets = createSelector(
     selectFinance,
-    (state: FinanceState) => state.wallets || []
+    (state: FinanceState) => state.wallets.slice(0) || []
 )

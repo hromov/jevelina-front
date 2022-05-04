@@ -41,6 +41,7 @@ import { LeadsStepComponent } from './leads/leads-step/leads-step.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskColComponent } from './task-list/task-col/task-col.component';
 import { financeReducer } from './state/finance/finance.reducer';
+import { FinanceEffects } from './state/finance/finance.effects';
 
 const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleusercontent.com"
 
@@ -79,7 +80,7 @@ const AuthClientID = "242989016972-gd8oksvs6b9cnlach1evv332tbrlkm7f.apps.googleu
       finance: financeReducer,
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects, TasksEffects]),
+    EffectsModule.forRoot([ContactsEffects, LeadsEffects, MiscEffects, TasksEffects, FinanceEffects]),
     SharedModule,
     SocialLoginModule,
   ],
