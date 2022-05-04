@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { first, Observable } from 'rxjs';
+import { filter, first, Observable, tap } from 'rxjs';
 import { Wallet } from 'src/app/shared/model';
+import { SharedService } from 'src/app/shared/shared.service';
 import { AppState } from 'src/app/state/app.state';
-import { retrievedWallets } from 'src/app/state/finance/finance.actions';
+import { retrievedWallets, walletChanged } from 'src/app/state/finance/finance.actions';
 import { selectWallets } from 'src/app/state/finance/finance.selectors';
 import { FinanceService } from '../finance.service';
+import { WalletDialogComponent } from './wallet-dialog/wallet-dialog.component';
 
 @Component({
   selector: 'app-settings',
@@ -14,14 +17,18 @@ import { FinanceService } from '../finance.service';
 })
 export class SettingsComponent implements OnInit {
   wallets$: Observable<ReadonlyArray<Wallet>> = this.store.select(selectWallets)
-  constructor(private fs: FinanceService, private store: Store<AppState>) { }
+  constructor(private fs: FinanceService, private store: Store<AppState>, private shared: SharedService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.fs.Wallets().pipe(first()).subscribe(wallets => this.store.dispatch(retrievedWallets({wallets})))
   }
 
-  editWallet(wallet?: Wallet) {
-    console.log(wallet)
+  editWallet(item?: Wallet) {
+    const dialogConfig = this.shared.newDialog()
+    dialogConfig.data = item || {}
+    const dialogRef = this.dialog.open(WalletDialogComponent, dialogConfig)
+    //if returned value - everything ok, have to update
+    dialogRef.afterClosed().pipe(filter(val => val!!)).subscribe()
   }
 
 }

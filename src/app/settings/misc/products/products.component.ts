@@ -12,8 +12,8 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
 
 @Component({
   selector: 'app-products',
-  templateUrl: '../templates/item-list.html',
-  styleUrls: ['../templates/item-list.sass']
+  templateUrl: '../../../shared/templates/item-list.html',
+  styleUrls: ['../../../shared/templates/item-list.sass']
 })
 export class ProductsComponent implements OnInit {
   constructor(private api: ApiService, private shared: SharedService, private dialog: MatDialog, private store: Store<AppState>) { }

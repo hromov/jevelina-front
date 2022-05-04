@@ -6,8 +6,8 @@ import { TaskType } from 'src/app/shared/model';
 
 @Component({
   selector: 'app-task-types-dialog',
-  templateUrl: '../../templates/name-dialog.html',
-  styleUrls: ['../../templates/name-dialog.sass']
+  templateUrl: '../../../../shared/templates/name-dialog.html',
+  styleUrls: ['../../../../shared/templates/name-dialog.sass']
 })
 export class TaskTypesDialogComponent implements AfterViewInit {
   form: FormGroup

@@ -187,12 +187,24 @@ export interface Wallet {
     Closed: boolean;
 }
 
-// type Wallet struct {
-// 	ID        uint16 `gorm:"primaryKey"`
-// 	CreatedAt time.Time
-// 	UpdatedAt time.Time
-// 	DeletedAt gorm.DeletedAt `gorm:"index"`
-// 	Name      string         `gorm:"size:32;unique"`
-// 	Balance   int64
-// 	Closed    bool
-// }
+export interface Transfer {
+	ID: number;
+	ParentID: number;
+	CreatedAt: Date;
+	CreatedBy: number;
+	UpdatedAt: Date;
+	DeletedAt: Date;
+	Completed: boolean;
+	CompletedAt: Date;
+	CompletedBy: number;
+	From: number;
+	To: number;
+	Category: string;
+	Amount: number;
+	Files: File[];
+}
+
+export interface File {
+    Name: string;
+    URL: string;
+}

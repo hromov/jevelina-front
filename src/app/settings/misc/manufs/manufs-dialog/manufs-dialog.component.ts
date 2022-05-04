@@ -6,8 +6,8 @@ import { Manufacturer } from 'src/app/shared/model';
 
 @Component({
   selector: 'app-manufs-dialog',
-  templateUrl: '../../templates/name-dialog.html',
-  styleUrls: ['../../templates/name-dialog.sass']
+  templateUrl: '../../../../shared/templates/name-dialog.html',
+  styleUrls: ['../../../../shared/templates/name-dialog.sass']
 })
 export class ManufsDialogComponent implements AfterViewInit {
   form: FormGroup

@@ -11,8 +11,8 @@ import { SourceDialogComponent } from './source-dialog/source-dialog.component';
 
 @Component({
   selector: 'app-sources',
-  templateUrl: '../templates/item-list.html',
-  styleUrls: ['../templates/item-list.sass']
+  templateUrl: '../../../shared/templates/item-list.html',
+  styleUrls: ['../../../shared/templates/item-list.sass']
 })
 export class SourcesComponent implements OnInit {
   constructor(

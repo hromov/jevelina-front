@@ -12,8 +12,8 @@ import { ManufsDialogComponent } from './manufs-dialog/manufs-dialog.component';
 
 @Component({
   selector: 'app-manufs',
-  templateUrl: '../templates/item-list.html',
-  styleUrls: ['../templates/item-list.sass']
+  templateUrl: '../../../shared/templates/item-list.html',
+  styleUrls: ['../../../shared/templates/item-list.sass']
 })
 export class ManufsComponent implements OnInit {
   constructor(private api: ApiService, private shared: SharedService, private dialog: MatDialog, private store: Store<AppState>) { }
