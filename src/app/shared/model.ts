@@ -10,6 +10,9 @@ export interface ListFilter {
     min_date?: Date
     max_date?: Date
     parent?: number;
+    from?: number;
+    to?: number;
+    wallet?: number;
 }
 export interface Contact {
     ID: number;

@@ -22,7 +22,8 @@ export function FilterToString(filter: ListFilter): string {
     const additional = `${filter.active ? '&active=true' : ''}${filter.step ? '&step=' + filter.step.toString() : ''}` +
         `${filter.query ? '&query=' + filter.query : ''}${filter.responsible ? '&responsible=' + filter.responsible : ''}` +
         `${filter.contact ? '&contact=' + filter.contact : ''}${filter.parent ? '&parent=' + filter.parent : ''}` +
-        `${filter.min_date ? '&min_date=' + convertTime(filter.min_date) : ''}${filter.max_date ? '&max_date=' + convertTime(filter.max_date) : ''}`
+        `${filter.min_date ? '&min_date=' + convertTime(filter.min_date) : ''}${filter.max_date ? '&max_date=' + convertTime(filter.max_date) : ''}` +
+        `${filter.from ? '&from=' + filter.from : ''}${filter.to ? '&to=' + filter.to : ''}${filter.wallet ? '&wallet=' + filter.wallet : ''}`
     return `?limit=${filter.limit || defaultLimit}&offset=${filter.offset || 0}${additional}`
 }
 

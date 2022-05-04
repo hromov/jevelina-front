@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Edit Transfer</h2>
+<app-error [error]="errorMessage"></app-error>
+
+<mat-dialog-content [formGroup]="form">
+    <mat-form-field appearance="fill">
+        <mat-label>From</mat-label>
+        <mat-select matNativeControl formControlName="From">
+            <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>To</mat-label>
+        <mat-select matNativeControl formControlName="To">
+            <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Amount</mat-label>
+        <input matInput placeholder="Amount" formControlName="Amount" type="number">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Category</mat-label>
+        <input matInput placeholder="Category" formControlName="Category">
+    </mat-form-field>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div>
+        <button class="mat-accent" mat-mini-fab aria-label="delete" (click)="delete()" *ngIf="transfer.ID">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <div>
+        <button mat-raised-button (click)="close()">
+            Close
+        </button>
+
+        <button mat-raised-button color="primary" class="save" #saveButton [color] (click)="save()"
+            [disabled]="form.invalid || !form.dirty">
+            Save
+        </button>
+    </div>
+
+</mat-dialog-actions>

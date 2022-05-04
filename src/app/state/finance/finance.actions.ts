@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { Wallet } from "src/app/shared/model";
+import { ListFilter, Transfer, Wallet } from "src/app/shared/model";
 
 export const walletsRequired = createAction(
   '[Components] Wallets Required'
@@ -19,3 +19,29 @@ export const walletChanged = createAction(
     '[Settings / Wallets Tab] Wallet Deleted',
     props<{ ID: number }>()
   );
+
+
+export const transfersRecieved = createAction(
+  '[Finance Service] Transfers Success',
+  props<{ transfers: Transfer[], total: number, filter: ListFilter }>()
+);
+
+export const transfersRequired = createAction(
+  '[Finance Service] Transfers Required',
+  props<{ filter: ListFilter }>()
+)
+
+export const transfersPageChanged = createAction(
+  '[Wallets Table] Page Changed',
+  props<{ filter: ListFilter}>()
+)
+
+export const transferChanged = createAction(
+  '[Transfer Data Component] Transfer Changed',
+  props<{ transfer: Transfer}>()
+)
+
+export const transferDeleted = createAction(
+  '[Transfer Data Component] Transfer Deleted',
+  props<{ ID: number }>()
+);

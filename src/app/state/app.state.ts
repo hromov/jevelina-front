@@ -1,4 +1,4 @@
-import { Contact, Lead, ListFilter, Manufacturer, Product, Role, Source, Step, Task, User, Wallet } from "../shared/model";
+import { Contact, Lead, ListFilter, Manufacturer, Product, Role, Source, Step, Task, Transfer, User, Wallet } from "../shared/model";
 
 export interface AppState {
   contacts: ContactsState;
@@ -47,4 +47,9 @@ export interface MiscState {
 
 export interface FinanceState {
   wallets: ReadonlyArray<Wallet>
+  transfers: ReadonlyArray<Transfer>;
+  // total: Readonly<number>;
+  loadedTransfers: Readonly<Map<string,number>>;
+  transfersPage: ListFilter,
+  transfersPageTotal: number,
 }

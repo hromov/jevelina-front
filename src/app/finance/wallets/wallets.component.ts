@@ -1,13 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ListFilter, Transfer, Wallet } from 'src/app/shared/model';
+import { SharedService } from 'src/app/shared/shared.service';
 import { AppState } from 'src/app/state/app.state';
-import { walletsRequired } from 'src/app/state/finance/finance.actions';
-import { selectWallets } from 'src/app/state/finance/finance.selectors';
+import { transfersPageChanged, transfersRequired, walletsRequired } from 'src/app/state/finance/finance.actions';
+import { selectCurrentTransfers, selectCurrentTransfersTotal, selectWallets } from 'src/app/state/finance/finance.selectors';
+import { TransferDialogComponent } from '../transfer-dialog/transfer-dialog.component';
 
 @Component({
   selector: 'app-wallets',
@@ -16,8 +19,8 @@ import { selectWallets } from 'src/app/state/finance/finance.selectors';
 })
 export class WalletsComponent implements OnInit {
   page_limit = 50
-  transfers$: Observable<ReadonlyArray<Transfer>>//select goes here
-  total$: Observable<number> //select goes here
+  transfers$: Observable<ReadonlyArray<Transfer>> = this.store.select(selectCurrentTransfers)
+  total$: Observable<number> = this.store.select(selectCurrentTransfersTotal)
   displayedColumns: string[] = ['created', 'wallet', 'category', 'amount'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   minDate = new Date()
@@ -32,40 +35,50 @@ export class WalletsComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
+    private shared: SharedService,
+    private dialog: MatDialog,
   ) {
     this.minDate.setDate(this.minDate.getDate() - 28)
-    const filter = {
+    const filter: ListFilter = {
       limit: this.page_limit,
       offset: 0,
       min_date: this.minDate,
       max_date: new Date(),
-      parent: Number(localStorage.getItem("wallet")) || null
+      wallet: Number(localStorage.getItem("wallet")) || null
     }
     this.filterSubject = new BehaviorSubject<ListFilter>(filter)
     this.filter$ = this.filterSubject.asObservable()
     this.form = this.fb.group({
       minDate: filter.min_date,
       maxDate: filter.max_date,
-      wallet: filter.parent
+      wallet: filter.wallet
     })
+  }
+
+  transfer() {
+    const dialogConfig = this.shared.newDialog()
+    dialogConfig.data = { From: 1, To: 1 }
+    this.dialog.open(TransferDialogComponent, dialogConfig)
   }
 
   ngOnInit(): void {
     this.store.dispatch(walletsRequired())
     this.form.valueChanges.subscribe(val => {
-      this.filterSubject.next({ ...this.filterSubject.getValue(), min_date: val.minDate, max_date: val.maxDate, parent: val.wallet })
+      this.filterSubject.next({ ...this.filterSubject.getValue(), min_date: val.minDate, max_date: val.maxDate, wallet: val.wallet })
     })
     //TODO: move to before leave
     this.form.get('wallet').valueChanges.subscribe(wallet => localStorage.setItem("wallet", wallet))
     this.route.queryParams
       .subscribe(params => {
-        console.log(params)
-        // this.store.dispatch(leadsRequired({filter: this.filter}))
-        // this.store.dispatch(leadsPageChanged({filter: this.filter}))
+        // console.log(params)
+        //get use from it
         this.paginator && this.paginator.firstPage()
       });
     this.filter$.subscribe(filter => {
+      // console.log(filter, l)
       const queryParams: Params = this.filterToParams(filter)
+      this.store.dispatch(transfersRequired({ filter }))
+      this.store.dispatch(transfersPageChanged({ filter }))
       this.router.navigate(
         [],
         {
@@ -89,7 +102,7 @@ export class WalletsComponent implements OnInit {
       page: filter.offset / filter.limit,
       min_date: filter.min_date,
       max_date: filter.max_date,
-      parent: filter.parent
+      wallet: filter.wallet
     }
   }
 }
