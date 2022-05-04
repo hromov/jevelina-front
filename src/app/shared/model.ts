@@ -175,3 +175,24 @@ export interface Task {
     UpdateID: number;
     Updated: User;
 }
+
+export interface Wallet {
+    ID: number;
+    ParentID: number;
+    CreatedAt: Date;
+    UpdatedAt: Date;
+    DeletedAt?: any;
+    Name: string;
+    Balance: number;
+    Closed: boolean;
+}
+
+// type Wallet struct {
+// 	ID        uint16 `gorm:"primaryKey"`
+// 	CreatedAt time.Time
+// 	UpdatedAt time.Time
+// 	DeletedAt gorm.DeletedAt `gorm:"index"`
+// 	Name      string         `gorm:"size:32;unique"`
+// 	Balance   int64
+// 	Closed    bool
+// }
