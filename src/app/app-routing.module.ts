@@ -21,7 +21,8 @@ const routes: Routes = [
   { path: 'leads', component: LeadsTableComponent, canActivate: [BasicGuard] },
   { path: 'leads/:id', component: LeadComponent, canActivate: [BasicGuard] },
   { path: 'tasks', component: TaskListComponent, canActivate: [BasicGuard]},
-  { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) }
+  { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
+  { path: 'finance', loadChildren: () => import('./finance/finance.module').then(m => m.FinanceModule) }
 ];
 
 @NgModule({
