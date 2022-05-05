@@ -4,13 +4,10 @@ threadsafe: true
 service: front
 
 handlers:
-- url: /
-  static_files: dist/jevelina/index.html
-  upload: dist/jevelina/index.html
+- url: /(.*\.(js|css|svg|png)(|\.map))$
+  static_files: dist/jevelina/\1
+  upload: dist/jevelina/(.*)(|\.map)
 
-- url: /restricted
+- url: /.*
   static_files: dist/jevelina/index.html
-  upload: dist/jevelina/index.html
-
-- url: /
-  static_dir: dist/jevelina
+  upload: dist/jevelina/.*

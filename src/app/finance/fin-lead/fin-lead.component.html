@@ -1,0 +1,30 @@
+<mat-card hoverElevation>
+    <div class="mat-small double">
+        <div class="resp-name">{{lead.Responsible.Name}}</div>
+        <div>{{lead.CreatedAt | date}}</div>
+    </div>
+    <mat-card-content>
+        <div class="col">
+            <div><a [routerLink]="['/contacts', lead.ContactID]">{{lead.Contact.Name}}</a></div>
+            <div>{{lead.Contact.Phone}}</div>
+        </div>
+        <div class="col step-{{lead.Step.Order}} lead">
+            <div><a [routerLink]="['/leads', lead.ID]">{{lead.Name}}</a></div>
+            <div>{{lead.Step.Name}}</div>
+        </div>
+        <div>
+            <transfer-for [parentID]="lead.ID"></transfer-for>
+        </div>
+        <div class="profit">
+            {{profit$ | async}}
+        </div>
+        <div class="actions">
+            <button mat-icon-button (click)="transfer(false,true)" color="primary">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="transfer(true, false)" color="accent">
+                <mat-icon>remove</mat-icon>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>

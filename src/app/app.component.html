@@ -40,14 +40,17 @@
                 <button mat-fab color="primary" aria-label="Tasks" routerLink="/tasks">
                     <mat-icon>task</mat-icon>
                 </button>
-                <button mat-fab color="primary" aria-label="Wallets" routerLink="/finance/wallets">
+                <button mat-fab color="primary" aria-label="Finance" routerLink="/finance">
                     <mat-icon>attach_money</mat-icon>
                 </button>
-                <button mat-fab color="primary" aria-label="Finance" routerLink="/finance" *ngIf="auth.isAdmin">
+                <button mat-fab color="primary" aria-label="Wallets" routerLink="/finance/wallets" *ngIf="auth.isAdmin">
                     <mat-icon>money</mat-icon>
                 </button>
                 <button mat-fab color="primary" aria-label="Settings" routerLink="/settings" *ngIf="auth.isAdmin">
                     <mat-icon>settings</mat-icon>
+                </button>
+                <button mat-fab color="primary" aria-label="Finance Settings" routerLink="/finance/settings" *ngIf="auth.isAdmin">
+                    <mat-icon>tune</mat-icon>
                 </button>
             </div>
         </mat-drawer>

@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { first, Observable } from 'rxjs';
 import { AppState } from 'src/app/state/app.state';
 import { selectUserByID } from 'src/app/state/misc/misc.selectors';
 import { User } from '../model';
@@ -10,13 +10,13 @@ import { User } from '../model';
   templateUrl: './user-name.component.html',
   styleUrls: ['./user-name.component.sass']
 })
-export class UserNameComponent implements OnInit {
+export class UserNameComponent implements OnChanges {
   @Input() id: number
   user$: Observable<Readonly<User>>
   constructor(private store: Store<AppState>) { }
 
-  ngOnInit(): void {
-    this.user$ = this.store.select(selectUserByID(this.id))
+  ngOnChanges(): void {
+    this.user$ = this.store.select(selectUserByID(this.id)).pipe(first())
   }
 
 }

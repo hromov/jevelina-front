@@ -1,7 +1,8 @@
 import { createSelector } from "@ngrx/store";
 import { FilterToString } from "src/app/api.service";
-import { ListFilter, Transfer } from "src/app/shared/model";
+import { Lead, ListFilter, Transfer } from "src/app/shared/model";
 import { AppState, FinanceState } from "../app.state";
+import { selectCurrentPage, selectLeads } from "../leads/leads.selector";
 
 export const selectFinance = (state: AppState) => state.finance;
 
@@ -39,11 +40,35 @@ export const selectCurrentTransfersTotal = createSelector(
     (state: FinanceState) => state.transfersPageTotal
 )
 
-export const selectTransferByParent = (parenID: number) => createSelector(
+export const selectTransfersByParent = (parenID: number) => createSelector(
     selectFinance,
-    (state: FinanceState) => {
-        const index = state.transfers.map(c => c.ParentID).indexOf(Number(parenID))
-        return (index != -1) ? state.transfers[index] : null
+    (state: FinanceState) => state.transfers.filter(t => t.ParentID == parenID && !t.DeletedAt)
+)
+
+export const selectProfitByParent = (parenID: number) => createSelector(
+    // selectFinance,
+    selectTransfersByParent(parenID),
+    (transfers: Transfer[]) => _sum(transfers)
+)
+
+export const selectAllTransfers = createSelector(
+    selectFinance,
+    (state: FinanceState) => state.transfers
+)
+
+// DO I need it?
+export const selectProfitByParents = (ids: number[]) => createSelector(
+    selectAllTransfers,
+    (transfers: ReadonlyArray<Transfer>) => _sum(transfers.filter(t => ids.includes(t.ID) && !t.DeletedAt))
+)
+
+export const selectProfitForPage = createSelector(
+    selectCurrentPage,
+    selectAllTransfers,
+    (leads: ReadonlyArray<Lead>, transfers: ReadonlyArray<Transfer>) => {
+        const parents = leads.map(l => l.ID)
+        const filtered = transfers.filter(t => parents.includes(t.ParentID) && !t.DeletedAt)
+        return _sum(filtered)
     }
 )
 
@@ -98,4 +123,8 @@ function _filter(tasks: Transfer[], filter: ListFilter): Transfer[] {
     }
     // console.log("normal return with all filter")
     return filtered.slice(filter.offset, filter.offset + filter.limit)
+}
+
+function _sum(transfers: Transfer[]): number {
+    return transfers.map(t => t.Amount * (t.From ? -1 : 1)).reduce((p,n) => p+n, 0)
 }

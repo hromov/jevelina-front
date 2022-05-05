@@ -1,4 +1,12 @@
-<h2>Fin Tab</h2>
-<user-name [id]="selectedUser$ | async"></user-name>
-<app-date-selector [minDate]="minDate" [maxDate]="maxDate"></app-date-selector>
-<leads-list [leads]="leads$ | async"></leads-list>
+<div class="double">
+    <app-date-selector [minDate]="minDate" [maxDate]="maxDate"></app-date-selector>
+    <div class="sales">
+        <h3>
+            <user-name [id]="selectedUser$ | async"></user-name> sales
+        </h3>
+        <div><span>{{totalProfit$ | async | currency: 'UAH'}}</span>&nbsp;<span>({{total$ | async}})</span></div>
+    </div>
+</div>
+<div class="leads">
+    <fin-lead *ngFor="let lead of leads$ | async" [lead]="lead"></fin-lead>
+</div>

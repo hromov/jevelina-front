@@ -1,12 +1,16 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, Observable, Subscription, tap } from 'rxjs';
+import { filter, map, Observable, Subscription, tap } from 'rxjs';
 import { DateSelectorService } from '../shared/date-selector/date-selector.service';
 import { Lead, ListFilter } from '../shared/model';
 import { AppState } from '../state/app.state';
-import { walletsRequired } from '../state/finance/finance.actions';
+import { transfersRequired, walletsRequired } from '../state/finance/finance.actions';
+import { selectProfitForPage } from '../state/finance/finance.selectors';
 import { leadsPageChanged, leadsRequired } from '../state/leads/leads.actions';
 import { selectCurrentPage, selectedUser, selectLeadsCurrentTotal } from '../state/leads/leads.selector';
+
+//TODO: steps hardcoded - make settings to select
+const allowed_steps = [1, 4]
 
 @Component({
   selector: 'app-finance',
@@ -15,9 +19,15 @@ import { selectCurrentPage, selectedUser, selectLeadsCurrentTotal } from '../sta
   providers: [DateSelectorService]
 })
 export class FinanceComponent implements OnInit, OnDestroy {
-  filter: ListFilter = {limit: 50, offset: 0}
-  leads$: Observable<Lead[]> = this.store.select(selectCurrentPage)
+  filter: ListFilter = {limit: 150, offset: 0, steps: allowed_steps}
+  leads$: Observable<Lead[]> = this.store.select(selectCurrentPage).pipe(map(leads => {
+    this.store.dispatch(transfersRequired({filter: {ids: leads.map(l => l.ID)}}))
+    return leads.filter(l => allowed_steps.includes(l.StepID)).sort(function(a, b) {
+      return a.Step.Order - b.Step.Order;
+    });
+  }))
   total$: Observable<number>  = this.store.select(selectLeadsCurrentTotal)
+  totalProfit$: Observable<number> = this.store.select(selectProfitForPage)
   selectedUser$ = this.store.select(selectedUser)
   minDate = new Date()
   maxDate = new Date()

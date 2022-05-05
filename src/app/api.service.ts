@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ListFilter, Manufacturer, Product, Role, Source, Step, Tag, Task, TaskType, User } from './shared/model';
-const prod = false
+const prod = true
 export const path = prod ? 'https://vorota-ua.ew.r.appspot.com' : 'http://localhost:8080'
 const defaultLimit = 25
 
@@ -23,7 +23,9 @@ export function FilterToString(filter: ListFilter): string {
         `${filter.query ? '&query=' + filter.query : ''}${filter.responsible ? '&responsible=' + filter.responsible : ''}` +
         `${filter.contact ? '&contact=' + filter.contact : ''}${filter.parent ? '&parent=' + filter.parent : ''}` +
         `${filter.min_date ? '&min_date=' + convertTime(filter.min_date) : ''}${filter.max_date ? '&max_date=' + convertTime(filter.max_date) : ''}` +
-        `${filter.from ? '&from=' + filter.from : ''}${filter.to ? '&to=' + filter.to : ''}${filter.wallet ? '&wallet=' + filter.wallet : ''}`
+        `${filter.from ? '&from=' + filter.from : ''}${filter.to ? '&to=' + filter.to : ''}${filter.wallet ? '&wallet=' + filter.wallet : ''}` +
+        `${filter.steps && filter.steps.length ? '&steps=' + filter.steps.join(',') :''}` +
+        `${filter.ids && filter.ids.length ? '&ids=' + filter.ids.join(',') : ''}`
     return `?limit=${filter.limit || defaultLimit}&offset=${filter.offset || 0}${additional}`
 }
 

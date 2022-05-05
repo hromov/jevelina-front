@@ -9,6 +9,8 @@ import { WalletDialogComponent } from './settings/wallet-dialog/wallet-dialog.co
 import { WalletsComponent } from './wallets/wallets.component';
 import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
 import { TransferChipComponent } from './transfer-chip/transfer-chip.component';
+import { FinLeadComponent } from './fin-lead/fin-lead.component';
+import { TransferForComponent } from './transfer-for/transfer-for.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { TransferChipComponent } from './transfer-chip/transfer-chip.component';
     WalletDialogComponent,
     WalletsComponent,
     TransferDialogComponent,
-    TransferChipComponent
+    TransferChipComponent,
+    FinLeadComponent,
+    TransferForComponent,
   ],
   imports: [
     CommonModule,

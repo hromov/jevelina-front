@@ -14,6 +14,8 @@ export interface ListFilter {
     to?: number;
     wallet?: number;
     completed?: boolean;
+    steps?: number[];
+    ids?: number[];
 }
 export interface Contact {
     ID: number;
