@@ -38,10 +38,10 @@ export const transfersPageChanged = createAction(
 
 export const transferChanged = createAction(
   '[Transfer Data Component] Transfer Changed',
-  props<{ transfer: Transfer}>()
+  props<{ transfer: Transfer, filter?: ListFilter}>()
 )
 
 export const transferDeleted = createAction(
   '[Transfer Data Component] Transfer Deleted',
-  props<{ ID: number }>()
+  props<{ ID: number, filter?: ListFilter }>()
 );

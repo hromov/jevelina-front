@@ -13,6 +13,7 @@ export interface ListFilter {
     from?: number;
     to?: number;
     wallet?: number;
+    completed?: boolean;
 }
 export interface Contact {
     ID: number;

@@ -24,6 +24,7 @@ export class WalletsComponent implements OnInit {
   displayedColumns: string[] = ['created', 'wallet', 'category', 'amount'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   minDate = new Date()
+  maxDate = new Date()
 
   filterSubject: BehaviorSubject<ListFilter>
   filter$: Observable<ListFilter>
@@ -39,11 +40,12 @@ export class WalletsComponent implements OnInit {
     private dialog: MatDialog,
   ) {
     this.minDate.setDate(this.minDate.getDate() - 28)
+    this.maxDate.setDate(this.maxDate.getDate() + 1)
     const filter: ListFilter = {
       limit: this.page_limit,
       offset: 0,
       min_date: this.minDate,
-      max_date: new Date(),
+      max_date: this.maxDate,
       wallet: Number(localStorage.getItem("wallet")) || null
     }
     this.filterSubject = new BehaviorSubject<ListFilter>(filter)

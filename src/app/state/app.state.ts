@@ -51,5 +51,6 @@ export interface FinanceState {
   // total: Readonly<number>;
   loadedTransfers: Readonly<Map<string,number>>;
   transfersPage: ListFilter,
+  // TODO: probbably remove in favor of selector from loaded
   transfersPageTotal: number,
 }

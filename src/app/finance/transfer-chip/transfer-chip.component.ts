@@ -18,6 +18,20 @@ export class TransferChipComponent implements OnInit {
   get sign() {
     return !this.transfer.To ? ' -' : !this.transfer.From ? ' +' : ''
   }
+
+  get colorClass() {
+    let color = []
+    this.transfer.Completed ? color.push('completed') : false
+    if (this.transfer.To && this.transfer.From) {
+      color.push('transfer')
+    } else if (this.transfer.To) {
+      color.push('income')
+    } else {
+      color.push('outcome')
+    }
+    return color.join(" ")
+  }
+
   open() {
     const dialogConfig = this.shared.newDialog()
     dialogConfig.data = this.transfer

@@ -17,7 +17,7 @@
         <mat-form-field appearance="standard">
             <mat-label>Wallet</mat-label>
             <mat-select matNativeControl formControlName="wallet">
-                <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+                <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}} {{item.Balance}}</mat-option>
             </mat-select>
         </mat-form-field>
     </div>

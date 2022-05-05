@@ -43,7 +43,7 @@ export const selectTransferByParent = (parenID: number) => createSelector(
 function _valid(l: Transfer, filter: ListFilter): boolean {
     // console.log(filter)
     // check date only if transfer completed, because we want all uncomplited to go first
-    if (l.Completed) {
+    if (filter.completed) {
         if (filter.min_date && new Date(l.CompletedAt) < new Date(filter.min_date)) {
             return false
         }

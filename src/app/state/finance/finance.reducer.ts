@@ -20,7 +20,7 @@ export const financeReducer = createReducer(
         if (index == -1) {
             newItems.push(wallet)
         } else {
-            newItems[index] = wallet 
+            newItems[index] = wallet
         }
         return ({
             ...state,
@@ -55,28 +55,59 @@ export const financeReducer = createReducer(
     on(transfersPageChanged, (state, { filter }) => ({
         ...state,
         transfersPage: filter,
+        transfersPageTotal: state.loadedTransfers.get(FilterToString(filter))
     })),
     on(transferChanged, (state, { transfer }) => {
         // console.log(transfer)
         const index = state.transfers.map(c => c.ID).indexOf(transfer.ID)
         let newTransfers = state.transfers.slice(0)
+        let total = state.transfersPageTotal
+        let newLoaded = state.loadedTransfers
         if (index == -1) {
             newTransfers.push(transfer)
+            total++
+            // console.log(newLoaded)
+            //Attention - if ListToFilter changes - it has to be changed too
+            newLoaded.forEach((val, key) => {
+                // console.log(key, val)
+                if (transfer.From && key.includes(`&wallet=${transfer.From}`)) {
+                    newLoaded.set(key, ++val)
+                }
+                if (transfer.To && key.includes(`&wallet=${transfer.To}`)) {
+                    newLoaded.set(key, ++val)
+                }
+            })
+            // console.log(newLoaded)
         } else {
             newTransfers[index] = transfer
         }
         return ({
             ...state,
-            transfers: newTransfers
+            transfers: newTransfers,
+            transfersPageTotal: total,
+            loadedTransfers: newLoaded
         })
     }),
     on(transferDeleted, (state, { ID }) => {
         const index = state.transfers.map(t => t.ID).indexOf(ID)
         let newTransfers = state.transfers.slice(0)
+        const oldTransfer = newTransfers[index]
         newTransfers.splice(index, 1)
+        let newLoaded = state.loadedTransfers
+        //Attention - if ListToFilter changes - it has to be changed too
+        newLoaded.forEach((val, key) => {
+            if (oldTransfer.From && key.includes(`&wallet=${oldTransfer.From}`)) {
+                newLoaded.set(key, --val)
+            }
+            if (oldTransfer.To && key.includes(`&wallet=${oldTransfer.To}`)) {
+                newLoaded.set(key, --val)
+            }
+        })
         return ({
             ...state,
-            transfers: newTransfers
+            transfers: newTransfers,
+            transfersPageTotal: state.transfersPageTotal - 1,
+            loadedTransfers: newLoaded
         })
     }),
 )

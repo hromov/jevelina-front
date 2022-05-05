@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { concatMap, map } from 'rxjs';
+import { catchError, concatMap, map, of, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/login/auth.service';
 import { Transfer } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
@@ -20,7 +20,6 @@ export class TransferDialogComponent implements AfterViewInit {
   transfer: Transfer
   wallets$ = this.store.select(selectWallets)
   errorMessage: string = ""
-
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<TransferDialogComponent>,
@@ -76,16 +75,28 @@ export class TransferDialogComponent implements AfterViewInit {
       ...this.transfer,
       ...this.form.value
     }
-    this.fs.SaveTransfer(newTransfer).pipe(concatMap(transfer => {
-      this.store.dispatch(transferChanged({ transfer: transfer || newTransfer }))
-      return this.fs.CompleteTransfer(transfer.ID).pipe(map(res => transfer))
-    })).subscribe({
-      next: (transfer: Transfer) => {
-        transfer.Completed = true
+    this.fs.SaveTransfer(newTransfer).pipe(
+      concatMap(resp => {
+        const transfer = resp || newTransfer
         this.store.dispatch(transferChanged({ transfer: transfer }))
-        this.dialogRef.close(transfer || newTransfer)
+        return this.fs.CompleteTransfer(transfer.ID).pipe(map(res => transfer))
+      }),
+      tap(console.log),
+      catchError(err => {
+        this.errorMessage = `Can't save transfer with ID: ${this.transfer.ID}`
+        return of(err)
+      })
+    ).subscribe({
+      next: (transfer: Transfer) => {
+        const completed: Transfer = {
+          ...transfer,
+          Completed: true
+        }
+        this.store.dispatch(transferChanged({ transfer: completed }))
+        //return new only if we need to change total in root
+        this.dialogRef.close(completed)
       },
-      error: (err) => this.errorMessage = `Can't save complete error`
+      error: (err) => this.errorMessage = `Can't complete error: ${err}`
     })
 
   }
@@ -101,7 +112,7 @@ export class TransferDialogComponent implements AfterViewInit {
           this.store.dispatch(transferDeleted({ ID: this.transfer.ID }))
           this.dialogRef.close()
         },
-        error: (err) => this.errorMessage = `Can't delete transfer with ID: ${this.transfer.ID}`
+        error: () => this.errorMessage = `Can't delete transfer with ID: ${this.transfer.ID}`
       })
     }
   }
