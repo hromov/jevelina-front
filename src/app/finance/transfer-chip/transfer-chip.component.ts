@@ -29,6 +29,9 @@ export class TransferChipComponent implements OnInit {
     } else {
       color.push('outcome')
     }
+    if (this.transfer.DeletedAt) {
+      color.push('deleted')
+    }
     return color.join(" ")
   }
 

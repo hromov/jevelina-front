@@ -37,6 +37,7 @@ import { LeadsListComponent } from './leads-list/leads-list.component';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatChipsModule} from '@angular/material/chips';
 import { UserNameComponent } from './user-name/user-name.component';
+import { WalletNameComponent } from './wallet-name/wallet-name.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { UserNameComponent } from './user-name/user-name.component';
     StepsSelectorComponent,
     LeadsListComponent,
     UserNameComponent,
+    WalletNameComponent,
   ],
   imports: [
     CommonModule,
@@ -118,6 +120,7 @@ import { UserNameComponent } from './user-name/user-name.component';
     MatSliderModule,
     MatChipsModule,
     UserNameComponent,
+    WalletNameComponent,
   ],
   providers:[
     MatNativeDateModule

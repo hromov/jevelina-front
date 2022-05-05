@@ -33,6 +33,14 @@
         <mat-label>Description</mat-label>
         <input matInput placeholder="Description" formControlName="Description">
     </mat-form-field>
+
+    <div *ngIf="transfer.Completed">
+        {{transfer.CompletedAt | date}} completed by <user-name [id]="transfer.CompletedBy"></user-name>
+    </div>
+    <div *ngIf="transfer.DeletedAt">
+        {{transfer.DeletedAt | date}} deleted by <user-name [id]="transfer.DeletedBy"></user-name>
+    </div>
+    
 </mat-dialog-content>
 
 <mat-dialog-actions class="double">
@@ -41,15 +49,15 @@
             Close
         </button>
 
-        <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || !form.dirty">
+        <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || !form.dirty || same">
             Save
         </button>
     </div>
     <div>
-        <button mat-icon-button color="primary" (click)="complete()" [disabled]="form.invalid">
+        <button mat-icon-button color="primary" (click)="complete()" [disabled]="form.invalid || same || form.disabled">
             <mat-icon>done</mat-icon>
         </button>
-        <button color="accent" mat-icon-button (click)="delete()" *ngIf="transfer.ID">
+        <button color="accent" mat-icon-button (click)="delete()" *ngIf="transfer.ID" [disabled]="transfer.DeletedAt">
             <mat-icon>close</mat-icon>
         </button>
     </div>

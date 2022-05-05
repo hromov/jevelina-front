@@ -32,7 +32,9 @@
 
         <ng-container matColumnDef="created">
             <mat-header-cell *matHeaderCellDef> Created </mat-header-cell>
-            <mat-cell *matCellDef="let element"><span>{{element.Created}}</span>
+            <mat-cell *matCellDef="let element" class="cols">
+                <span><user-name [id]="element.CreatedBy"></user-name></span>
+                <span>{{element.CreatedAt | date:'short'}}</span>
             </mat-cell>
         </ng-container>
 
@@ -45,7 +47,9 @@
         <ng-container matColumnDef="wallet">
             <mat-header-cell *matHeaderCellDef> Wallet </mat-header-cell>
             <!-- TODO: Make ng template or mini component here -->
-            <mat-cell *matCellDef="let element"><span>{{element.From}} / {{element.To}}</span>
+            <mat-cell *matCellDef="let element" class="cols">
+                <span *ngIf="element.From" class="from"><mat-icon>keyboard_arrow_left</mat-icon><wallet-name [id]="element.From"></wallet-name></span>
+                <span *ngIf="element.To" class="to"><mat-icon>keyboard_arrow_right</mat-icon><wallet-name [id]="element.To"></wallet-name></span>
             </mat-cell>
         </ng-container>
 

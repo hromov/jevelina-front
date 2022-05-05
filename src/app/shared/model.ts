@@ -207,6 +207,7 @@ export interface Transfer {
 	Amount: number;
 	Files: File[];
     Description: string;
+    DeletedBy: number;
 }
 
 export interface File {

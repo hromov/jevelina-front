@@ -63,6 +63,18 @@ export const financeReducer = createReducer(
         let newTransfers = state.transfers.slice(0)
         let total = state.transfersPageTotal
         let newLoaded = state.loadedTransfers
+        let oldTransfer = newTransfers[index]
+        let wallets = state.wallets.slice(0)
+        if (transfer.Completed && !oldTransfer.Completed) {
+            wallets.forEach((wallet, index) => {
+                if (wallet.ID == oldTransfer.To) {
+                    wallets[index] = { ...wallet, Balance: wallet.Balance + oldTransfer.Amount }
+                } else if (wallet.ID == oldTransfer.From) {
+                    const newWallet = { ...wallet, Balance: wallet.Balance - oldTransfer.Amount }
+                    wallets[index] = newWallet
+                }
+            })
+        }
         if (index == -1) {
             newTransfers.push(transfer)
             total++
@@ -85,29 +97,68 @@ export const financeReducer = createReducer(
             ...state,
             transfers: newTransfers,
             transfersPageTotal: total,
-            loadedTransfers: newLoaded
+            loadedTransfers: newLoaded,
+            wallets: wallets
         })
     }),
     on(transferDeleted, (state, { ID }) => {
         const index = state.transfers.map(t => t.ID).indexOf(ID)
         let newTransfers = state.transfers.slice(0)
         const oldTransfer = newTransfers[index]
-        newTransfers.splice(index, 1)
+        newTransfers[index] = {...oldTransfer, DeletedAt: new Date()}
         let newLoaded = state.loadedTransfers
-        //Attention - if ListToFilter changes - it has to be changed too
-        newLoaded.forEach((val, key) => {
-            if (oldTransfer.From && key.includes(`&wallet=${oldTransfer.From}`)) {
-                newLoaded.set(key, --val)
-            }
-            if (oldTransfer.To && key.includes(`&wallet=${oldTransfer.To}`)) {
-                newLoaded.set(key, --val)
-            }
-        })
+        let wallets = state.wallets.slice(0)
+        if (oldTransfer.Completed) {
+            wallets.forEach((wallet, index) => {
+                if (wallet.ID == oldTransfer.From) {
+                    wallets[index] = { ...wallet, Balance: wallet.Balance + oldTransfer.Amount }
+                } else if (wallet.ID == oldTransfer.To) {
+                    const newWallet = { ...wallet, Balance: wallet.Balance - oldTransfer.Amount }
+                    wallets[index] = newWallet
+                }
+            })
+        }
         return ({
             ...state,
             transfers: newTransfers,
             transfersPageTotal: state.transfersPageTotal - 1,
-            loadedTransfers: newLoaded
+            loadedTransfers: newLoaded,
+            wallets: wallets
         })
     }),
+    // if deleted is unseen
+    // on(transferDeleted, (state, { ID }) => {
+    //     const index = state.transfers.map(t => t.ID).indexOf(ID)
+    //     let newTransfers = state.transfers.slice(0)
+    //     const oldTransfer = newTransfers[index]
+    //     newTransfers.splice(index, 1)
+    //     let newLoaded = state.loadedTransfers
+    //     let wallets = state.wallets.slice(0)
+    //     if (oldTransfer.Completed) {
+    //         wallets.forEach((wallet, index) => {
+    //             if (wallet.ID == oldTransfer.From) {
+    //                 wallets[index] = { ...wallet, Balance: wallet.Balance + oldTransfer.Amount }
+    //             } else if (wallet.ID == oldTransfer.To) {
+    //                 const newWallet = { ...wallet, Balance: wallet.Balance - oldTransfer.Amount }
+    //                 wallets[index] = newWallet
+    //             }
+    //         })
+    //     }
+    //     //Attention - if ListToFilter changes - it has to be changed too
+    //     newLoaded.forEach((val, key) => {
+    //         if (oldTransfer.From && key.includes(`&wallet=${oldTransfer.From}`)) {
+    //             newLoaded.set(key, --val)
+    //         }
+    //         if (oldTransfer.To && key.includes(`&wallet=${oldTransfer.To}`)) {
+    //             newLoaded.set(key, --val)
+    //         }
+    //     })
+    //     return ({
+    //         ...state,
+    //         transfers: newTransfers,
+    //         transfersPageTotal: state.transfersPageTotal - 1,
+    //         loadedTransfers: newLoaded,
+    //         wallets: wallets
+    //     })
+    // }),
 )

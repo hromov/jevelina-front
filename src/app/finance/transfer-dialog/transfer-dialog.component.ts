@@ -29,7 +29,6 @@ export class TransferDialogComponent implements AfterViewInit {
     public auth: AuthService
   ) {
     this.transfer = transfer
-    console.log(transfer)
     this.form = fb.group({
       From: [transfer.From],
       To: [transfer.To],
@@ -37,7 +36,13 @@ export class TransferDialogComponent implements AfterViewInit {
       Category: [transfer.Category],
       Description: [transfer.Description]
     })
-    console.log(this.form.value)
+    if (transfer.Completed || transfer.DeletedAt) {
+      this.form.disable()
+    }
+  }
+
+  get same() {
+    return this.form.value.From == this.form.value.To
   }
 
   ngAfterViewInit(): void {
@@ -81,7 +86,7 @@ export class TransferDialogComponent implements AfterViewInit {
         this.store.dispatch(transferChanged({ transfer: transfer }))
         return this.fs.CompleteTransfer(transfer.ID).pipe(map(res => transfer))
       }),
-      tap(console.log),
+      // tap(console.log),
       catchError(err => {
         this.errorMessage = `Can't save transfer with ID: ${this.transfer.ID}`
         return of(err)

@@ -10,6 +10,14 @@ export const selectWallets = createSelector(
     (state: FinanceState) => state.wallets.slice(0) || []
 )
 
+export const selectWalletByID = (id: number) => createSelector(
+    selectFinance,
+    (state: FinanceState) => {
+        const index = state.wallets.map(c => c.ID).indexOf(Number(id))
+        return (index != -1) ? state.wallets[index] : null
+    }
+)
+
 export const areTransfersLoaded = (filter: ListFilter) => createSelector(
     selectFinance,
     (state: FinanceState) => state.loadedTransfers ? state.loadedTransfers.has(FilterToString(filter)) : false
