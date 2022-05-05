@@ -1,2 +1,4 @@
 <h2>Fin Tab</h2>
+<user-name [id]="selectedUser$ | async"></user-name>
+<app-date-selector [minDate]="minDate" [maxDate]="maxDate"></app-date-selector>
 <leads-list [leads]="leads$ | async"></leads-list>
