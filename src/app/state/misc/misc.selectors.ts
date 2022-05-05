@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+import { User } from 'src/app/shared/model';
 import { AppState, MiscState } from '../app.state';
  
 export const selectMisc = (state: AppState) => state.misc;
@@ -22,6 +23,14 @@ export const selectCurrentSteps = createSelector(
 export const selectUsers = createSelector(
     selectMisc,
     (state: MiscState) => state.users
+)
+
+export const selectUserByID = (id: number) => createSelector(
+    selectMisc,
+    (state: MiscState) => {
+        const index = state.users.map(c => c.ID).indexOf(Number(id))
+        return (index != -1) ? state.users[index] : null
+    }
 )
 
 export const selectRoles = createSelector(

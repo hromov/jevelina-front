@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { WalletDialogComponent } from './settings/wallet-dialog/wallet-dialog.component';
 import { WalletsComponent } from './wallets/wallets.component';
 import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
+import { TransferChipComponent } from './transfer-chip/transfer-chip.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.compo
     SettingsComponent,
     WalletDialogComponent,
     WalletsComponent,
-    TransferDialogComponent
+    TransferDialogComponent,
+    TransferChipComponent
   ],
   imports: [
     CommonModule,

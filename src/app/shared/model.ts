@@ -205,6 +205,7 @@ export interface Transfer {
 	Category: string;
 	Amount: number;
 	Files: File[];
+    Description: string;
 }
 
 export interface File {

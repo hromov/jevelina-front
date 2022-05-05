@@ -35,6 +35,8 @@ import { StepsSelectorComponent } from './steps-selector/steps-selector.componen
 import {MatMenuModule} from '@angular/material/menu';
 import { LeadsListComponent } from './leads-list/leads-list.component';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatChipsModule} from '@angular/material/chips';
+import { UserNameComponent } from './user-name/user-name.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import {MatSliderModule} from '@angular/material/slider';
     TaskComponent,
     StepsSelectorComponent,
     LeadsListComponent,
+    UserNameComponent,
   ],
   imports: [
     CommonModule,
@@ -77,6 +80,7 @@ import {MatSliderModule} from '@angular/material/slider';
     MatNativeDateModule,
     MatMenuModule,
     MatSliderModule,
+    MatChipsModule,
   ],
   exports: [
     HoverDirective,
@@ -112,6 +116,8 @@ import {MatSliderModule} from '@angular/material/slider';
     LeadsListComponent,
     TaskComponent,
     MatSliderModule,
+    MatChipsModule,
+    UserNameComponent,
   ],
   providers:[
     MatNativeDateModule

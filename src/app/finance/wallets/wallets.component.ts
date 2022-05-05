@@ -55,9 +55,10 @@ export class WalletsComponent implements OnInit {
     })
   }
 
-  transfer() {
+  transfer(from?: boolean, to?: boolean) {
     const dialogConfig = this.shared.newDialog()
-    dialogConfig.data = { From: 1, To: 1 }
+    const wallet = this.filterSubject.getValue().wallet
+    dialogConfig.data = { From: from ? wallet : null, To: to ? wallet : null }
     this.dialog.open(TransferDialogComponent, dialogConfig)
   }
 

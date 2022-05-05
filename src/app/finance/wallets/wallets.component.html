@@ -14,16 +14,18 @@
             <mat-datepicker-toggle matPrefix [for]="pickerTo"></mat-datepicker-toggle>
             <mat-datepicker #pickerTo></mat-datepicker>
         </mat-form-field>
+        <mat-form-field appearance="standard">
+            <mat-label>Wallet</mat-label>
+            <mat-select matNativeControl formControlName="wallet">
+                <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
     <div class="actions">
-        <button mat-icon-button (click)="transfer()"><mat-icon>add</mat-icon></button>
+        <button mat-icon-button (click)="transfer(false,true)" color="primary"><mat-icon>add</mat-icon></button>
+        <button mat-icon-button (click)="transfer(true, false)" color="accent"><mat-icon>remove</mat-icon></button>
+        <button mat-icon-button (click)="transfer(true, true)" color="primary"><mat-icon>swap_horiz</mat-icon></button>
     </div>
-    <mat-form-field appearance="standard">
-        <mat-label>Wallet</mat-label>
-        <mat-select matNativeControl formControlName="wallet">
-            <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
-        </mat-select>
-    </mat-form-field>
 </div>
 <div class="mat-elevation-z8">
     <mat-table [dataSource]="transfers$ | async">
@@ -51,8 +53,7 @@
         <ng-container matColumnDef="amount">
             <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
             <mat-cell *matCellDef="let element">
-                <!-- TODO: colored chips goes here -->
-                <span>{{element.Amount}}</span>
+                <transfer-chip [transfer]="element"></transfer-chip>
             </mat-cell>
         </ng-container>
 
