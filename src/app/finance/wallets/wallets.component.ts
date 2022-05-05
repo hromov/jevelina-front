@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, filter, Observable } from 'rxjs';
+import { DateSelectorService, MinMax } from 'src/app/shared/date-selector/date-selector.service';
 import { ListFilter, Transfer, Wallet } from 'src/app/shared/model';
 import { SharedService } from 'src/app/shared/shared.service';
 import { AppState } from 'src/app/state/app.state';
@@ -15,7 +16,8 @@ import { TransferDialogComponent } from '../transfer-dialog/transfer-dialog.comp
 @Component({
   selector: 'app-wallets',
   templateUrl: './wallets.component.html',
-  styleUrls: ['./wallets.component.sass']
+  styleUrls: ['./wallets.component.sass'],
+  providers: [DateSelectorService]
 })
 export class WalletsComponent implements OnInit {
   page_limit = 50
@@ -23,38 +25,30 @@ export class WalletsComponent implements OnInit {
   total$: Observable<number> = this.store.select(selectCurrentTransfersTotal)
   displayedColumns: string[] = ['created', 'wallet', 'category', 'amount'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  minDate = new Date()
-  maxDate = new Date()
-
   filterSubject: BehaviorSubject<ListFilter>
   filter$: Observable<ListFilter>
   wallets$: Observable<ReadonlyArray<Wallet>> = this.store.select(selectWallets)
-  form: FormGroup
+  walletControl: FormControl = new FormControl(Number(localStorage.getItem("wallet")) || null)
+  //init values
+  minDate = new Date()
+  maxDate = new Date()
 
   constructor(
     private store: Store<AppState>,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private router: Router,
     private shared: SharedService,
     private dialog: MatDialog,
+    private ds: DateSelectorService,
   ) {
-    this.minDate.setDate(this.minDate.getDate() - 28)
-    this.maxDate.setDate(this.maxDate.getDate() + 1)
+
     const filter: ListFilter = {
       limit: this.page_limit,
       offset: 0,
       min_date: this.minDate,
       max_date: this.maxDate,
-      wallet: Number(localStorage.getItem("wallet")) || null
+      wallet: this.walletControl.value
     }
     this.filterSubject = new BehaviorSubject<ListFilter>(filter)
     this.filter$ = this.filterSubject.asObservable()
-    this.form = this.fb.group({
-      minDate: filter.min_date,
-      maxDate: filter.max_date,
-      wallet: filter.wallet
-    })
   }
 
   transfer(from?: boolean, to?: boolean) {
@@ -64,48 +58,56 @@ export class WalletsComponent implements OnInit {
     this.dialog.open(TransferDialogComponent, dialogConfig)
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(walletsRequired())
-    this.form.valueChanges.subscribe(val => {
-      this.filterSubject.next({ ...this.filterSubject.getValue(), min_date: val.minDate, max_date: val.maxDate, wallet: val.wallet })
-    })
-    //TODO: move to before leave
-    this.form.get('wallet').valueChanges.subscribe(wallet => localStorage.setItem("wallet", wallet))
-    this.route.queryParams
-      .subscribe(params => {
-        // console.log(params)
-        //get use from it
-        this.paginator && this.paginator.firstPage()
-      });
-    this.filter$.subscribe(filter => {
-      // console.log(filter, l)
-      const queryParams: Params = this.filterToParams(filter)
-      this.store.dispatch(transfersRequired({ filter }))
-      this.store.dispatch(transfersPageChanged({ filter }))
-      this.router.navigate(
-        [],
-        {
-          relativeTo: this.route,
-          queryParams: queryParams,
-          queryParamsHandling: '', // remove to replace all query params by provided
-        });
-    })
-
-
-
-  }
   pageChanged(e: PageEvent) {
     const filter = this.filterSubject.getValue()
     this.filterSubject.next({ ...filter, offset: e.pageIndex * filter.limit })
   }
 
-  filterToParams(filter: ListFilter): Params {
-    return {
-      limit: filter.limit,
-      page: filter.offset / filter.limit,
-      min_date: filter.min_date,
-      max_date: filter.max_date,
-      wallet: filter.wallet
-    }
+  ngOnInit(): void {
+    //for init values only
+    this.minDate.setDate(this.minDate.getDate() - 28)
+    this.maxDate.setDate(this.maxDate.getDate() + 1)
+
+    this.store.dispatch(walletsRequired())
+    this.walletControl.valueChanges.subscribe(val => {
+      this.filterSubject.next({ ...this.filterSubject.getValue(), wallet: val })
+      //TODO: move to on exit
+      localStorage.setItem("wallet", val)
+    })
+    this.ds.dateSelectors$.pipe(filter(val => !!val)).subscribe((minMax: MinMax) => {
+      this.filterSubject.next({ ...this.filterSubject.getValue(), min_date: minMax.minDate, max_date: minMax.maxDate })
+    })
+    this.filter$.subscribe(filter => {
+      this.store.dispatch(transfersRequired({ filter }))
+      this.store.dispatch(transfersPageChanged({ filter }))
+    })
+
+    //TODO: make use of it    
+    // this.route.queryParams
+    //   .subscribe(params => {
+    //     this.paginator && this.paginator.firstPage()
+    //   });
+    // this.filter$.subscribe(filter => {
+    //   const queryParams: Params = this.filterToParams(filter)
+    //   this.store.dispatch(transfersRequired({ filter }))
+    //   this.store.dispatch(transfersPageChanged({ filter }))
+    //   this.router.navigate(
+    //     [],
+    //     {
+    //       relativeTo: this.route,
+    //       queryParams: queryParams,
+    //       queryParamsHandling: '', // remove to replace all query params by provided
+    //     });
+    // })
   }
+
+  // filterToParams(filter: ListFilter): Params {
+  //   return {
+  //     limit: filter.limit,
+  //     page: filter.offset / filter.limit,
+  //     min_date: filter.min_date,
+  //     max_date: filter.max_date,
+  //     wallet: filter.wallet
+  //   }
+  // }
 }

@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MinMax } from '../shared/date-selector/date-selector.service';
 
-interface MinMax {
-  minDate: Date
-  maxDate: Date
-}
 
 @Component({
   selector: 'app-task-list',

@@ -1,30 +1,24 @@
-<div class="selectors" [formGroup]="form">
+<div class="selectors">
     <div class="date-selector">
-        <mat-form-field appearance="standard">
-            <mat-label>From</mat-label>
-            <input matInput [matDatepicker]="pickerFrom" readonly formControlName="minDate">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matPrefix [for]="pickerFrom"></mat-datepicker-toggle>
-            <mat-datepicker #pickerFrom></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field appearance="standard">
-            <mat-label>To</mat-label>
-            <input matInput [matDatepicker]="pickerTo" readonly formControlName="maxDate">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matPrefix [for]="pickerTo"></mat-datepicker-toggle>
-            <mat-datepicker #pickerTo></mat-datepicker>
-        </mat-form-field>
+        <app-date-selector [minDate]="minDate" [maxDate]="maxDate"></app-date-selector>
         <mat-form-field appearance="standard">
             <mat-label>Wallet</mat-label>
-            <mat-select matNativeControl formControlName="wallet">
-                <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}} {{item.Balance}}</mat-option>
+            <mat-select matNativeControl [formControl]="walletControl">
+                <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}} {{item.Balance}}
+                </mat-option>
             </mat-select>
         </mat-form-field>
     </div>
     <div class="actions">
-        <button mat-icon-button (click)="transfer(false,true)" color="primary"><mat-icon>add</mat-icon></button>
-        <button mat-icon-button (click)="transfer(true, false)" color="accent"><mat-icon>remove</mat-icon></button>
-        <button mat-icon-button (click)="transfer(true, true)" color="primary"><mat-icon>swap_horiz</mat-icon></button>
+        <button mat-icon-button (click)="transfer(false,true)" color="primary">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button (click)="transfer(true, false)" color="accent">
+            <mat-icon>remove</mat-icon>
+        </button>
+        <button mat-icon-button (click)="transfer(true, true)" color="primary">
+            <mat-icon>swap_horiz</mat-icon>
+        </button>
     </div>
 </div>
 <div class="mat-elevation-z8">
@@ -33,7 +27,9 @@
         <ng-container matColumnDef="created">
             <mat-header-cell *matHeaderCellDef> Created </mat-header-cell>
             <mat-cell *matCellDef="let element" class="cols">
-                <span><user-name [id]="element.CreatedBy"></user-name></span>
+                <span>
+                    <user-name [id]="element.CreatedBy"></user-name>
+                </span>
                 <span>{{element.CreatedAt | date:'short'}}</span>
             </mat-cell>
         </ng-container>
@@ -48,8 +44,14 @@
             <mat-header-cell *matHeaderCellDef> Wallet </mat-header-cell>
             <!-- TODO: Make ng template or mini component here -->
             <mat-cell *matCellDef="let element" class="cols">
-                <span *ngIf="element.From" class="from"><mat-icon>keyboard_arrow_left</mat-icon><wallet-name [id]="element.From"></wallet-name></span>
-                <span *ngIf="element.To" class="to"><mat-icon>keyboard_arrow_right</mat-icon><wallet-name [id]="element.To"></wallet-name></span>
+                <span *ngIf="element.From" class="from">
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                    <wallet-name [id]="element.From"></wallet-name>
+                </span>
+                <span *ngIf="element.To" class="to">
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                    <wallet-name [id]="element.To"></wallet-name>
+                </span>
             </mat-cell>
         </ng-container>
 
