@@ -28,6 +28,6 @@ export class FilesService {
   }
 
   getUrl(id: number): Observable<any> {
-    return this.http.get<any>(`${path}/files/${id}`).pipe(tap(console.log))
+    return this.http.get<any>(`${path}/files/${id}`)
   }
 }

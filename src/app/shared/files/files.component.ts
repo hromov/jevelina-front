@@ -66,7 +66,6 @@ export class FilesComponent implements OnInit {
   }
 
   download(file: File) {
-    console.log(file)
     this.fs.getUrl(file.ID).subscribe(url => {
       // console.log(url)
       window.open(url, '_blank')
