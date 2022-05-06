@@ -1,0 +1,15 @@
+<div class="files">
+    <div *ngFor="let file of files; let i = index" class="double">
+        <a (click)="download(file)">{{file.Name}}</a>
+        <button mat-icon-button (click)="deleteFile(file, i)" [disabled]="loading" *ngIf="auth.isAdmin" color="primary">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <div *ngIf="fileData">
+        <input value="" type="file" (change)="fileChanged(fileData, $event)">
+    </div>
+    <button *ngIf="!fileData" mat-icon-button (click)="newFile()" color="primary">
+        <mat-icon>attach_file</mat-icon>
+    </button>
+</div>
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>

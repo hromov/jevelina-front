@@ -33,6 +33,9 @@ function _valid(l: Task, filter: ListFilter): boolean {
     if ((filter.min_date || filter.max_date) && l.Completed) {
         return false
     }
+    if ((filter.min_date || filter.max_date) && !l.DeadLine) {
+        return false
+    }
     if (filter.parent && l.ParentID != filter.parent) {
         return false
     }

@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { catchError, concatMap, map, of, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/login/auth.service';
-import { Transfer } from 'src/app/shared/model';
+import { File, Transfer } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { transferChanged, transferDeleted } from 'src/app/state/finance/finance.actions';
 import { selectWallets } from 'src/app/state/finance/finance.selectors';
@@ -20,6 +20,7 @@ export class TransferDialogComponent implements AfterViewInit {
   transfer: Transfer
   wallets$ = this.store.select(selectWallets)
   errorMessage: string = ""
+  files: File[] = []
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<TransferDialogComponent>,
@@ -121,5 +122,4 @@ export class TransferDialogComponent implements AfterViewInit {
       })
     }
   }
-
 }

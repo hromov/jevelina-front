@@ -67,6 +67,11 @@ export const selectLeadsCurrentTotal = createSelector(
     (state: LeadsState, filter: ListFilter) => state.loaded.get(FilterToString(filter))
 )
 
+export const selectLeadsCurrentPassiveTotal = createSelector(
+    selectCurrentPage,
+    (leads: Lead[]) => leads.filter(l => !l.Step.Active).length
+)
+
 export const selectLeadsSearchTotal = createSelector(
     selectLeads,
     (state: LeadsState) => state.searchTotal

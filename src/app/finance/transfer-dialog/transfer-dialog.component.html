@@ -40,7 +40,7 @@
     <div *ngIf="transfer.DeletedAt">
         {{transfer.DeletedAt | date}} deleted by <user-name [id]="transfer.DeletedBy"></user-name>
     </div>
-    
+    <app-files [parent]="transfer.ID"></app-files>
 </mat-dialog-content>
 
 <mat-dialog-actions class="double">

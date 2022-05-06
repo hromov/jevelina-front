@@ -66,7 +66,7 @@ export const selectProfitForPage = createSelector(
     selectCurrentPage,
     selectAllTransfers,
     (leads: ReadonlyArray<Lead>, transfers: ReadonlyArray<Transfer>) => {
-        const parents = leads.map(l => l.ID)
+        const parents = leads.filter(l => !l.Step.Active).map(l => l.ID)
         const filtered = transfers.filter(t => parents.includes(t.ParentID) && !t.DeletedAt)
         return _sum(filtered)
     }

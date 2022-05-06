@@ -213,6 +213,16 @@ export interface Transfer {
 }
 
 export interface File {
+    ID: number;
+    ParentID: number;
     Name: string;
     URL: string;
 }
+
+export interface FileRequest {
+    Name?: string;
+    Value?: string;
+    Type?: string;
+    URL?: string;
+    Parent?: number;
+  }

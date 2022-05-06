@@ -76,7 +76,7 @@ export const financeReducer = createReducer(
             })
         }
         if (index == -1) {
-            newTransfers.push(transfer)
+            newTransfers.unshift(transfer)
             total++
             // console.log(newLoaded)
             //Attention - if ListToFilter changes - it has to be changed too

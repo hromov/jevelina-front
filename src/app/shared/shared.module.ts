@@ -39,6 +39,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import { UserNameComponent } from './user-name/user-name.component';
 import { WalletNameComponent } from './wallet-name/wallet-name.component';
 import { DateSelectorComponent } from './date-selector/date-selector.component';
+import { FilesComponent } from './files/files.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { DateSelectorComponent } from './date-selector/date-selector.component';
     UserNameComponent,
     WalletNameComponent,
     DateSelectorComponent,
+    FilesComponent,
   ],
   imports: [
     CommonModule,
@@ -124,6 +126,7 @@ import { DateSelectorComponent } from './date-selector/date-selector.component';
     UserNameComponent,
     WalletNameComponent,
     DateSelectorComponent,
+    FilesComponent,
   ],
   providers:[
     MatNativeDateModule
