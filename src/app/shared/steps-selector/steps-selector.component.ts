@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { filter, first } from 'rxjs';
+import { filter, first, map } from 'rxjs';
 import { AuthService } from 'src/app/login/auth.service';
 import { AppState } from 'src/app/state/app.state';
 import { selectedUserChanged } from 'src/app/state/leads/leads.actions';
 import { selectedStepsChanged } from 'src/app/state/misc/misc.actions';
 import { selectedSteps, selectSteps, selectUsers } from 'src/app/state/misc/misc.selectors';
+
+const hiddenUserEmail = "random@random.org"
 
 @Component({
   selector: 'steps-selector',
@@ -15,7 +17,7 @@ import { selectedSteps, selectSteps, selectUsers } from 'src/app/state/misc/misc
 })
 export class StepsSelectorComponent implements OnInit {
   steps$ = this.store.select(selectSteps)
-  users$ = this.store.select(selectUsers)
+  users$ = this.store.select(selectUsers).pipe(map(users => users.filter(u => u.Email != hiddenUserEmail)))
   stepsControl: FormControl = new FormControl()
   usersControl: FormControl = new FormControl()
   constructor(private store: Store<AppState>, private auth: AuthService) { }

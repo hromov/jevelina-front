@@ -26,7 +26,7 @@ export class TaskComponent implements OnInit {
   }
 
   get showForm() {
-    return this.task.DeadLine && !this.task.Completed
+    return !this.clickable && this.task.DeadLine && !this.task.Completed
   }
 
   save() {
