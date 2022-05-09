@@ -8,9 +8,8 @@ export class ScrollService {
   constructor() {
     const drawer = document.getElementById("drawer")
     const scroll = document.getElementById("scroll")
-    let that = this
-    document.getElementById("drawer").addEventListener('scroll', function(e) {
-      that.keepTrack(drawer, scroll)      
+    document.getElementById("drawer").addEventListener('scroll', () => {
+      this.keepTrack(drawer, scroll)      
     });
   }
 
