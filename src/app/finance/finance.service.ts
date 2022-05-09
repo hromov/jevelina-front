@@ -26,7 +26,6 @@ export class FinanceService {
   }
 
   Transfers(filter: ListFilter): Observable<HttpResponse<Array<Transfer>>> {
-    // console.log(filter)
     return this.http.get<Transfer[]>(`${path}/transfers${FilterToString(filter)}`, httpOptions)
   }
 

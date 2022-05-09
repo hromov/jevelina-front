@@ -15,8 +15,6 @@ export class ScrollService {
   }
 
   keepTrack(h: any, b: any) {
-    // const h = document.documentElement
-    // const b = document.body
     const st = 'scrollTop'
     const sh = 'scrollHeight'
     const percentage = Math.round((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 20) * 5 ;

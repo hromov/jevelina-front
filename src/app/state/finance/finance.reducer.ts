@@ -38,13 +38,11 @@ export const financeReducer = createReducer(
     }),
     on(transfersRecieved, (state, { transfers, total, filter }) => {
         let unique = new Map()
-        // console.log(transfers, total, filter)
         state.transfers.forEach(l => unique.set(l.ID, l))
         transfers.forEach(l => unique.set(l.ID, l))
         //server gives 0 total if offset
         const realTotal = filter.offset ? state.transfersPageTotal : total
         state.loadedTransfers.set(FilterToString(filter), realTotal)
-        // console.log(state.loadedTransfers)
         return ({
             ...state,
             transfers: [...unique.values()],
@@ -55,7 +53,6 @@ export const financeReducer = createReducer(
     on(transfersPageChanged, (state, { filter }) => ({
         ...state,
         transfersPage: filter,
-        transfersPageTotal: state.loadedTransfers.get(FilterToString(filter))
     })),
     on(transferChanged, (state, { transfer }) => {
         // console.log(transfer)
@@ -78,7 +75,6 @@ export const financeReducer = createReducer(
         if (index == -1) {
             newTransfers.unshift(transfer)
             total++
-            // console.log(newLoaded)
             //Attention - if ListToFilter changes - it has to be changed too
             newLoaded.forEach((val, key) => {
                 // console.log(key, val)
@@ -89,7 +85,6 @@ export const financeReducer = createReducer(
                     newLoaded.set(key, ++val)
                 }
             })
-            // console.log(newLoaded)
         } else {
             newTransfers[index] = transfer
         }

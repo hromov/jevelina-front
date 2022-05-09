@@ -4,9 +4,12 @@
         <h3>
             <user-name [id]="selectedUser$ | async"></user-name> sales
         </h3>
-        <div><span>{{totalProfit$ | async | currency: 'UAH'}}</span>&nbsp;<span>({{total$ | async}})</span></div>
+        <div><span>{{totalProfit$ | async | currency: 'UAH'}}</span>&nbsp;<span>({{totalPassive$ | async}})</span></div>
     </div>
 </div>
 <div class="leads">
     <fin-lead *ngFor="let lead of leads$ | async" [lead]="lead"></fin-lead>
+    <mat-paginator [length]="total$ | async" [pageSize]="filter.limit" aria-label="Select page"
+        (page)="pageChanged($event)">
+    </mat-paginator>
 </div>
