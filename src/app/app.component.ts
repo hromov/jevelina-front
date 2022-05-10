@@ -4,9 +4,11 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, first } from 'rxjs';
 import { ApiService } from './api.service';
+import { FinanceService } from './finance/finance.service';
 import { LeadsService } from './leads/leads.service';
 import { AuthService } from './login/auth.service';
 import { AppState } from './state/app.state';
+import { categoriesLoaded } from './state/finance/finance.actions';
 import { retrievedManufacturers, retrievedProducts, retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers } from './state/misc/misc.actions';
 
 @Component({
@@ -23,7 +25,8 @@ export class AppComponent implements OnInit {
     private scrolll: ViewportScroller,
     private leads: LeadsService,
     private router: Router,
-    public auth: AuthService
+    public auth: AuthService,
+    private fs: FinanceService,
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +37,7 @@ export class AppComponent implements OnInit {
       this.api.Sources().subscribe(sources => this.store.dispatch(retrievedSources({ sources: sources || [] })))
       this.api.Products().subscribe(products => this.store.dispatch(retrievedProducts({ products: products || [] })))
       this.api.Manufacturers().subscribe(manufacturers => this.store.dispatch(retrievedManufacturers({ manufacturers: manufacturers || [] })))
+      this.fs.Categories().subscribe(categories => this.store.dispatch(categoriesLoaded({ categories: categories || [] })))
     })
   }
   toggle() {

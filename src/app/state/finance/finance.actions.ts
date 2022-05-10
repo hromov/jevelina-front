@@ -45,3 +45,8 @@ export const transferDeleted = createAction(
   '[Transfer Data Component] Transfer Deleted',
   props<{ ID: number, filter?: ListFilter }>()
 );
+
+export const categoriesLoaded = createAction(
+  '[Finance Service] Categories Loaded',
+  props<{ categories: string[] }>()
+);

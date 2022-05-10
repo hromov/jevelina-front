@@ -53,4 +53,5 @@ export interface FinanceState {
   transfersPage: ListFilter,
   // TODO: probbably remove in favor of selector from loaded
   transfersPageTotal: number,
+  categories: ReadonlyArray<string>,
 }

@@ -15,6 +15,9 @@ export class FinanceService {
   Wallets(): Observable<Wallet[]> {
     return this.http.get<Wallet[]>(`${path}/wallets`)
   }
+  Categories(): Observable<string[]> {
+    return this.http.get<string[]>(`${path}/categories`)
+  }
   SaveWallet(item: Wallet): Observable<any> {
     if (item.ID) {
       return this.http.put<Wallet>(`${path}/wallets/${item.ID}`, item)

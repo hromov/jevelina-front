@@ -11,6 +11,11 @@ export const selectWallets = createSelector(
     (state: FinanceState) => state.wallets.slice(0) || []
 )
 
+export const selectCategories = createSelector(
+    selectFinance,
+    (state: FinanceState) => state.categories.slice(0) || []
+)
+
 export const selectWalletByID = (id: number) => createSelector(
     selectFinance,
     (state: FinanceState) => {
@@ -38,6 +43,11 @@ export const selectCurrentTransfers = createSelector(
 export const selectCurrentTransfersTotal = createSelector(
     selectFinance,
     (state: FinanceState) => state.transfersPageTotal
+)
+
+export const selectTransfersTotal = (filter: ListFilter) => createSelector(
+    selectFinance,
+    (state: FinanceState) => state.loadedTransfers ? state.loadedTransfers.get(FilterToString(filter)) : 0
 )
 
 export const selectTransfersByParent = (parenID: number) => createSelector(

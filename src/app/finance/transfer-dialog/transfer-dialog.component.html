@@ -1,6 +1,8 @@
 <div class="double mat-small">
     <div>{{transfer.CreatedAt | date}}</div>
-    <div><user-name [id]="transfer.CreatedBy"></user-name></div>
+    <div>
+        <user-name [id]="transfer.CreatedBy"></user-name>
+    </div>
 </div>
 <app-error [error]="errorMessage"></app-error>
 
@@ -26,21 +28,28 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Category</mat-label>
-        <input matInput placeholder="Category" formControlName="Category">
+        <input type="text" placeholder="Category" matInput formControlName="Category" [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of categories$ | async" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-autocomplete>
+        <!-- <mat-select matNativeControl formControlName="Category">
+            <mat-option *ngFor="let item of categories$ | async" [value]="item">{{item}}</mat-option>
+        </mat-select> -->
     </mat-form-field>
-
     <mat-form-field appearance="fill">
         <mat-label>Description</mat-label>
         <input matInput placeholder="Description" formControlName="Description">
     </mat-form-field>
 
-    <div *ngIf="transfer.Completed">
+    <div *ngIf="transfer.CompletedBy">
         {{transfer.CompletedAt | date}} completed by <user-name [id]="transfer.CompletedBy"></user-name>
     </div>
     <div *ngIf="transfer.DeletedAt">
         {{transfer.DeletedAt | date}} deleted by <user-name [id]="transfer.DeletedBy"></user-name>
     </div>
-    <app-files [parent]="transfer.ID"></app-files>
+    <app-files *ngIf="transfer.ID" [parent]="transfer.ID"></app-files>
 </mat-dialog-content>
 
 <mat-dialog-actions class="double">

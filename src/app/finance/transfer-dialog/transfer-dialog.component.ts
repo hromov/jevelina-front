@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/login/auth.service';
 import { File, Transfer } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { transferChanged, transferDeleted } from 'src/app/state/finance/finance.actions';
-import { selectWallets } from 'src/app/state/finance/finance.selectors';
+import { selectCategories, selectWallets } from 'src/app/state/finance/finance.selectors';
 import { FinanceService } from '../finance.service';
 
 @Component({
@@ -19,6 +19,7 @@ export class TransferDialogComponent implements AfterViewInit {
   form: FormGroup
   transfer: Transfer
   wallets$ = this.store.select(selectWallets)
+  categories$ = this.store.select(selectCategories)
   errorMessage: string = ""
   files: File[] = []
   constructor(

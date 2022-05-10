@@ -71,6 +71,7 @@ export class WalletsComponent implements OnInit {
     this.store.dispatch(walletsRequired())
     this.walletControl.valueChanges.subscribe(val => {
       this.filterSubject.next({ ...this.filterSubject.getValue(), wallet: val })
+      this.paginator && this.paginator.firstPage()
       //TODO: move to on exit
       localStorage.setItem("wallet", val)
     })

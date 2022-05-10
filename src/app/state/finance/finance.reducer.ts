@@ -1,7 +1,8 @@
+import { state } from "@angular/animations";
 import { createReducer, on } from "@ngrx/store";
 import { FilterToString } from "src/app/api.service";
 import { FinanceState } from "../app.state";
-import { retrievedWallets, transferChanged, transferDeleted, transfersPageChanged, transfersRecieved, walletChanged, walletDeleted } from "./finance.actions";
+import { categoriesLoaded, retrievedWallets, transferChanged, transferDeleted, transfersPageChanged, transfersRecieved, transfersRequired, walletChanged, walletDeleted } from "./finance.actions";
 
 export const initialState: FinanceState = {
     wallets: [],
@@ -9,11 +10,13 @@ export const initialState: FinanceState = {
     loadedTransfers: new Map(),
     transfersPage: {},
     transfersPageTotal: 0,
+    categories: [],
 };
 
 export const financeReducer = createReducer(
     initialState,
     on(retrievedWallets, (state, { wallets }) => ({ ...state, wallets: wallets })),
+    on(categoriesLoaded, (state, { categories }) => ({ ...state, categories: categories })),
     on(walletChanged, (state, { wallet }) => {
         const index = state.wallets.map(item => item.ID).indexOf(wallet.ID)
         let newItems = state.wallets.slice(0)
@@ -50,6 +53,10 @@ export const financeReducer = createReducer(
             transfersPageTotal: realTotal,
         })
     }),
+    on(transfersRequired, (state, { filter }) => ({
+        ...state,
+        transfersPageTotal: state.loadedTransfers.has(FilterToString(filter)) ? state.loadedTransfers.get(FilterToString(filter)) : state.transfersPageTotal
+    })),
     on(transfersPageChanged, (state, { filter }) => ({
         ...state,
         transfersPage: filter,
