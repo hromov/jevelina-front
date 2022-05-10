@@ -1,14 +1,17 @@
 @import "src/_variables.sass"
-.selectors
-    display: flex
-    justify-content: space-between
-    column-gap: 16px
-    flex-flow: row nowrap
-    align-items: center
-.date-selector
-    display: flex
-    flex-flow: row nowrap
-    column-gap: 16px
+@media (min-width: 460px)
+    .selectors
+        display: flex
+        justify-content: space-between
+        column-gap: 16px
+        flex-flow: row nowrap
+        align-items: center
+    .date-selector
+        display: flex
+        flex-flow: row nowrap
+        column-gap: 16px
+mat-form-field
+    width: 100%
 .from
     color: $warn
 .to

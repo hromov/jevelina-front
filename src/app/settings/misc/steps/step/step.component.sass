@@ -2,9 +2,12 @@
     width: 100%
 .form-container
     display: flex
-    flex-flow: row nowrap
+    flex-flow: row wrap
     justify-content: space-between
     gap: 32px
+@media (min-width: 460px)
+    .form-container
+        flex-flow: row nowrap
 mat-checkbox, button
     align-self: center
 mat-form-field

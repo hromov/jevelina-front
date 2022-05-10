@@ -1,23 +1,24 @@
 .current
-    display: flex
-    flex-flow: row nowrap
-    justify-content: space-around
-    column-gap: 32px
     margin-top: 16px
-.current
-    div
-        flex: 1
+@media (min-width: 460px)
+    .current
+        display: flex
+        flex-flow: row nowrap
+        justify-content: space-around
+        column-gap: 32px
+    .current
+        div
+            flex: 1
+    .date-selector
+        display: flex
+        flex-flow: row nowrap
+        gap: 16px
+        justify-content: space-around
+mat-form-field
+    width: 100%
+    max-width: 320px
 h2
     text-align: center
-.Upcoming
-    display: flex
-    flex-direction: column
-    gap: 16px
-    margin-top: 16px
-    align-items: center
-.date-selector
-    display: flex
-    flex-flow: row nowrap
-    gap: 16px
 .single-col
     max-width: 480px
+    margin: 0 auto

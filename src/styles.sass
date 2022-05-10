@@ -35,12 +35,13 @@ html, body
     color: $primary
     .mat-select-value-text
         color: $primary
-.double
-    display: flex !important
-    flex-flow: row nowrap
-    justify-content: space-between
-    column-gap: 16px
-    align-items: center
+@media (min-width: 460px)
+    .double
+        display: flex !important
+        flex-flow: row nowrap
+        justify-content: space-between
+        column-gap: 16px
+        align-items: center
 // .step-0
 //     mat-divider
 //         border-top-color: $step-0

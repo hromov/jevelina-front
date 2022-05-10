@@ -1,12 +1,14 @@
 @import "src/_variables.sass"
-.steps
-    display: flex
-    flex-flow: row nowrap
-    justify-content: space-between
-    gap: 12px
-.step
-    flex: 1 1 0
-    width: 0
+@media (min-width: 40em)
+    .steps
+        display: flex
+        flex-flow: row nowrap
+        justify-content: space-between
+        gap: 12px
+    .step
+        flex: 1 1 0
+        width: 0
+
 h2
     text-align: center
     white-space: nowrap

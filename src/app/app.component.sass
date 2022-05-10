@@ -1,8 +1,11 @@
-mat-toolbar
+mat-toolbar-row
     display: flex
-    flex-flow: row nowrap
+    flex-flow: row wrap
     justify-content: space-between
     vertical-align: center
+@media (min-width:460px)
+    mat-toolbar-row
+        flex-flow: row nowrap
 .logo
     vertical-align: middle
     cursor: pointer
