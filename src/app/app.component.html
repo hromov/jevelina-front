@@ -1,7 +1,7 @@
 <div class="wrapper mat-elevation-z2">
     <mat-toolbar class="mat-elevation-z2 header" color="primary">
         <mat-toolbar-row>
-            <div class="left-side">
+            <div class="side left">
                 <button mat-icon-button (click)="toggle()">
                     <mat-icon>menu</mat-icon>
                 </button>
@@ -19,24 +19,29 @@
                         </svg>
                     </mat-icon>
                 </a>
-                <span class="logo" routerLink="/">Jevelina - Free CRM</span>
+                <span class="logo full-only" routerLink="/">Jevelina - Free CRM</span>
             </div>
-            <app-login *ngIf="mobile"></app-login>
-            <div class="right-side" *ngIf="!mobile">
+            <div class="side right">
+                <mat-icon>search</mat-icon>
                 <app-search></app-search>
+                <div class="full-only side">
+                    <button mat-icon-button (click)="newLead()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <steps-selector></steps-selector>
+                    <app-login></app-login>
+                </div>
+            </div>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="mobile-only">
+            <span class="logo" routerLink="/">Jevelina - Free CRM</span>
+            <div class="side">
                 <button mat-icon-button (click)="newLead()">
                     <mat-icon>add</mat-icon>
                 </button>
                 <steps-selector></steps-selector>
                 <app-login></app-login>
             </div>
-        </mat-toolbar-row>
-        <mat-toolbar-row *ngIf="mobile" class="right-side">
-            <app-search></app-search>
-            <button mat-icon-button (click)="newLead()">
-                <mat-icon>add</mat-icon>
-            </button>
-            <steps-selector></steps-selector>
         </mat-toolbar-row>
     </mat-toolbar>
     <mat-drawer-container class="main">

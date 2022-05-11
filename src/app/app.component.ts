@@ -19,7 +19,6 @@ import { retrievedManufacturers, retrievedProducts, retrievedRoles, retrievedSou
 export class AppComponent implements OnInit {
   opened: boolean
   isAdmin: boolean
-  mobile: boolean
   constructor(
     private api: ApiService,
     private store: Store<AppState>,
@@ -31,9 +30,6 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (window.screen.width < 460) {
-      this.mobile = true
-    }
     this.auth.user$.pipe(filter(user => !!user), first()).subscribe(() => {
       this.api.Steps().subscribe(steps => this.store.dispatch(retrievedSteps({ steps: steps || [] })))
       this.api.Users().subscribe(users => this.store.dispatch(retrievedUsers({ users: users || [] })))

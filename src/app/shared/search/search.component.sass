@@ -1,14 +1,13 @@
 :host
     display: flex
     flex-flow: row nowrap
-    gap: 16px
+    gap: 1em
+    margin-top: -0.8em
+    max-width: 360px
+:host, form, mat-form-field
+    width: 100%
 mat-icon
     align-self: center
-mat-form-field
-    flex: 1
-@media (min-width:460)
-    .second
-        width: 640px
 mat-selection-list
     padding-top: 0
 .results
@@ -27,5 +26,7 @@ mat-divider
     margin: 8px
 .show
     text-align: right
-
+@media (min-width:60em)
+    .second
+        width: 40em
 
