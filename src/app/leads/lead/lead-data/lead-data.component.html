@@ -17,7 +17,7 @@
             <mat-form-field appearance="standard">
                 <mat-label>Step</mat-label>
                 <mat-select matNativeControl formControlName="StepID" (selectionChange)="save()">
-                    <mat-option *ngFor="let item of steps$ | async"  [value]="item.ID" ngClass="step-{{item.Order}}">
+                    <mat-option *ngFor="let item of steps$ | async" [value]="item.ID" ngClass="step-{{item.Order}}">
                         {{item.Name}}
                     </mat-option>
                 </mat-select>
@@ -32,7 +32,7 @@
                 <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="standard">
+            <mat-form-field appearance="standard" *ngIf="showSource">
                 <mat-label>Source</mat-label>
                 <mat-select matNativeControl formControlName="SourceID" (selectionChange)="save()">
                     <mat-option *ngFor="let source of sources$ | async" [value]="source.ID">{{source.Name}}</mat-option>
@@ -57,6 +57,10 @@
         <mat-card-actions>
             <button mat-raised-button color="primary" (click)="save()"
                 [disabled]="form.invalid || !form.dirty">Save</button>
+            <button color="accent" mat-icon-button (click)="delete()" *ngIf="lead.ID"
+                [disabled]="lead.DeletedAt || !auth.isAdmin">
+                <mat-icon>close</mat-icon>
+            </button>
         </mat-card-actions>
         <mat-card-footer>
             <mat-progress-bar mode="indeterminate" *ngIf="saving"></mat-progress-bar>

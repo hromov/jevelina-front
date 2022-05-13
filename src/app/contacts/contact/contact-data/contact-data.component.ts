@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -28,6 +28,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
   loading: boolean = false
   filter: ListFilter = { limit: 5, offset: 0, query: "" }
   saving: boolean
+  showSource: boolean
   @Output() anotherContact: EventEmitter<Contact> = new EventEmitter()
   // implement after guard to check if form changed
   // @HostListener('window:beforeunload')
@@ -42,7 +43,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
     private cs: ContactsService,
     private router: Router,
     private route: ActivatedRoute,
-    private auth: AuthService,
+    public auth: AuthService,
   ) {
 
   }
@@ -64,11 +65,15 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
         SecondEmail: [this.contact.SecondEmail, Validators.email],
         City: [this.contact.City],
         Address: [this.contact.Address],
-        SourceID: [this.contact.SourceID],
+        // SourceID: [this.contact.SourceID],
         // we don't need it here
         // Position: [this.contact.Position],
         // URL: [this.contact.URL],
       })
+      if (!this.contact.Analytics || !this.contact.Analytics.Domain) {
+        this.showSource = true
+        this.form.addControl("SourceID", new FormControl(this.contact.SourceID))
+      }
       this.subscriptions.push(this.form.get("Phone").valueChanges.pipe(
         startWith(''),
         filter(val => val.length > 3),
@@ -114,6 +119,16 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
     }
     // console.log("save and block temporary")
 
+  }
+
+  delete() {
+    if (confirm("Are you sure?")) {
+      this.cs.Delete(this.contact.ID).subscribe({
+        //TODO: produce an action to remove it from ng store
+        next: () => window.history.back(),
+        error: () => this.errorMessage = `Can't delete contact`,
+      })
+    }
   }
 
   contactSelected(e: MatAutocompleteSelectedEvent) {

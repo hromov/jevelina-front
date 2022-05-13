@@ -46,7 +46,7 @@
             <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="standard">
+        <mat-form-field appearance="standard" *ngIf="showSource">
             <mat-label>Source</mat-label>
             <mat-select matNativeControl formControlName="SourceID" (selectionChange)="save()">
                 <mat-option *ngFor="let source of sources$ | async" [value]="source.ID">{{source.Name}}</mat-option>
@@ -75,6 +75,10 @@
     <mat-card-actions>
         <button mat-raised-button color="primary" (click)="save(true)"
             [disabled]="form.invalid || !form.dirty">Save</button>
+        <button color="accent" mat-icon-button (click)="delete()" *ngIf="contact.ID"
+            [disabled]="contact.DeletedAt || !auth.isAdmin">
+            <mat-icon>close</mat-icon>
+        </button>
     </mat-card-actions>
     <mat-card-footer>
         <mat-progress-bar mode="indeterminate" *ngIf="saving"></mat-progress-bar>
