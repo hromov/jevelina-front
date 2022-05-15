@@ -39,9 +39,8 @@ export class FinanceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(walletsRequired())
-    this.minDate.setDate(this.minDate.getDate() - 28)
+    this.minDate = new Date(this.minDate.getFullYear(), this.minDate.getMonth(), 1)
     this.maxDate.setDate(this.maxDate.getDate() + 1)
-    // this.pageChanged()
     this.subs.push(this.ds.dateSelectors$.pipe(filter(val => !!val)).subscribe(minMax => {
       this.filter = { ...this.filter, min_date: minMax.minDate, max_date: minMax.maxDate }
       this.pageChanged()
