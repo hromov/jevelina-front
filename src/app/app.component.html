@@ -62,6 +62,9 @@
                 <button mat-fab color="primary" aria-label="Wallets" routerLink="/finance/wallets" *ngIf="auth.isAdmin">
                     <mat-icon>money</mat-icon>
                 </button>
+                <button mat-fab color="accent" aria-label="Wallets" routerLink="/finance/categories" *ngIf="auth.isAdmin">
+                    <mat-icon>money</mat-icon>
+                </button>
                 <button mat-fab color="primary" aria-label="Settings" routerLink="/settings" *ngIf="auth.isAdmin">
                     <mat-icon>settings</mat-icon>
                 </button>

@@ -1,0 +1,25 @@
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.category}} </mat-cell>
+    </ng-container>
+
+   <ng-container matColumnDef="income">
+        <mat-header-cell *matHeaderCellDef> Income </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.income}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expense">
+        <mat-header-cell *matHeaderCellDef> Expense </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.expense}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="result">
+        <mat-header-cell *matHeaderCellDef> Result </mat-header-cell>
+        <mat-cell *matCellDef="let row"> <a [routerLink]="['/finance', 'categories', row.category]">{{row.result}}</a> </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columns"></mat-row>
+</mat-table>

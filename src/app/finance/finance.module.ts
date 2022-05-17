@@ -12,6 +12,8 @@ import { TransferChipComponent } from './transfer-chip/transfer-chip.component';
 import { FinLeadComponent } from './fin-lead/fin-lead.component';
 import { TransferForComponent } from './transfer-for/transfer-for.component';
 import { CategoriesComponent } from './analytics/categories/categories.component';
+import { CashflowComponent } from './analytics/cashflow/cashflow.component';
+import { CategoryComponent } from './analytics/categories/category/category.component';
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import { CategoriesComponent } from './analytics/categories/categories.component
     FinLeadComponent,
     TransferForComponent,
     CategoriesComponent,
+    CashflowComponent,
+    CategoryComponent,
   ],
   imports: [
     CommonModule,
