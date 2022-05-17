@@ -21,14 +21,16 @@ const allowed_steps = [1, 4]
 })
 export class FinanceComponent implements OnInit, OnDestroy {
   filter: ListFilter = { limit: 50, offset: 0, steps: allowed_steps }
-  leads$: Observable<Lead[]> = this.store.select(selectCurrentPage).pipe(map(leads => {
-    this.store.dispatch(transfersRequired({ filter: { ids: leads.map(l => l.ID) } }))
-    return leads.filter(l => allowed_steps.includes(l.StepID)).sort(function (a, b) {
-      return a.Step.Order - b.Step.Order;
-    });
-  }))
+  leads$: Observable<Lead[]> = this.store.select(selectCurrentPage).pipe(
+    filter(leads => leads.length > 0),
+    map(leads => {
+      this.store.dispatch(transfersRequired({ filter: { ids: leads.map(l => l.ID) } }))
+      return leads.filter(l => allowed_steps.includes(l.StepID)).sort(function (a, b) {
+        return a.Step.Order - b.Step.Order;
+      });
+    }))
   totalPassive$: Observable<number> = this.store.select(selectLeadsCurrentPassiveTotal)
-  total$: Observable<number>  = this.store.select(selectLeadsCurrentTotal) //this.store.select(selectContactsTotal(FilterToString(this.filter)));
+  total$: Observable<number> = this.store.select(selectLeadsCurrentTotal) //this.store.select(selectContactsTotal(FilterToString(this.filter)));
   totalProfit$: Observable<number> = this.store.select(selectProfitForPage)
   selectedUser$ = this.store.select(selectedUser)
   minDate = new Date()
@@ -57,7 +59,7 @@ export class FinanceComponent implements OnInit, OnDestroy {
 
   pageChanged(e?: PageEvent) {
     if (e) {
-      this.filter = {...this.filter, offset: e.pageIndex * this.filter.limit}
+      this.filter = { ...this.filter, offset: e.pageIndex * this.filter.limit }
     } else {
       this.paginator && this.paginator.firstPage()
     }
