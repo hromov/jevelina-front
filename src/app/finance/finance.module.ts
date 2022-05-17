@@ -11,6 +11,7 @@ import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.compo
 import { TransferChipComponent } from './transfer-chip/transfer-chip.component';
 import { FinLeadComponent } from './fin-lead/fin-lead.component';
 import { TransferForComponent } from './transfer-for/transfer-for.component';
+import { CategoriesComponent } from './analytics/categories/categories.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { TransferForComponent } from './transfer-for/transfer-for.component';
     TransferChipComponent,
     FinLeadComponent,
     TransferForComponent,
+    CategoriesComponent,
   ],
   imports: [
     CommonModule,
