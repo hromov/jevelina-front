@@ -1,0 +1,48 @@
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="transfers">
+
+        <ng-container matColumnDef="created">
+            <mat-header-cell *matHeaderCellDef> Created </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="cols">
+                <span>
+                    <user-name [id]="element.CreatedBy"></user-name>
+                </span>
+                <span>{{element.CreatedAt | date:'short'}}</span>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
+            <mat-cell *matCellDef="let element"><span>{{element.Category}}</span>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="wallet">
+            <mat-header-cell *matHeaderCellDef> Wallet </mat-header-cell>
+            <!-- TODO: Make ng template or mini component here -->
+            <mat-cell *matCellDef="let element" class="cols">
+                <span *ngIf="element.From" class="from">
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                    <wallet-name [id]="element.From"></wallet-name>
+                </span>
+                <span *ngIf="element.To" class="to">
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                    <wallet-name [id]="element.To"></wallet-name>
+                </span>
+            </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="amount">
+            <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <transfer-chip [transfer]="element"></transfer-chip>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="total$ | async" [pageSize]="50" aria-label="Select page" (page)="pageChanged($event)">
+    </mat-paginator>
+</div>

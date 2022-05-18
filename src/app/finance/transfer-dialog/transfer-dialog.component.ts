@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { catchError, concatMap, map, of, tap, throwError } from 'rxjs';
@@ -35,7 +35,7 @@ export class TransferDialogComponent implements AfterViewInit {
       From: [transfer.From],
       To: [transfer.To],
       Amount: [transfer.Amount],
-      Category: [transfer.Category],
+      Category: [transfer.Category, Validators.required],
       Description: [transfer.Description]
     })
     if (transfer.Completed || transfer.DeletedAt) {

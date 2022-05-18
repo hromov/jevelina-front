@@ -4,13 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, filter, Observable } from 'rxjs';
+import { BehaviorSubject, filter, first, forkJoin, map, Observable } from 'rxjs';
 import { DateSelectorService, MinMax } from 'src/app/shared/date-selector/date-selector.service';
 import { ListFilter, Transfer, Wallet } from 'src/app/shared/model';
 import { SharedService } from 'src/app/shared/shared.service';
 import { AppState } from 'src/app/state/app.state';
 import { transfersPageChanged, transfersRequired, walletsRequired } from 'src/app/state/finance/finance.actions';
-import { selectCurrentTransfers, selectCurrentTransfersTotal, selectWallets } from 'src/app/state/finance/finance.selectors';
+import { selectCategories, selectCurrentTransfers, selectCurrentTransfersTotal, selectWallets } from 'src/app/state/finance/finance.selectors';
 import { TransferDialogComponent } from '../transfer-dialog/transfer-dialog.component';
 
 @Component({
@@ -20,15 +20,14 @@ import { TransferDialogComponent } from '../transfer-dialog/transfer-dialog.comp
   providers: [DateSelectorService]
 })
 export class WalletsComponent implements OnInit {
-  page_limit = 50
   transfers$: Observable<ReadonlyArray<Transfer>> = this.store.select(selectCurrentTransfers)
-  total$: Observable<number> = this.store.select(selectCurrentTransfersTotal)
-  displayedColumns: string[] = ['created', 'wallet', 'category', 'amount'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   filterSubject: BehaviorSubject<ListFilter>
   filter$: Observable<ListFilter>
+  categories$: Observable<string[]> = this.store.select(selectCategories)
   wallets$: Observable<ReadonlyArray<Wallet>> = this.store.select(selectWallets)
-  walletControl: FormControl = new FormControl(Number(localStorage.getItem("wallet")) || null)
+  walletControl: FormControl = new FormControl()
+  categoryControl: FormControl = new FormControl()
   //init values
   minDate = new Date()
   maxDate = new Date()
@@ -38,17 +37,23 @@ export class WalletsComponent implements OnInit {
     private shared: SharedService,
     private dialog: MatDialog,
     private ds: DateSelectorService,
-  ) {
-
-    const filter: ListFilter = {
-      limit: this.page_limit,
-      offset: 0,
-      min_date: this.minDate,
-      max_date: this.maxDate,
-      wallet: this.walletControl.value
-    }
-    this.filterSubject = new BehaviorSubject<ListFilter>(filter)
-    this.filter$ = this.filterSubject.asObservable()
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {    
+    this.route.queryParams.pipe(first()).subscribe((params) => {
+      this.setInitValues(params)
+      
+      const filter: ListFilter = {
+        limit: 50,
+        offset: 0,
+        query: this.categoryControl.value,
+        min_date: this.minDate,
+        max_date: this.maxDate,
+        wallet: this.walletControl.value,
+      }
+      this.filterSubject = new BehaviorSubject<ListFilter>(filter)
+      this.filter$ = this.filterSubject.asObservable()
+    })
   }
 
   transfer(from?: boolean, to?: boolean) {
@@ -59,56 +64,77 @@ export class WalletsComponent implements OnInit {
   }
 
   pageChanged(e: PageEvent) {
-    const filter = this.filterSubject.getValue()
-    this.filterSubject.next({ ...filter, offset: e.pageIndex * filter.limit })
+    this.updateFilter({offset: e.pageIndex * e.pageSize})
   }
 
   ngOnInit(): void {
-    //for init values only
-    this.minDate.setDate(this.minDate.getDate() - 28)
-    this.maxDate.setDate(this.maxDate.getDate() + 1)
-
     this.store.dispatch(walletsRequired())
     this.walletControl.valueChanges.subscribe(val => {
-      this.filterSubject.next({ ...this.filterSubject.getValue(), wallet: val })
+      this.updateFilter({wallet: val})
       this.paginator && this.paginator.firstPage()
       //TODO: move to on exit
       localStorage.setItem("wallet", val)
     })
+    this.categoryControl.valueChanges.subscribe(val => {
+      this.updateFilter({query: val})
+      this.paginator && this.paginator.firstPage()
+    })
     this.ds.dateSelectors$.pipe(filter(val => !!val)).subscribe((minMax: MinMax) => {
-      this.filterSubject.next({ ...this.filterSubject.getValue(), min_date: minMax.minDate, max_date: minMax.maxDate })
+      this.updateFilter({min_date: minMax.minDate, max_date: minMax.maxDate})
     })
     this.filter$.subscribe(filter => {
       this.store.dispatch(transfersRequired({ filter }))
       this.store.dispatch(transfersPageChanged({ filter }))
+      const queryParams: Params = this.filterToParams(filter)
+      this.router.navigate(
+            [],
+            {
+              relativeTo: this.route,
+              queryParams: queryParams,
+              queryParamsHandling: '', // remove to replace all query params by provided
+            });
     })
-
-    //TODO: make use of it    
-    // this.route.queryParams
-    //   .subscribe(params => {
-    //     this.paginator && this.paginator.firstPage()
-    //   });
-    // this.filter$.subscribe(filter => {
-    //   const queryParams: Params = this.filterToParams(filter)
-    //   this.store.dispatch(transfersRequired({ filter }))
-    //   this.store.dispatch(transfersPageChanged({ filter }))
-    //   this.router.navigate(
-    //     [],
-    //     {
-    //       relativeTo: this.route,
-    //       queryParams: queryParams,
-    //       queryParamsHandling: '', // remove to replace all query params by provided
-    //     });
-    // })
   }
 
-  // filterToParams(filter: ListFilter): Params {
-  //   return {
-  //     limit: filter.limit,
-  //     page: filter.offset / filter.limit,
-  //     min_date: filter.min_date,
-  //     max_date: filter.max_date,
-  //     wallet: filter.wallet
-  //   }
-  // }
+  updateFilter(filter: ListFilter) {
+    const oldFilter = this.filterSubject.getValue()
+    if (!(oldFilter.min_date === filter.min_date && oldFilter.max_date === filter.max_date)) {
+      this.filterSubject.next({ ...oldFilter, ...filter })
+    }
+  }
+
+  filterToParams(filter: ListFilter): Params {
+      return {
+        wallet: filter.wallet,
+        category: filter.query,
+        minDate: filter.min_date,
+        maxDate: filter.max_date,
+        limit: filter.limit,
+        page: filter.offset / filter.limit,
+    }
+  }
+
+  setInitValues(params: Params) {
+    if (params['minDate'] !== undefined) {
+      this.minDate = new Date(params['minDate'])
+    } else {
+      this.minDate.setDate(this.minDate.getDate() - 28)
+    }
+
+    if (params['maxDate'] !== undefined) {
+      this.maxDate = new Date(params['maxDate'])
+    } else {
+      this.maxDate.setDate(this.maxDate.getDate() + 1)
+    }
+
+    if (params['wallet'] !== undefined) {
+      this.walletControl.setValue(Number(params['wallet']))
+    } else {
+      this.walletControl.setValue(Number(localStorage.getItem("wallet")) || "")
+    }
+
+    if (params['category'] !== undefined) {
+      this.categoryControl.setValue(params['category'])
+    }
+  }
 }

@@ -13,7 +13,7 @@ import { FinLeadComponent } from './fin-lead/fin-lead.component';
 import { TransferForComponent } from './transfer-for/transfer-for.component';
 import { CategoriesComponent } from './analytics/categories/categories.component';
 import { CashflowComponent } from './analytics/cashflow/cashflow.component';
-import { CategoryComponent } from './analytics/categories/category/category.component';
+import { TransfersTableComponent } from './transfers-table/transfers-table.component';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { CategoryComponent } from './analytics/categories/category/category.comp
     TransferForComponent,
     CategoriesComponent,
     CashflowComponent,
-    CategoryComponent,
+    TransfersTableComponent,
   ],
   imports: [
     CommonModule,

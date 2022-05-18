@@ -13,9 +13,6 @@ export class AuthService {
   socialUser$: Observable<SocialUser> = this.socialUserSubject.asObservable()
   userSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null)
   user$: Observable<User> = this.userSubject.asObservable()
-  // logedIn: boolean
-  // adminSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
-  // isAdmin$: Observable<boolean> = this.adminSubject.asObservable()
   constructor(private authService: SocialAuthService, private router: Router, private api: ApiService) {
     const expiring = JSON.parse(localStorage.getItem("expiring"))
     if (new Date(expiring) > new Date()) {

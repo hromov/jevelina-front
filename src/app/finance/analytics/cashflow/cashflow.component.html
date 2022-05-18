@@ -17,7 +17,7 @@
 
     <ng-container matColumnDef="result">
         <mat-header-cell *matHeaderCellDef> Result </mat-header-cell>
-        <mat-cell *matCellDef="let row"> <a [routerLink]="['/finance', 'categories', row.category]">{{row.result}}</a> </mat-cell>
+        <mat-cell *matCellDef="let row"> <a [routerLink]="['/finance', 'wallets']" [queryParams]="{wallet: 0, category: row.category, minDate: minDate, maxDate: maxDate, limit: 50, page: 0}" >{{row.result}}</a> </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columns"></mat-header-row>

@@ -94,6 +94,9 @@ function _valid(l: Transfer, filter: ListFilter): boolean {
             return false
         }
     }
+    if (filter.query && filter.query !== l.Category) {
+        return false
+    }
     if (filter.parent && l.ParentID != filter.parent) {
         return false
     }
@@ -115,7 +118,12 @@ function _filter(tasks: Transfer[], filter: ListFilter): Transfer[] {
         return []
     }
     // console.log(filter)
-    const filtered = tasks.filter(c => _valid(c, filter))
+    const filtered = tasks.filter(c => _valid(c, filter)).sort((a, b) => {
+        if (!a.Completed && !b.Completed) {
+            return b.CreatedAt < a.CreatedAt ? -1 : 1
+        }
+        return b.CompletedAt < a.CompletedAt ? -1 : 1
+    })
     // console.group(FilterToString(filter))
     // console.log(filter, filtered)
     // console.groupEnd()

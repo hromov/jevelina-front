@@ -20,6 +20,8 @@ interface Row {
 })
 export class CashflowComponent implements OnChanges {
   @Input() cashFlow: CategorisedCashflow
+  @Input() minDate: Date
+  @Input() maxDate: Date
   cashFlowTable: Map<string, IncExp>
   columns = ['category', 'income', 'expense', 'result']
   dataSource: Row[]
