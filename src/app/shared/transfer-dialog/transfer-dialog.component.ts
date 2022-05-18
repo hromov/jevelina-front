@@ -22,6 +22,8 @@ export class TransferDialogComponent implements AfterViewInit {
   categories$ = this.store.select(selectCategories)
   errorMessage: string = ""
   files: File[] = []
+  isTransfer: boolean
+  disabled: boolean
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<TransferDialogComponent>,
@@ -31,20 +33,27 @@ export class TransferDialogComponent implements AfterViewInit {
     public auth: AuthService
   ) {
     this.transfer = transfer
+    if (transfer.From && transfer.To) {
+      this.isTransfer = true
+    }
     this.form = fb.group({
-      From: [transfer.From],
-      To: [transfer.To],
+      From: [transfer.From || 1],
+      To: [transfer.To || 1],
       Amount: [transfer.Amount],
-      Category: [transfer.Category, Validators.required],
+      Category: [this.isTransfer ? 'Transfer' : transfer.Category, Validators.required],
       Description: [transfer.Description]
     })
-    if (transfer.Completed || transfer.DeletedAt) {
+    if (this.transfer.Completed || this.transfer.DeletedAt) {
       this.form.disable()
+      this.form.get('Category').enable()
+      this.form.get('Description').enable()
+      this.disabled = true
     }
+    
   }
 
   get same() {
-    return this.form.value.From == this.form.value.To
+    return this.disabled ? false : this.form.value.From == this.form.value.To
   }
 
   ngAfterViewInit(): void {

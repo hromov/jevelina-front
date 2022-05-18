@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { FilterToString, httpOptions, path } from '../api.service';
 import { ListFilter, Transfer, Wallet } from '../shared/model';
 

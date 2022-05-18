@@ -7,14 +7,14 @@
 <app-error [error]="errorMessage"></app-error>
 
 <mat-dialog-content [formGroup]="form">
-    <mat-form-field appearance="fill" *ngIf="form.value.From">
+    <mat-form-field appearance="fill" *ngIf="transfer.From !== null">
         <mat-label>From</mat-label>
         <mat-select matNativeControl formControlName="From">
             <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="form.value.To">
+    <mat-form-field appearance="fill" *ngIf="transfer.To !== null">
         <mat-label>To</mat-label>
         <mat-select matNativeControl formControlName="To">
             <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
@@ -26,7 +26,7 @@
         <input matInput placeholder="Amount" formControlName="Amount" type="number">
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" *ngIf="!isTransfer">
         <mat-label>Category</mat-label>
         <input type="text" placeholder="Category" matInput formControlName="Category" [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
@@ -34,13 +34,11 @@
                 {{option}}
             </mat-option>
         </mat-autocomplete>
-        <!-- <mat-select matNativeControl formControlName="Category">
-            <mat-option *ngFor="let item of categories$ | async" [value]="item">{{item}}</mat-option>
-        </mat-select> -->
     </mat-form-field>
+
     <mat-form-field appearance="fill">
         <mat-label>Description</mat-label>
-        <input matInput placeholder="Description" formControlName="Description">
+        <input matInput placeholder="Description" formControlName="Description" cdkFocusInitial>
     </mat-form-field>
 
     <div *ngIf="transfer.CompletedBy">
@@ -57,13 +55,12 @@
         <button mat-raised-button (click)="close()">
             Close
         </button>
-
         <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || !form.dirty || same">
             Save
         </button>
     </div>
     <div>
-        <button mat-icon-button color="primary" (click)="complete()" [disabled]="form.invalid || same || form.disabled">
+        <button mat-icon-button color="primary" (click)="complete()" [disabled]="transfer.DeletedAt || form.invalid || same || form.disabled">
             <mat-icon>done</mat-icon>
         </button>
         <button color="accent" mat-icon-button (click)="delete()" *ngIf="transfer.ID" [disabled]="transfer.DeletedAt">
