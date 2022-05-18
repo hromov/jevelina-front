@@ -13,6 +13,8 @@ interface Row {
   result: number
 }
 
+const total_category_name = 'Total'
+
 @Component({
   selector: 'app-cashflow',
   templateUrl: './cashflow.component.html',
@@ -47,8 +49,12 @@ export class CashflowComponent implements OnChanges {
       dataSource.push({category: cat, income: val.Incomes, expense: val.Expenses, result: val.Incomes - val.Expenses})
     });
     dataSource.sort((a, b) => b.result - a.result)
-    dataSource.push({category: 'Total', income: totalIncomes, expense: totalExpenses, result: totalIncomes - totalExpenses})
-    this.dataSource = dataSource;
+    dataSource.push({category: total_category_name, income: totalIncomes, expense: totalExpenses, result: totalIncomes - totalExpenses})
+    this.dataSource = dataSource
+  }
+
+  getCategory(category: string): string {
+    return category === total_category_name ? '' : category
   }
 
 }
