@@ -40,6 +40,10 @@ import { UserNameComponent } from './user-name/user-name.component';
 import { WalletNameComponent } from './wallet-name/wallet-name.component';
 import { DateSelectorComponent } from './date-selector/date-selector.component';
 import { FilesComponent } from './files/files.component';
+import { TransferForComponent } from './transfer-for/transfer-for.component';
+import { TransferChipComponent } from './transfer-chip/transfer-chip.component';
+import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
+import { FinLeadComponent } from './fin-lead/fin-lead.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +59,10 @@ import { FilesComponent } from './files/files.component';
     WalletNameComponent,
     DateSelectorComponent,
     FilesComponent,
+    TransferForComponent,
+    TransferChipComponent,
+    TransferDialogComponent,
+    FinLeadComponent,
   ],
   imports: [
     CommonModule,
@@ -127,6 +135,10 @@ import { FilesComponent } from './files/files.component';
     WalletNameComponent,
     DateSelectorComponent,
     FilesComponent,
+    TransferForComponent,
+    TransferChipComponent,
+    TransferDialogComponent,
+    FinLeadComponent,
   ],
   providers:[
     MatNativeDateModule

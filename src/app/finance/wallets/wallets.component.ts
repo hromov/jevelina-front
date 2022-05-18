@@ -11,7 +11,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 import { AppState } from 'src/app/state/app.state';
 import { transfersPageChanged, transfersRequired, walletsRequired } from 'src/app/state/finance/finance.actions';
 import { selectCategories, selectCurrentTransfers, selectCurrentTransfersTotal, selectWallets } from 'src/app/state/finance/finance.selectors';
-import { TransferDialogComponent } from '../transfer-dialog/transfer-dialog.component';
+import { TransferDialogComponent } from '../../shared/transfer-dialog/transfer-dialog.component';
 
 @Component({
   selector: 'app-wallets',

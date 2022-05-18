@@ -7,10 +7,6 @@ import { SettingsComponent } from './settings/settings.component';
 import { SharedModule } from '../shared/shared.module';
 import { WalletDialogComponent } from './settings/wallet-dialog/wallet-dialog.component';
 import { WalletsComponent } from './wallets/wallets.component';
-import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
-import { TransferChipComponent } from './transfer-chip/transfer-chip.component';
-import { FinLeadComponent } from './fin-lead/fin-lead.component';
-import { TransferForComponent } from './transfer-for/transfer-for.component';
 import { CategoriesComponent } from './analytics/categories/categories.component';
 import { CashflowComponent } from './analytics/cashflow/cashflow.component';
 import { TransfersTableComponent } from './transfers-table/transfers-table.component';
@@ -22,10 +18,6 @@ import { TransfersTableComponent } from './transfers-table/transfers-table.compo
     SettingsComponent,
     WalletDialogComponent,
     WalletsComponent,
-    TransferDialogComponent,
-    TransferChipComponent,
-    FinLeadComponent,
-    TransferForComponent,
     CategoriesComponent,
     CashflowComponent,
     TransfersTableComponent,

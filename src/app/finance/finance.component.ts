@@ -24,7 +24,7 @@ export class FinanceComponent implements OnInit, OnDestroy {
   leads$: Observable<Lead[]> = this.store.select(selectCurrentPage).pipe(
     filter(leads => leads.length > 0),
     map(leads => {
-      this.store.dispatch(transfersRequired({ filter: { ids: leads.map(l => l.ID) } }))
+      this.store.dispatch(transfersRequired({ filter: { ids: leads.map(l => l.ID), limit: 1000 } }))
       return leads.filter(l => allowed_steps.includes(l.StepID)).sort(function (a, b) {
         return a.Step.Order - b.Step.Order;
       });

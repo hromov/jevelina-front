@@ -1,18 +1,18 @@
-<mat-card hoverElevation>
-    <div class="mat-small double">
+<mat-card hoverElevation [ngClass]="{'short': short}">
+    <div class="mat-small double" *ngIf="!short">
         <div class="resp-name">{{lead.Responsible.Name}}</div>
         <div>{{lead.CreatedAt | date}}</div>
     </div>
     <mat-card-content>
-        <div class="col">
+        <div class="col" *ngIf="!short">
             <div><a [routerLink]="['/contacts', lead.ContactID]">{{lead.Contact.Name}}</a></div>
             <div>{{lead.Contact.Phone}}</div>
         </div>
-        <div class="col step-{{lead.Step.Order}} lead">
+        <div class="col step-{{lead.Step.Order}} lead" *ngIf="!short">
             <div><a [routerLink]="['/leads', lead.ID]">{{lead.Name}}</a></div>
             <div>{{lead.Step.Name}}</div>
         </div>
-        <div>
+        <div class="transfers">
             <transfer-for [parentID]="lead.ID"></transfer-for>
         </div>
         <div class="profit">
