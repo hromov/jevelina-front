@@ -37,8 +37,8 @@ export class TransferDialogComponent implements AfterViewInit {
       this.isTransfer = true
     }
     this.form = fb.group({
-      From: [transfer.From || 1],
-      To: [transfer.To || 1],
+      From: [transfer.From ? transfer.From : null],
+      To: [transfer.To ? transfer.To : null],
       Amount: [transfer.Amount],
       Category: [this.isTransfer ? 'Transfer' : transfer.Category, Validators.required],
       Description: [transfer.Description]

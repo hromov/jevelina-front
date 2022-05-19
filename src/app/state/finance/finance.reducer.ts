@@ -69,6 +69,7 @@ export const financeReducer = createReducer(
         let newLoaded = state.loadedTransfers
         let oldTransfer = newTransfers[index]
         let wallets = state.wallets.slice(0)
+        console.log(transfer)
         if (transfer.Completed && !oldTransfer.Completed) {
             wallets.forEach((wallet, index) => {
                 if (wallet.ID == oldTransfer.To) {

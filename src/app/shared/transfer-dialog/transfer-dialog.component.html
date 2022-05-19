@@ -7,14 +7,14 @@
 <app-error [error]="errorMessage"></app-error>
 
 <mat-dialog-content [formGroup]="form">
-    <mat-form-field appearance="fill" *ngIf="transfer.From !== null">
+    <mat-form-field appearance="fill" *ngIf="transfer.From">
         <mat-label>From</mat-label>
         <mat-select matNativeControl formControlName="From">
             <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="transfer.To !== null">
+    <mat-form-field appearance="fill" *ngIf="transfer.To">
         <mat-label>To</mat-label>
         <mat-select matNativeControl formControlName="To">
             <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>

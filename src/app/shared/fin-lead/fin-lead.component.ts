@@ -29,6 +29,7 @@ export class FinLeadComponent implements OnInit {
   }
 
   transfer(from?: boolean, to?: boolean) {
+    console.log(from, to)
     this.shared.openTransfer(from ? 1 : null, to ? 1 : null, this.lead.ID)
   }
 

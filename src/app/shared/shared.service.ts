@@ -18,7 +18,7 @@ export class SharedService {
     return dialogConfig
   }
 
-  openTransfer(from: number, to: number, parent: number) {
+  openTransfer(from: number | null, to: number | null, parent: number) {
     const dialogConfig = this.newDialog()
     dialogConfig.data = { From: from, To: to, ParentID: parent || null }
     this.dialog.open(TransferDialogComponent, dialogConfig)
