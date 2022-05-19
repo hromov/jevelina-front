@@ -21,19 +21,19 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
-        <mat-label>Amount</mat-label>
-        <input matInput placeholder="Amount" formControlName="Amount" type="number">
-    </mat-form-field>
-
     <mat-form-field appearance="fill" *ngIf="!isTransfer">
         <mat-label>Category</mat-label>
         <input type="text" placeholder="Category" matInput formControlName="Category" [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let option of categories$ | async" [value]="option">
+            <mat-option *ngFor="let option of filteredCategories$ | async" [value]="option">
                 {{option}}
             </mat-option>
         </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Amount</mat-label>
+        <input matInput placeholder="Amount" formControlName="Amount" type="number">
     </mat-form-field>
 
     <mat-form-field appearance="fill">

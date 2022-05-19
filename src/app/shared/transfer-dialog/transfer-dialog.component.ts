@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { catchError, concatMap, map, of, tap, throwError } from 'rxjs';
+import { catchError, concatMap, first, map, Observable, of, startWith, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/login/auth.service';
 import { File, Transfer } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
@@ -19,11 +19,12 @@ export class TransferDialogComponent implements AfterViewInit {
   form: FormGroup
   transfer: Transfer
   wallets$ = this.store.select(selectWallets)
-  categories$ = this.store.select(selectCategories)
+  categories: string[] = []
   errorMessage: string = ""
   files: File[] = []
   isTransfer: boolean
   disabled: boolean
+  filteredCategories$: Observable<string[]>;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<TransferDialogComponent>,
@@ -32,6 +33,7 @@ export class TransferDialogComponent implements AfterViewInit {
     private store: Store<AppState>,
     public auth: AuthService
   ) {
+    this.store.select(selectCategories).pipe(first()).subscribe(categories => this.categories = categories)
     this.transfer = transfer
     if (transfer.From && transfer.To) {
       this.isTransfer = true
@@ -49,6 +51,10 @@ export class TransferDialogComponent implements AfterViewInit {
       this.form.get('Description').enable()
       this.disabled = true
     }
+    this.filteredCategories$ = this.form.get('Category').valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value)),
+    );
     
   }
 
@@ -131,5 +137,11 @@ export class TransferDialogComponent implements AfterViewInit {
         error: () => this.errorMessage = `Can't delete transfer with ID: ${this.transfer.ID}`
       })
     }
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.categories.filter(option => option.toLowerCase().includes(filterValue));
   }
 }
