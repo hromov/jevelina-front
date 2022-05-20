@@ -10,6 +10,7 @@ import { WalletsComponent } from './wallets/wallets.component';
 import { CategoriesComponent } from './analytics/categories/categories.component';
 import { CashflowComponent } from './analytics/cashflow/cashflow.component';
 import { TransfersTableComponent } from './transfers-table/transfers-table.component';
+import { EventsComponent } from './events/events.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { TransfersTableComponent } from './transfers-table/transfers-table.compo
     CategoriesComponent,
     CashflowComponent,
     TransfersTableComponent,
+    EventsComponent,
   ],
   imports: [
     CommonModule,
