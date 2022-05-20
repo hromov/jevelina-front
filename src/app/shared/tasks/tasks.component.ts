@@ -43,7 +43,7 @@ export class TasksComponent implements OnInit {
       ParentID: this.parentID,
       DeadLine: deadLine
     }
-    
+   
     this.api.SaveTask(newTask).subscribe(task => {
       this.store.dispatch(taskChanged({task}))
       this.form.reset()
