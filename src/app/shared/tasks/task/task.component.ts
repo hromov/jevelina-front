@@ -16,13 +16,22 @@ export class TaskComponent implements OnInit {
   @Input() task: Task
   @Input() clickable: boolean
   results : FormControl
+  description : FormControl
   errorMessage: string
+  rows = 5
+  editable = false
   constructor(private api: ApiService, private store: Store<AppState>, private auth: AuthService) { }
 
   ngOnInit(): void {
     if (this.showForm) {
       this.results = new FormControl("", Validators.required)
     }
+    if (this.task.Description) {
+      const newLines = this.task.Description.match(/\n/gm) || []
+      this.rows = newLines.length + 1
+      this.description = new FormControl(this.task.Description)
+    }
+    
   }
 
   get showForm() {
@@ -32,9 +41,10 @@ export class TaskComponent implements OnInit {
   save() {
     const updatedTask: Task = {
       ...this.task,
-      Results: this.results.value,
+      Results: this.results ? this.results.value : "",
       Completed: true,
       Updated: this.auth.currentUser,
+      Description: this.description.value,
     }
     this.api.SaveTask(updatedTask).subscribe({
       next: () => this.store.dispatch(taskChanged({task: updatedTask})),
@@ -42,8 +52,16 @@ export class TaskComponent implements OnInit {
     })
   }
 
+  edit() {
+    this.editable = !this.editable
+  }
+
   getClass(t: string): string {
     return (new Date(t) < new Date()) ? "outdated" : "date"
+  }
+
+  get editIcon(): string {
+    return this.editable ? 'close' : 'edit'
   }
 
   get parentRoute(): string {
