@@ -26,7 +26,7 @@
 
             <mat-form-field appearance="standard" class="resp-name">
                 <mat-label>Responsible</mat-label>
-                <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="save()">
+                <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="responsibleChanged()">
                     <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>

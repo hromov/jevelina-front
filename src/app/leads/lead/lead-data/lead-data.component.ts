@@ -1,15 +1,19 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { first, Observable } from 'rxjs';
+import { ApiService } from 'src/app/api.service';
+import { ContactsService } from 'src/app/contacts/contacts.service';
 import { AuthService } from 'src/app/login/auth.service';
-import { Contact, Lead, Step } from 'src/app/shared/model';
+import { MiscService } from 'src/app/settings/misc/misc.service';
+import { Contact, Lead, Step, Task } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
-import { contactRequired } from 'src/app/state/cotacts/contacts.actions';
+import { contactRecieved, contactRequired } from 'src/app/state/cotacts/contacts.actions';
 import { selectContact } from 'src/app/state/cotacts/contacts.selectors';
 import { leadRecieved } from 'src/app/state/leads/leads.actions';
 import { selectManufacturers, selectProducts, selectSources, selectSteps, selectUsers } from 'src/app/state/misc/misc.selectors';
+import { taskChanged } from 'src/app/state/tasks/tasks.actions';
+import { selectFilteredTasks } from 'src/app/state/tasks/tasks.selectors';
 import { LeadsService } from '../../leads.service';
 
 @Component({
@@ -30,18 +34,13 @@ export class LeadDataComponent implements OnChanges {
   saving: boolean
   showSource: boolean
 
-  // implement after guard to check if form changed
-  // @HostListener('window:beforeunload')
-  // canDeactivate(): Observable<boolean> | boolean {
-  //   // insert logic to check if there are pending changes here;
-  //   // returning true will navigate without confirmation
-  //   // returning false will show a confirm dialog before navigating away
-  // }
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
     private ls: LeadsService,
     public auth: AuthService,
+    private api: ApiService,
+    private cs: ContactsService,
   ) {
 
   }
@@ -95,7 +94,7 @@ export class LeadDataComponent implements OnChanges {
       }
       this.contact$ = this.store.select(selectContact(newLead.ContactID))
       this.ls.Save(newLead).pipe(first()).subscribe({
-        next: (contact) => {
+        next: () => {
           this.store.dispatch(leadRecieved({ lead: newLead }))
           // console.log(contact)
         },
@@ -111,11 +110,57 @@ export class LeadDataComponent implements OnChanges {
     }
   }
 
+
+  responsibleChanged() {
+    if (confirm("Change resposible in Tasks and Contacts?")) {
+      const newResponsible = this.form.get('ResponsibleID').value
+      this.changeTasksResponsible(newResponsible)
+      this.changeContactsResponsible(newResponsible)
+      this.save()
+    } else {
+      this.save()
+    }
+  }
+
+  changeContactsResponsible(responsible: number) {
+    this.store.select(selectContact(this.lead.ContactID))
+        .pipe(first())
+        .subscribe((contact: Contact) => {
+          const newContact: Contact = {
+            ...contact,
+            ResponsibleID: responsible,
+          }
+          this.cs.Save(newContact).pipe(first()).subscribe({
+            next: () => this.store.dispatch(contactRecieved({ contact: newContact })),
+            error: (err) => alert(`Can't change contact's responsible error: ${err}`)
+          })
+        })
+  }
+
+  changeTasksResponsible(responsible: number) {
+    this.store.select(selectFilteredTasks({ parent: this.lead.ID, active: true }))
+        .pipe(first())
+        .subscribe((tasks: Task[]) => {
+
+          //TODO: make it fully server based? But we still need to change tasks in the store
+          tasks.forEach((task => {
+            const newTask: Task = {
+              ...task,
+              ResponsibleID: responsible
+            }
+            this.api.SaveTask(newTask).pipe(first()).subscribe({
+              next: () => this.store.dispatch(taskChanged({ task: newTask })),
+              error: (err) => alert(`Can't change task's responsible error: ${err}`)
+            })
+          }))
+        })
+  }
+
   delete() {
     if (confirm("Are you sure?")) {
       this.ls.Delete(this.lead.ID).subscribe({
         //TODO: produce an action to remove it from ng store
-        next: () => window.history.back(),
+        next: () => alert("Lead was deleted!"),
         error: () => this.errorMessage = `Can't delete lead`,
       })
     }
