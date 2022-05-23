@@ -1,5 +1,5 @@
 <div *ngIf="lead" class="lead-container">
-    <mat-card [formGroup]="form" *ngIf="form">
+    <mat-card [formGroup]="form" *ngIf="form" [ngClass]="{'deleted': lead.DeletedAt}">
         <app-error [error]="errorMessage"></app-error>
         <mat-card-content>
             <!-- <mat-card-title>{{lead.Name}} {{lead.SecondName}}</mat-card-title>

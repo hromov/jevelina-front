@@ -1,4 +1,4 @@
-<mat-card [formGroup]="form" *ngIf="form">
+<mat-card [formGroup]="form" *ngIf="form" [ngClass]="{'deleted': contact.DeletedAt}">
     <app-error [error]="errorMessage"></app-error>
     <mat-card-header>
 
