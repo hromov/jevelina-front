@@ -1,0 +1,10 @@
+<div class="row" *ngIf="lead$ | async as lead">
+    <div class="lead">
+        <div>{{lead.Name}}</div>
+        <div>{{lead.Step.Name}}</div>
+    </div>
+    <div class="contact">
+        <div>{{lead.Contact.Name}}</div>
+        <div>{{lead.Contact.Phone}}</div>
+    </div>
+</div>

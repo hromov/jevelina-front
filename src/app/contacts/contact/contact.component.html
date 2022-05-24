@@ -3,5 +3,6 @@
         <app-contact-data [contact]="contact"></app-contact-data>
         <leads-list [leads]="leads$ | async"></leads-list>
     </div>
-    <app-tasks [parentID]="contact.ID"></app-tasks>
+    <!-- TODO: put back if it will be easy to different lead from task at parentID -->
+    <!-- <app-tasks [parentID]="contact.ID"></app-tasks> -->
 </div>

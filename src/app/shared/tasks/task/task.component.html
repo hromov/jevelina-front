@@ -6,6 +6,7 @@
     </div>
     <mat-card-content>
         <div *ngIf="clickable; else defaultBlock"><span class="resp-name">{{task.Created.Name || 'Auto'}}</span>:&nbsp;<a [routerLink]="[parentRoute, task.ParentID]"><span [innerText]="task.Description"></span></a></div>
+        <lead-info *ngIf="clickable" [id]="task.ParentID"></lead-info>
         <div *ngIf="task.Results" class="results">
             <div>{{task.Results}}</div>
             <div>

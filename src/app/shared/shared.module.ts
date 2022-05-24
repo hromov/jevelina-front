@@ -44,6 +44,7 @@ import { TransferForComponent } from './transfer-for/transfer-for.component';
 import { TransferChipComponent } from './transfer-chip/transfer-chip.component';
 import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
 import { FinLeadComponent } from './fin-lead/fin-lead.component';
+import { LeadInfoComponent } from './lead-info/lead-info.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { FinLeadComponent } from './fin-lead/fin-lead.component';
     TransferChipComponent,
     TransferDialogComponent,
     FinLeadComponent,
+    LeadInfoComponent,
   ],
   imports: [
     CommonModule,
