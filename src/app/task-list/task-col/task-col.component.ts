@@ -32,8 +32,11 @@ export class TaskColComponent implements OnChanges, OnDestroy {
         this.store.dispatch(tasksRequired({ filter: _filter }))
         return this.store.select(selectFilteredTasks(_filter))
           .pipe(
-            filter(tasks => tasks.length > 0),
-            tap((tasks: Task[]) => this.store.dispatch(leadsRequired({filter: {ids: tasks.map((t) => t.ParentID)}})))
+            tap((tasks: Task[]) => {
+              if (tasks.length > 0) {
+                this.store.dispatch(leadsRequired({filter: {ids: tasks.map((t) => t.ParentID)}}))
+              }
+            })
           )
       })
     ).subscribe(tasks => this.tasks = tasks)
