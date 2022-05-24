@@ -16,14 +16,14 @@ import { Task } from '../model';
   styleUrls: ['./tasks.component.sass'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent implements OnChanges {
   @Input() parentID: number
   tasks$: Observable<ReadonlyArray<Task>>
   form: FormGroup
   users$ = this.store.select(selectUsers)
   constructor(private api: ApiService, private fb: FormBuilder, private store: Store<AppState>, private auth: AuthService) { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.tasks$ = this.store.select(selectFilteredTasks({parent: this.parentID}))
     this.store.dispatch(tasksRequired({filter: {parent: this.parentID}}))
     this.form = this.fb.group({

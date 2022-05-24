@@ -39,7 +39,7 @@ function _valid(l: Task, filter: ListFilter): boolean {
     if (filter.parent && l.ParentID != filter.parent) {
         return false
     }
-    if (filter.active && !l.DeadLine || l.Completed) {
+    if (filter.active && (!l.DeadLine || l.Completed)) {
         return false
     }
     if (filter.responsible && l.ResponsibleID != filter.responsible) {

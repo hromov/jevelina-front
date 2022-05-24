@@ -66,7 +66,7 @@ export class LeadDataComponent implements OnChanges {
       })
       if (!this.lead.Analytics || !this.lead.Analytics.Domain) {
         this.showSource = true
-        this.form.addControl("SourceID", new FormControl(this.lead.SourceID))
+        this.form.addControl("SourceID", new FormControl(this.lead.SourceID, Validators.required))
       }
       if (this.lead.ContactID) {
         this.store.dispatch(contactRequired({ id: this.lead.ContactID }))
@@ -86,7 +86,7 @@ export class LeadDataComponent implements OnChanges {
     }
 
     this.ls.Save(newLead).pipe(first()).subscribe({
-      next: (contact) => {
+      next: () => {
         this.store.dispatch(leadRecieved({ lead: newLead }))
       },
       error: () => this.errorMessage = `Can't save item "${newLead.Name}, with ID = ${newLead.ID}"`,
@@ -121,12 +121,16 @@ export class LeadDataComponent implements OnChanges {
   }
 
   stepChanged(e: any) {
-    if (e.value === this.completeStepID && this.form.invalid) {
+    if (this.isBlankSource() || e.value === this.completeStepID && this.form.invalid) {
         this.form.get('StepID').patchValue(this.lead.StepID)
         this.form.markAllAsTouched()
     } else {
       this.save()
     }   
+  }
+
+  isBlankSource(): boolean {
+    return this.showSource && !this.lead.SourceID
   }
 
   responsibleChanged() {
