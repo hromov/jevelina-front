@@ -16,7 +16,7 @@
 
             <mat-form-field appearance="standard">
                 <mat-label>Step</mat-label>
-                <mat-select matNativeControl formControlName="StepID" (selectionChange)="save()">
+                <mat-select matNativeControl formControlName="StepID" (selectionChange)="stepChanged($event)">
                     <mat-option *ngFor="let item of steps$ | async" [value]="item.ID" ngClass="step-{{item.Order}}">
                         {{item.Name}}
                     </mat-option>
@@ -44,6 +44,7 @@
                 <mat-select matNativeControl formControlName="ProductID" (selectionChange)="save()">
                     <mat-option *ngFor="let item of products$ | async" [value]="item.ID">{{item.Name}}</mat-option>
                 </mat-select>
+                <mat-error>Product is required</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="standard">
@@ -51,6 +52,7 @@
                 <mat-select matNativeControl formControlName="ManufacturerID" (selectionChange)="save()">
                     <mat-option *ngFor="let item of manufacturers$ | async" [value]="item.ID">{{item.Name}}</mat-option>
                 </mat-select>
+                <mat-error>Manufacturer is required</mat-error>
             </mat-form-field>
 
         </mat-card-content>

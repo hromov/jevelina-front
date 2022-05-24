@@ -1,7 +1,7 @@
 <div class="row" *ngIf="lead$ | async as lead">
     <div class="lead">
         <div>{{lead.Name}}</div>
-        <div>{{lead.Step.Name}}</div>
+        <div ngClass="step-{{lead.Step.Order}}">{{lead.Step.Name}}</div>
     </div>
     <div class="contact">
         <div>{{lead.Contact.Name}}</div>

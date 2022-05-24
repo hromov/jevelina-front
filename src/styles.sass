@@ -6,14 +6,11 @@
 
 @mixin step($name, $color)
     .step-#{$name}
+        color: #{$color}
         mat-divider 
             border-top-color: #{$color}
-            border-top-width: 2px          
-        span.mat-option-text
-            color: #{$color}
-        div
-            color: #{$color}
-*
+            border-top-width: 3px
+*, *::after, *::before   
     box-sizing: border-box
 
 html, body

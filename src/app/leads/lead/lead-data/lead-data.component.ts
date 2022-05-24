@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { first, Observable } from 'rxjs';
+import { first, Observable, tap } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { ContactsService } from 'src/app/contacts/contacts.service';
 import { AuthService } from 'src/app/login/auth.service';
@@ -23,13 +23,23 @@ import { LeadsService } from '../../leads.service';
 })
 export class LeadDataComponent implements OnChanges {
   @Input() lead: Lead
-  errorMessage: string
   users$ = this.store.select(selectUsers)
   sources$ = this.store.select(selectSources)
   steps$ = this.store.select(selectSteps)
+    .pipe(
+      //TODO: move this to config file / table
+      tap((steps: ReadonlyArray<Step>) => steps.forEach(s => {
+        if (s.Order == 10) {
+          this.completeStepID = s.ID
+        }
+      }))
+    )
+  
   products$ = this.store.select(selectProducts)
   manufacturers$ = this.store.select(selectManufacturers)
   contact$: Observable<Readonly<Contact>>
+  errorMessage: string
+  completeStepID: number
   form: FormGroup
   saving: boolean
   showSource: boolean
@@ -51,8 +61,8 @@ export class LeadDataComponent implements OnChanges {
         Name: [this.lead.Name, Validators.required],
         StepID: [this.lead.StepID],
         ResponsibleID: [this.lead.ResponsibleID, Validators.required],
-        ProductID: [this.lead.ProductID],
-        ManufacturerID: [this.lead.ManufacturerID],
+        ProductID: [this.lead.ProductID, Validators.required],
+        ManufacturerID: [this.lead.ManufacturerID, Validators.required],
       })
       if (!this.lead.Analytics || !this.lead.Analytics.Domain) {
         this.showSource = true
@@ -110,6 +120,14 @@ export class LeadDataComponent implements OnChanges {
     }
   }
 
+  stepChanged(e: any) {
+    if (e.value === this.completeStepID && this.form.invalid) {
+        this.form.get('StepID').patchValue(this.lead.StepID)
+        this.form.markAllAsTouched()
+    } else {
+      this.save()
+    }   
+  }
 
   responsibleChanged() {
     if (confirm("Change resposible in Tasks and Contacts?")) {
@@ -124,36 +142,36 @@ export class LeadDataComponent implements OnChanges {
 
   changeContactsResponsible(responsible: number) {
     this.store.select(selectContact(this.lead.ContactID))
-        .pipe(first())
-        .subscribe((contact: Contact) => {
-          const newContact: Contact = {
-            ...contact,
-            ResponsibleID: responsible,
-          }
-          this.cs.Save(newContact).pipe(first()).subscribe({
-            next: () => this.store.dispatch(contactRecieved({ contact: newContact })),
-            error: (err) => alert(`Can't change contact's responsible error: ${err}`)
-          })
+      .pipe(first())
+      .subscribe((contact: Contact) => {
+        const newContact: Contact = {
+          ...contact,
+          ResponsibleID: responsible,
+        }
+        this.cs.Save(newContact).pipe(first()).subscribe({
+          next: () => this.store.dispatch(contactRecieved({ contact: newContact })),
+          error: (err) => alert(`Can't change contact's responsible error: ${err}`)
         })
+      })
   }
 
   changeTasksResponsible(responsible: number) {
     this.store.select(selectFilteredTasks({ parent: this.lead.ID, active: true }))
-        .pipe(first())
-        .subscribe((tasks: Task[]) => {
+      .pipe(first())
+      .subscribe((tasks: Task[]) => {
 
-          //TODO: make it fully server based? But we still need to change tasks in the store
-          tasks.forEach((task => {
-            const newTask: Task = {
-              ...task,
-              ResponsibleID: responsible
-            }
-            this.api.SaveTask(newTask).pipe(first()).subscribe({
-              next: () => this.store.dispatch(taskChanged({ task: newTask })),
-              error: (err) => alert(`Can't change task's responsible error: ${err}`)
-            })
-          }))
-        })
+        //TODO: make it fully server based? But we still need to change tasks in the store
+        tasks.forEach((task => {
+          const newTask: Task = {
+            ...task,
+            ResponsibleID: responsible
+          }
+          this.api.SaveTask(newTask).pipe(first()).subscribe({
+            next: () => this.store.dispatch(taskChanged({ task: newTask })),
+            error: (err) => alert(`Can't change task's responsible error: ${err}`)
+          })
+        }))
+      })
   }
 
   delete() {
