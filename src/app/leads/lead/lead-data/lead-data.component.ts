@@ -25,8 +25,11 @@ export class LeadDataComponent implements OnChanges {
   @Input() lead: Lead
   users$ = this.store.select(selectUsers)
   sources$ = this.store.select(selectSources)
+  steps: ReadonlyArray<Step>
   steps$ = this.store.select(selectSteps)
     .pipe(
+      //TODO: same
+      tap((steps) => this.steps = steps),
       //TODO: move this to config file / table
       tap((steps: ReadonlyArray<Step>) => steps.forEach(s => {
         if (s.Order == 10) {
@@ -80,9 +83,11 @@ export class LeadDataComponent implements OnChanges {
   save() {
     this.form.disable()
     this.saving = true
+    const step = this.steps.find((s) => s.ID === this.form.value.StepID)
     const newLead: Lead = {
       ...this.lead,
       ...this.form.value,
+      Step: step
     }
 
     this.ls.Save(newLead).pipe(first()).subscribe({
