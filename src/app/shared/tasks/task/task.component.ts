@@ -31,7 +31,6 @@ export class TaskComponent implements OnInit {
       this.rows = newLines.length + 1
       this.description = new FormControl(this.task.Description)
     }
-    
   }
 
   get showForm() {

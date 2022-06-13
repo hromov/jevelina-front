@@ -23,7 +23,7 @@
         <mat-form-field appearance="standard">
             <span matPrefix>+38 &nbsp;</span>
             <input type="tel" matInput placeholder="Phone" formControlName="Phone" [matAutocomplete]="auto"
-                (keydown.enter)="save()">
+                (input)="save()">
             <span matSuffix>
                 <mat-spinner color="accent" [diameter]="24" *ngIf="loading"></mat-spinner>
             </span>

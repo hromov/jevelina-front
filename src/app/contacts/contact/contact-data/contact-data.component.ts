@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute,  NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { concatMap, debounceTime, delay, exhaustMap, filter, first, mergeMap, Observable, startWith, Subscription, tap } from 'rxjs';
+import { concatMap, debounceTime, filter, first, startWith, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/login/auth.service';
 import { Contact, ListFilter } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
-import { contactRecieved, contactsRequired } from 'src/app/state/cotacts/contacts.actions';
+import { contactRecieved } from 'src/app/state/cotacts/contacts.actions';
 import { selectSources, selectUsers } from 'src/app/state/misc/misc.selectors';
 import { ContactsService } from '../../contacts.service';
 
@@ -44,9 +44,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     public auth: AuthService,
-  ) {
-
-  }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     // if it's null - we are creating new lead now
@@ -96,7 +94,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
   // "Position": "", "Analytics": { "CID": "", "UID": "", "TID": "", "UtmID": "", "UtmSource": "", "UtmMedium": "", "UtmCampaign": "", "Domain": "" } }
 
   save(force?: boolean) {
-    if (force || this.contact.ID) {
+    if (force || this.contact.ID || (this.form.value.Phone.length >= 10)) {
       this.saving = true
       this.form.disable()
       const newContact: Contact = {
@@ -143,7 +141,6 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
       // console.log("change leads contact")
       this.anotherContact.emit(contact)
     }
-
   }
 
   get name() {
