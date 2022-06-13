@@ -40,7 +40,7 @@ export class TaskComponent implements OnInit {
   save() {
     const updatedTask: Task = {
       ...this.task,
-      Results: this.results ? this.results.value : "",
+      Results: this.results ? this.results.value : this.task.Results,
       Completed: true,
       Updated: this.auth.currentUser,
       Description: this.description.value,

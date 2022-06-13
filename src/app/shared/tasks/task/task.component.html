@@ -30,7 +30,7 @@
 
 <ng-template #defaultBlock>
     <span class="resp-name">{{task.Created.Name || 'Auto'}}</span>:
-    <div *ngIf="!editable" [innerText]="task.Description"></div>
+    <div *ngIf="!editable" [innerText]="task.Description" (dblclick)="edit()"></div>
     <div *ngIf="editable">
         <mat-form-field appearance="fill">
             <textarea [rows]="rows" maxlength="1024" matInput placeholder="Description" [formControl]="description"></textarea>    
@@ -39,7 +39,7 @@
 </ng-template>
 
 <ng-template #anotherFooter>
-    <mat-card-footer *ngIf="!task.Results && !clickable">
+    <mat-card-footer *ngIf="editable || (!task.Results && !clickable)">
         <div class="actions">
             <button mat-icon-button color="primary" (click)="save()" [disabled]="!description.dirty" *ngIf="editable">
                 <mat-icon>done</mat-icon>
