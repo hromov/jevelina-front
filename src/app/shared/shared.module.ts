@@ -45,6 +45,7 @@ import { TransferChipComponent } from './transfer-chip/transfer-chip.component';
 import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
 import { FinLeadComponent } from './fin-lead/fin-lead.component';
 import { LeadInfoComponent } from './lead-info/lead-info.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { LeadInfoComponent } from './lead-info/lead-info.component';
     MatMenuModule,
     MatSliderModule,
     MatChipsModule,
+    MatBadgeModule,
   ],
   exports: [
     HoverDirective,
@@ -141,6 +143,7 @@ import { LeadInfoComponent } from './lead-info/lead-info.component';
     TransferChipComponent,
     TransferDialogComponent,
     FinLeadComponent,
+    MatBadgeModule,
   ],
   providers:[
     MatNativeDateModule

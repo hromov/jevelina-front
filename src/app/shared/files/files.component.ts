@@ -16,6 +16,7 @@ export class FilesComponent implements OnInit {
   constructor(private fs: FilesService, public auth: AuthService) { }
 
   ngOnInit(): void {
+    // TODO: one levele above we have files already
     this.fs.list({ parent: this.parent }).subscribe(files => this.files = files)
   }
 
@@ -23,7 +24,7 @@ export class FilesComponent implements OnInit {
     const reader = new FileReader();
     reader.onloadend = () => {
       file;
-      file.name = event.target.value.split(/(\\|\/)/g).pop();
+      file.name = event.target.value.split(/(\\|\/)/g).pop().slice(-32);
       file.value = reader.result;
       file.type = event.target.files[0].type;
       this.saveFile(file);

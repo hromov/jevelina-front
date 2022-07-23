@@ -1,3 +1,4 @@
 <mat-chip-list *ngIf="transfer">
-    <mat-chip (click)="open()" [class]="colorClass">{{sign}}{{transfer.Amount}}</mat-chip>
+    <mat-chip *ngIf="transfer.Files.length" (click)="open()" [class]="colorClass" [matBadge]="transfer.Files.length" matBadgeSize="small">{{sign}}{{transfer.Amount}}</mat-chip>
+    <mat-chip *ngIf="!transfer.Files.length" (click)="open()" [class]="colorClass">{{sign}}{{transfer.Amount}}</mat-chip>
 </mat-chip-list>
