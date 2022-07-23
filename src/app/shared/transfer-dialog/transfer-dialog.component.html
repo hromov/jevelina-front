@@ -1,71 +1,75 @@
 <div class="double mat-small">
+  <div>
     <div>{{transfer.CreatedAt | date}}</div>
-    <div>
-        <user-name [id]="transfer.CreatedBy"></user-name>
-    </div>
+  </div>
+  <div>
+    <div><user-name [id]="transfer.CreatedBy"></user-name></div>
+    <a [routerLink]="['/leads', transfer.ParentID]" [title]="transfer.ParentID">{{transfer.ParentID}}</a>
+  </div>
 </div>
 <app-error [error]="errorMessage"></app-error>
 
 <mat-dialog-content [formGroup]="form">
-    <mat-form-field appearance="fill" *ngIf="transfer.From">
-        <mat-label>From</mat-label>
-        <mat-select matNativeControl formControlName="From">
-            <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
-        </mat-select>
-    </mat-form-field>
+  <mat-form-field appearance="fill" *ngIf="transfer.From">
+    <mat-label>From</mat-label>
+    <mat-select matNativeControl formControlName="From">
+      <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="transfer.To">
-        <mat-label>To</mat-label>
-        <mat-select matNativeControl formControlName="To">
-            <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
-        </mat-select>
-    </mat-form-field>
+  <mat-form-field appearance="fill" *ngIf="transfer.To">
+    <mat-label>To</mat-label>
+    <mat-select matNativeControl formControlName="To">
+      <mat-option *ngFor="let item of wallets$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="!isTransfer">
-        <mat-label>Category</mat-label>
-        <input type="text" placeholder="Category" matInput formControlName="Category" [matAutocomplete]="auto">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredCategories$ | async" [value]="option">
-                {{option}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+  <mat-form-field appearance="fill" *ngIf="!isTransfer">
+    <mat-label>Category</mat-label>
+    <input type="text" placeholder="Category" matInput formControlName="Category" [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredCategories$ | async" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
 
-    <mat-form-field appearance="fill">
-        <mat-label>Amount</mat-label>
-        <input matInput placeholder="Amount" formControlName="Amount" type="number">
-    </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Amount</mat-label>
+    <input matInput placeholder="Amount" formControlName="Amount" type="number">
+  </mat-form-field>
 
-    <mat-form-field appearance="fill">
-        <mat-label>Description</mat-label>
-        <input matInput placeholder="Description" formControlName="Description" cdkFocusInitial>
-    </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <input matInput placeholder="Description" formControlName="Description" cdkFocusInitial>
+  </mat-form-field>
 
-    <div *ngIf="transfer.CompletedBy">
-        {{transfer.CompletedAt | date}} completed by <user-name [id]="transfer.CompletedBy"></user-name>
-    </div>
-    <div *ngIf="transfer.DeletedAt">
-        {{transfer.DeletedAt | date}} deleted by <user-name [id]="transfer.DeletedBy"></user-name>
-    </div>
-    <app-files *ngIf="transfer.ID" [parent]="transfer.ID"></app-files>
+  <div *ngIf="transfer.CompletedBy">
+    {{transfer.CompletedAt | date}} completed by <user-name [id]="transfer.CompletedBy"></user-name>
+  </div>
+  <div *ngIf="transfer.DeletedAt">
+    {{transfer.DeletedAt | date}} deleted by <user-name [id]="transfer.DeletedBy"></user-name>
+  </div>
+  <app-files *ngIf="transfer.ID" [parent]="transfer.ID"></app-files>
 </mat-dialog-content>
 
 <mat-dialog-actions class="double">
-    <div>
-        <button mat-raised-button (click)="close()">
-            Close
-        </button>
-        <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || !form.dirty || same">
-            Save
-        </button>
-    </div>
-    <div>
-        <button mat-icon-button color="primary" (click)="complete()" [disabled]="transfer.DeletedAt || form.invalid || same || form.disabled">
-            <mat-icon>done</mat-icon>
-        </button>
-        <button color="accent" mat-icon-button (click)="delete()" *ngIf="transfer.ID" [disabled]="transfer.DeletedAt">
-            <mat-icon>close</mat-icon>
-        </button>
-    </div>
+  <div>
+    <button mat-raised-button (click)="close()">
+      Close
+    </button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid || !form.dirty || same">
+      Save
+    </button>
+  </div>
+  <div>
+    <button mat-icon-button color="primary" (click)="complete()"
+      [disabled]="transfer.DeletedAt || form.invalid || same || form.disabled">
+      <mat-icon>done</mat-icon>
+    </button>
+    <button color="accent" mat-icon-button (click)="delete()" *ngIf="transfer.ID" [disabled]="transfer.DeletedAt">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 
 </mat-dialog-actions>
