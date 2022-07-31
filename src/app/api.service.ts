@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 import { ListFilter, Manufacturer, Product, Role, Source, Step, Tag, Task, TaskType, User } from './shared/model';
-const dev = false
-export const path = dev ? 'http://localhost:8080' : 'https://vorota-ua.ew.r.appspot.com'
+export const path = environment.production ? 'http://localhost:8080' : 'https://vorota-ua.ew.r.appspot.com'
 const defaultLimit = 25
 
 export const httpOptions = {
