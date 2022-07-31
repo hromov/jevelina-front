@@ -2,12 +2,12 @@ import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { catchError, throwError } from 'rxjs';
 import { MiscService } from 'src/app/settings/misc/misc.service';
-import { Role, User } from 'src/app/shared/model';
+import { ChangeUser, Role, User } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { userChanged, userDeleted } from 'src/app/state/misc/misc.actions';
 import { ApiService } from 'src/app/api.service';
+import { selectRoles } from 'src/app/state/misc/misc.selectors';
 
 @Component({
   selector: 'app-user-dialog',
@@ -17,7 +17,7 @@ import { ApiService } from 'src/app/api.service';
 export class UserDialogComponent implements AfterViewInit {
   form: FormGroup
   user: User
-  roles: Role[] = []
+  roles: ReadonlyArray<Role> = []
   errorMessage: string = ""
   formatLabel(value: number) {
     return Math.round(value * 100) + '%';
@@ -31,17 +31,15 @@ export class UserDialogComponent implements AfterViewInit {
     private store: Store<AppState>,
     private api: ApiService,
   ) {
-    this.user = user
-
+    this.store.select(selectRoles).subscribe(roles => this.roles = roles)
     this.form = fb.group({
       Name: [user.Name, Validators.required],
       Email: [user.Email, [Validators.required, Validators.email]],
       Hash: [user.Hash, Validators.required],
-      RoleID: [user.RoleID, Validators.required],
+      Role: [user.Role, Validators.required],
       Distribution: [user.Distribution]
     })
-    //move to store?
-    this.api.Roles().subscribe(roles => this.roles = roles)
+    this.user = user
   }
 
   ngAfterViewInit(): void {
@@ -49,11 +47,9 @@ export class UserDialogComponent implements AfterViewInit {
   }
 
   save() {
-    if (this.form.value.RoleID.type !== "number") {
-      this.form.patchValue({ RoleID: Number(this.form.value.RoleID) })
-    }
-    const newUser = {
-      ...this.user,
+    const newUser:ChangeUser = {
+      ID: this.user.ID,
+      RoleID: this.getRoleID(this.form.get('Role').value),
       ...this.form.value
     }
     this.misc.SaveUser(newUser).subscribe({
@@ -81,6 +77,10 @@ export class UserDialogComponent implements AfterViewInit {
 
   get email() { return this.form.get('Email') }
   get name() { return this.form.get('Name') }
-  get role() { return this.form.get('RoleID') }
+  get role() { return this.form.get('Role') }
+
+  getRoleID(roleName: string): number {
+    return this.roles.find(r => r.Role == roleName)?.ID
+  }
 
 }

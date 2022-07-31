@@ -21,7 +21,7 @@ export interface Contact {
     ID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     IsPerson: boolean;
     Name: string;
     SecondName: string;
@@ -43,33 +43,32 @@ export interface Contact {
     Analytics: Analytics;
 }
 
-export interface Role {
-    ID: number;
-    CreatedAt: Date;
-    UpdatedAt: Date;
-    DeletedAt?: any;
-    Role: string;
-    Priority: number;
-}
-
 export interface User {
     ID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Name: string;
     Email: string;
-    RoleID: number;
-    Role: Role;
+    Role: string;
     Hash: string;
     Distribution: number;
+}
+
+export interface ChangeUser {
+  ID: number;
+  Name: string;
+  Email: string;
+  RoleID: number;
+  Hash: string;
+  Distribution: number;
 }
 
 export interface Source {
     ID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Name: string;
 }
 
@@ -88,15 +87,16 @@ export interface Role {
     ID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Role: string;
+    Priority: number;
 }
 
 export interface Step {
     ID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Name: string;
     Order: number;
     Active: boolean;
@@ -106,7 +106,7 @@ export interface Tag {
     ID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Name: string;
 }
 
@@ -114,7 +114,7 @@ export interface Product {
     ID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Name: string;
 }
 
@@ -122,7 +122,7 @@ export interface Manufacturer {
     ID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Name: string;
 }
 
@@ -131,7 +131,7 @@ export interface Lead {
     CreatedAt: Date;
     UpdatedAt: Date;
     ClosedAt?: any;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Name: string;
     Budget: number;
     Profit: number;
@@ -157,7 +157,7 @@ export interface TaskType {
     ID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Name: string;
 }
 
@@ -166,7 +166,7 @@ export interface Task {
     ParentID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     DeadLine?: any;
     Completed: boolean;
     TaskTypeID?: any;
@@ -187,7 +187,7 @@ export interface Wallet {
     ParentID: number;
     CreatedAt: Date;
     UpdatedAt: Date;
-    DeletedAt?: any;
+    DeletedAt?: Date;
     Name: string;
     Balance: number;
     Closed: boolean;

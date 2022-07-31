@@ -6,27 +6,27 @@
     <mat-form-field appearance="fill">
         <mat-label>Name</mat-label>
         <input matInput placeholder="User Name" formControlName="Name">
-        <mat-error *ngIf="name.invalid">Name is required</mat-error>
+        <mat-error *ngIf="name?.invalid">Name is required</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
         <input matInput placeholder="Email" formControlName="Email">
-        <mat-error *ngIf="email.invalid">Invalid Email value</mat-error>
+        <mat-error *ngIf="email?.invalid">Invalid Email value</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
         <mat-label>Hash</mat-label>
         <input matInput placeholder="User Hash" formControlName="Hash">
-        <mat-error *ngIf="name.invalid">Hash is required</mat-error>
+        <mat-error *ngIf="name?.invalid">Hash is required</mat-error>
     </mat-form-field>
     
     <mat-form-field appearance="fill">
         <mat-label>Role</mat-label>
-        <mat-select matNativeControl formControlName="RoleID">
-          <mat-option *ngFor="let role of roles" [value]="role.ID">{{role.Role}}</mat-option>
+        <mat-select matNativeControl formControlName="Role">
+          <mat-option *ngFor="let role of roles" [value]="role.Role">{{role.Role}}</mat-option>
         </mat-select>
-        <mat-error *ngIf="role.invalid">Role is required</mat-error>
+        <mat-error *ngIf="role?.invalid">Role is required</mat-error>
       </mat-form-field>
 
       <label>Distribution: {{form.value.Distribution | percent}}</label>
