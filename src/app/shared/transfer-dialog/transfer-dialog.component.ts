@@ -82,7 +82,10 @@ export class TransferDialogComponent implements AfterViewInit {
         this.store.dispatch(transferChanged({ transfer: transfer || newTransfer }))
         this.dialogRef.close(transfer || newTransfer)
       },
-      error: (err) => this.errorMessage = `Can't save transfer error`
+      error: (err) => {
+        console.log(err)
+        this.errorMessage = `Can't save transfer error`
+      }
     })
   }
 
