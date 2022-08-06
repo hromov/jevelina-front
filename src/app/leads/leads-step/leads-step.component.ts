@@ -37,6 +37,7 @@ export class LeadsStepComponent implements OnChanges, OnInit {
       .pipe(
         tap(leads => this.downloaded = leads && leads.length),
       ).subscribe(leads => {
+        console.log(leads)
         this.leads = leads
         this.loading = false
       })

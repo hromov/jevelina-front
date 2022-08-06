@@ -79,20 +79,19 @@ export const selectLeadsSearchTotal = createSelector(
 
 //can't fully check query :-/ I have to reproduce search search algo here then
 function _valid(l: Lead, filter: ListFilter): boolean {
-    // console.log(filter)
     if (filter.active && l.ClosedAt != null) {
         return false
     }
-    if (filter.step && l.StepID != filter.step) {
+    if (filter.step && l.Step.ID != filter.step) {
         return false
     }
     if (filter.query && !_queryCheck(l, filter.query)) {
         return false
     }
-    if (filter.responsible && l.ResponsibleID != filter.responsible) {
+    if (filter.responsible && l.Responsible.ID != filter.responsible) {
         return false
     }
-    if (filter.contact && l.ContactID != filter.contact) {
+    if (filter.contact && l.Contact.ID != filter.contact) {
         return false
     }
     return true

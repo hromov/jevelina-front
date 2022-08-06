@@ -1,11 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { first, Observable, tap } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { ContactsService } from 'src/app/contacts/contacts.service';
 import { AuthService } from 'src/app/login/auth.service';
-import { MiscService } from 'src/app/settings/misc/misc.service';
 import { Contact, Lead, Step, Task } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { contactRecieved, contactRequired } from 'src/app/state/cotacts/contacts.actions';
@@ -21,7 +20,7 @@ import { LeadsService } from '../../leads.service';
   templateUrl: './lead-data.component.html',
   styleUrls: ['./lead-data.component.sass']
 })
-export class LeadDataComponent implements OnChanges {
+export class LeadDataComponent implements OnInit {
   @Input() lead: Lead
   users$ = this.store.select(selectUsers)
   sources$ = this.store.select(selectSources)
@@ -58,22 +57,22 @@ export class LeadDataComponent implements OnChanges {
 
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnInit(): void {
     if (this.lead) {
       this.form = this.fb.group({
         Name: [this.lead.Name, Validators.required],
-        StepID: [this.lead.StepID],
-        ResponsibleID: [this.lead.ResponsibleID, Validators.required],
-        ProductID: [this.lead.ProductID, Validators.required],
-        ManufacturerID: [this.lead.ManufacturerID, Validators.required],
+        StepID: [this.lead.Step.ID],
+        ResponsibleID: [this.lead.Responsible.ID, Validators.required],
+        ProductID: [this.lead.Product.ID, Validators.required],
+        ManufacturerID: [this.lead.Manufacturer.ID, Validators.required],
       })
       if (!this.lead.Analytics || !this.lead.Analytics.Domain) {
         this.showSource = true
         this.form.addControl("SourceID", new FormControl(this.lead.SourceID, Validators.required))
       }
-      if (this.lead.ContactID) {
-        this.store.dispatch(contactRequired({ id: this.lead.ContactID }))
-        this.contact$ = this.store.select(selectContact(this.lead.ContactID))
+      if (this.lead.Contact.ID) {
+        this.store.dispatch(contactRequired({ id: this.lead.Contact.ID }))
+        this.contact$ = this.store.select(selectContact(this.lead.Contact.ID))
       } else {
         this.contact$ = null
       }
@@ -83,7 +82,7 @@ export class LeadDataComponent implements OnChanges {
   save() {
     this.form.disable()
     this.saving = true
-    const step = this.steps.find((s) => s.ID === this.form.value.StepID)
+    const step = this.steps.find((s) => s.ID === this.form.value.Step.ID)
     const newLead: Lead = {
       ...this.lead,
       ...this.form.value,
@@ -93,6 +92,7 @@ export class LeadDataComponent implements OnChanges {
     this.ls.Save(newLead).pipe(first()).subscribe({
       next: () => {
         this.store.dispatch(leadRecieved({ lead: newLead }))
+        this.form.markAsPristine()
       },
       error: () => this.errorMessage = `Can't save item "${newLead.Name}, with ID = ${newLead.ID}"`,
       complete: () => { this.saving = false, this.form.enable() }
@@ -100,7 +100,7 @@ export class LeadDataComponent implements OnChanges {
   }
 
   relinkContact(contact: Contact) {
-    if (!this.lead.ContactID || confirm(`Are you sure want to change linked contact from ${this.lead.Contact.Name} to ${contact.Name}`)) {
+    if (!this.lead.Contact.ID || confirm(`Are you sure want to change linked contact from ${this.lead.Contact.Name} to ${contact.Name}`)) {
       const newLead: Lead = {
         ...this.lead,
         ...this.form.value,
@@ -117,7 +117,7 @@ export class LeadDataComponent implements OnChanges {
       })
     } else {
       //don't know better way to reset contact back - it's already selected
-      this.store.dispatch(contactRequired({ id: this.lead.ContactID }))
+      this.store.dispatch(contactRequired({ id: this.lead.Contact.ID }))
       // const currentUrl = this.router.url;
       // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       //   this.router.navigate([currentUrl]);
@@ -127,7 +127,7 @@ export class LeadDataComponent implements OnChanges {
 
   stepChanged(e: any) {
     if (this.isBlankSource() || e.value === this.completeStepID && this.form.invalid) {
-        this.form.get('StepID').patchValue(this.lead.StepID)
+        this.form.get('StepID').patchValue(this.lead.Step.ID)
         this.form.markAllAsTouched()
     } else {
       this.save()
