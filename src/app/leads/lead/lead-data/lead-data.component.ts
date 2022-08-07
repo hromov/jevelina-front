@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { first, Observable, tap } from 'rxjs';
@@ -20,7 +20,7 @@ import { LeadsService } from '../../leads.service';
   templateUrl: './lead-data.component.html',
   styleUrls: ['./lead-data.component.sass']
 })
-export class LeadDataComponent implements OnInit {
+export class LeadDataComponent implements OnChanges {
   @Input() lead: Lead
   users$ = this.store.select(selectUsers)
   sources$ = this.store.select(selectSources)
@@ -57,18 +57,18 @@ export class LeadDataComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     if (this.lead) {
       this.form = this.fb.group({
         Name: [this.lead.Name, Validators.required],
         StepID: [this.lead.Step.ID],
-        ResponsibleID: [this.lead.Responsible.ID, Validators.required],
+        ResponsibleID: [this.lead.ResponsibleID || this.lead.Responsible.ID, Validators.required],
         ProductID: [this.lead.Product.ID, Validators.required],
         ManufacturerID: [this.lead.Manufacturer.ID, Validators.required],
       })
       if (!this.lead.Analytics || !this.lead.Analytics.Domain) {
         this.showSource = true
-        this.form.addControl("SourceID", new FormControl(this.lead.SourceID, Validators.required))
+        this.form.addControl("SourceID", new FormControl(this.lead.Source.ID, Validators.required))
       }
       if (this.lead.Contact.ID) {
         this.store.dispatch(contactRequired({ id: this.lead.Contact.ID }))
@@ -82,13 +82,12 @@ export class LeadDataComponent implements OnInit {
   save() {
     this.form.disable()
     this.saving = true
-    const step = this.steps.find((s) => s.ID === this.form.value.Step.ID)
+    const step = this.steps.find((s) => s.ID === this.form.value.StepID)
     const newLead: Lead = {
       ...this.lead,
       ...this.form.value,
       Step: step
     }
-
     this.ls.Save(newLead).pipe(first()).subscribe({
       next: () => {
         this.store.dispatch(leadRecieved({ lead: newLead }))
@@ -127,7 +126,7 @@ export class LeadDataComponent implements OnInit {
 
   stepChanged(e: any) {
     if (this.isBlankSource() || e.value === this.completeStepID && this.form.invalid) {
-        this.form.get('StepID').patchValue(this.lead.Step.ID)
+        this.form.get('StepID').patchValue(this.lead.StepID)
         this.form.markAllAsTouched()
     } else {
       this.save()
@@ -139,18 +138,16 @@ export class LeadDataComponent implements OnInit {
   }
 
   responsibleChanged() {
+    this.save()
     if (confirm("Change resposible in Tasks and Contacts?")) {
       const newResponsible = this.form.get('ResponsibleID').value
       this.changeTasksResponsible(newResponsible)
-      this.changeContactsResponsible(newResponsible)
-      this.save()
-    } else {
-      this.save()
+      this.changeContactsResponsible(newResponsible) 
     }
   }
 
   changeContactsResponsible(responsible: number) {
-    this.store.select(selectContact(this.lead.ContactID))
+    this.store.select(selectContact(this.lead.Contact.ID))
       .pipe(first())
       .subscribe((contact: Contact) => {
         const newContact: Contact = {

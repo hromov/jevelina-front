@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnChanges, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute,  Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { ContactsService } from '../../contacts.service';
   templateUrl: './contact-data.component.html',
   styleUrls: ['./contact-data.component.sass'],
 })
-export class ContactDataComponent implements OnInit, OnDestroy {
+export class ContactDataComponent implements OnChanges, OnDestroy {
   @Input() contact: Contact
   subscriptions: Subscription[] = []
   errorMessage: string
@@ -46,7 +46,7 @@ export class ContactDataComponent implements OnInit, OnDestroy {
     public auth: AuthService,
   ) {}
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     if (this.contact === null) {
       this.contact = this.getBlankContact()
       // console.log(this.contact)
@@ -56,7 +56,7 @@ export class ContactDataComponent implements OnInit, OnDestroy {
       SecondName: [this.contact.SecondName],
       Phone: [this.contact.Phone],
       SecondPhone: [this.contact.SecondPhone],
-      ResponsibleID: [this.contact.Responsible.ID, Validators.required],
+      ResponsibleID: [this.contact.ResponsibleID || this.contact.Responsible.ID, Validators.required],
       Email: [this.contact.Email, Validators.email],
       SecondEmail: [this.contact.SecondEmail, Validators.email],
       City: [this.contact.City],
@@ -93,7 +93,7 @@ export class ContactDataComponent implements OnInit, OnDestroy {
         Phone: this.form.value.Phone.replace(/\D/g, ''),
         SecondPhone: this.form.value.SecondPhone.replace(/\D/g, '')
       }
-      console.log(newContact)
+
       this.cs.Save(newContact).pipe(first()).subscribe({
         next: (contact) => {
           this.store.dispatch(contactRecieved({ contact: this.contact.ID ? newContact : contact }))
