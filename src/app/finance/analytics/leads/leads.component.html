@@ -1,0 +1,14 @@
+<div class="double">
+  <app-date-selector [minDate]="minDate" [maxDate]="maxDate"></app-date-selector>
+  <div class="sales">
+    <h3>
+      <user-name [id]="selectedUser$ | async"></user-name>
+    </h3>
+  </div>
+</div>
+<div class="leads">
+  <leads-list [leads]="leads$ | async"></leads-list>
+  <mat-paginator [length]="total$ | async" [pageSize]="filter.limit" aria-label="Select page"
+    (page)="pageChanged($event)">
+  </mat-paginator>
+</div>

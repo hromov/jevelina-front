@@ -11,6 +11,7 @@ import { CategoriesComponent } from './analytics/categories/categories.component
 import { CashflowComponent } from './analytics/cashflow/cashflow.component';
 import { TransfersTableComponent } from './transfers-table/transfers-table.component';
 import { EventsComponent } from './events/events.component';
+import { LeadsComponent } from './analytics/leads/leads.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { EventsComponent } from './events/events.component';
     CashflowComponent,
     TransfersTableComponent,
     EventsComponent,
+    LeadsComponent,
   ],
   imports: [
     CommonModule,

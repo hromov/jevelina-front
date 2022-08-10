@@ -19,7 +19,7 @@ export class DateSelectorComponent implements OnInit {
     this.fromControl = new FormControl(this.minDate)
     this.toControl = new FormControl(this.maxDate)
     this.fromControl.valueChanges.subscribe(val => this.ds.from(val))
-    this.toControl.valueChanges.subscribe(val => this.ds.from(val))
+    this.toControl.valueChanges.subscribe(val => this.ds.to(val))
     this.ds.init({minDate: this.minDate, maxDate: this.maxDate})
   }
 }

@@ -54,13 +54,15 @@ export class WalletDialogComponent implements AfterViewInit {
   }
 
   delete() {
-    this.fs.DeleteWallet(this.item.ID).subscribe({
-      next: () => {
-        this.store.dispatch(walletDeleted({ID: this.item.ID}))
-        this.dialogRef.close(this.item)
-      },
-      error: () => this.errorMessage = `Can't delete item "${this.item.Name}, with ID = ${this.item.ID}"`
-    })
+    if (confirm("Are you sure?")) {
+      this.fs.DeleteWallet(this.item.ID).subscribe({
+        next: () => {
+          this.store.dispatch(walletDeleted({ID: this.item.ID}))
+          this.dialogRef.close(this.item)
+        },
+        error: () => this.errorMessage = `Can't delete item "${this.item.Name}, with ID = ${this.item.ID}"`
+      })
+    }
   }
 
   get name() { return this.form.get('Name') }

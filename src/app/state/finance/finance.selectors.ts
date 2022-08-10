@@ -50,9 +50,9 @@ export const selectTransfersTotal = (filter: ListFilter) => createSelector(
     (state: FinanceState) => state.loadedTransfers ? state.loadedTransfers.get(FilterToString(filter)) : 0
 )
 
-export const selectTransfersByParent = (parenID: number) => createSelector(
+export const selectTransfersByParent = (parentID: number) => createSelector(
     selectFinance,
-    (state: FinanceState) => state.transfers.filter(t => t.ParentID == parenID && !t.DeletedAt)
+    (state: FinanceState) => state.transfers.filter(t => t.ParentID == parentID && !t.DeletedAt)
 )
 
 export const selectProfitByParent = (parenID: number) => createSelector(

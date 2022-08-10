@@ -44,7 +44,7 @@ export class FinanceComponent implements OnInit, OnDestroy {
     this.minDate = new Date(this.minDate.getFullYear(), this.minDate.getMonth(), 1)
     this.maxDate.setDate(this.maxDate.getDate() + 1)
     this.subs.push(this.ds.dateSelectors$.pipe(filter(val => !!val)).subscribe(minMax => {
-      this.filter = { ...this.filter, min_date: minMax.minDate, max_date: minMax.maxDate }
+      this.filter = { ...this.filter, min_date: minMax.minDate, max_date: minMax.maxDate, completed: minMax.maxDate.getTime() < new Date().getTime() }
       this.pageChanged()
     }))
     this.subs.push(this.selectedUser$.pipe(tap(userID => {
