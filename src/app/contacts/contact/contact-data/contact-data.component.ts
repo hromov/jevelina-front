@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnDestroy, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnChanges, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute,  Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, filter, first, startWith, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/login/auth.service';
-import { Contact, ListFilter } from 'src/app/shared/model';
+import { Contact, ListFilter, Source, User } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { contactRecieved } from 'src/app/state/cotacts/contacts.actions';
 import { selectSources, selectUsers } from 'src/app/state/misc/misc.selectors';
@@ -16,12 +16,12 @@ import { ContactsService } from '../../contacts.service';
   templateUrl: './contact-data.component.html',
   styleUrls: ['./contact-data.component.sass'],
 })
-export class ContactDataComponent implements OnChanges, OnDestroy {
+export class ContactDataComponent implements OnInit, OnChanges, OnDestroy {
   @Input() contact: Contact
   subscriptions: Subscription[] = []
   errorMessage: string
-  users$ = this.store.select(selectUsers)
-  sources$ = this.store.select(selectSources)
+  users: ReadonlyArray<User> = []
+  sources: ReadonlyArray<Source> = []
   form: FormGroup
   filtered: Contact[] = [];
   total: number
@@ -46,6 +46,11 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
     public auth: AuthService,
   ) {}
 
+  ngOnInit(): void {
+    this.store.select(selectUsers).subscribe(users => this.users = users  || [])
+    this.store.select(selectSources).subscribe(sources => this.sources = sources || [])
+  }
+
   ngOnChanges(): void {
     if (this.contact === null) {
       this.contact = this.getBlankContact()
@@ -56,7 +61,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
       SecondName: [this.contact.SecondName],
       Phone: [this.contact.Phone],
       SecondPhone: [this.contact.SecondPhone],
-      ResponsibleID: [this.contact.ResponsibleID || this.contact.Responsible.ID, Validators.required],
+      ResponsibleID: [this.contact.Responsible.ID, Validators.required],
       Email: [this.contact.Email, Validators.email],
       SecondEmail: [this.contact.SecondEmail, Validators.email],
       City: [this.contact.City],
@@ -96,7 +101,7 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
 
       this.cs.Save(newContact).pipe(first()).subscribe({
         next: (contact) => {
-          this.store.dispatch(contactRecieved({ contact: this.contact.ID ? newContact : contact }))
+          this.store.dispatch(contactRecieved({ contact: contact }))
           if (!this.contact.ID) {
             this.anotherContact.emit(contact)
           }

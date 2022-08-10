@@ -19,6 +19,7 @@
                 <mat-select matNativeControl formControlName="SourceID" (selectionChange)="save()">
                     <mat-option *ngFor="let source of sources" [value]="source.ID">{{source.Name}}</mat-option>
                 </mat-select>
+                <mat-error *ngIf="source.invalid">Source is required</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="standard">
