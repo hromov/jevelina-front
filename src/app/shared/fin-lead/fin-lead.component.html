@@ -5,7 +5,7 @@
     </div>
     <mat-card-content>
         <div class="col" *ngIf="!short">
-            <div><a [routerLink]="['/contacts', lead.ContactID]">{{lead.Contact.Name}}</a></div>
+            <div><a [routerLink]="['/contacts', lead.Contact.ID]">{{lead.Contact.Name}}</a></div>
             <div>{{lead.Contact.Phone}}</div>
         </div>
         <div class="col step-{{lead.Step.Order}} lead" *ngIf="!short">
