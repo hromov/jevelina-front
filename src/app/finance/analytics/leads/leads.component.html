@@ -1,8 +1,8 @@
 <div class="double">
-  <app-date-selector [minDate]="minDate" [maxDate]="maxDate"></app-date-selector>
+  <div></div>
   <div class="sales">
     <h3>
-      <user-name [id]="selectedUser$ | async"></user-name>
+      <user-name [id]="selectedUser$ | async"></user-name> {{total$ | async}} leads
     </h3>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
 import { filter, Observable, Subscription, tap } from 'rxjs';
@@ -12,30 +12,32 @@ import { selectCurrentPage, selectedUser, selectLeadsCurrentTotal } from 'src/ap
   selector: 'app-leads',
   templateUrl: './leads.component.html',
   styleUrls: ['./leads.component.sass'],
-  providers: [DateSelectorService]
 })
-export class LeadsComponent implements OnInit {
+export class LeadsComponent implements OnInit, OnChanges {
+  @Input() minDate: Date;
+  @Input() maxDate: Date;
+
   filter: ListFilter = { limit: 50, offset: 0, by_date: true }
   leads$: Observable<Lead[]> = this.store.select(selectCurrentPage)
   selectedUser$ = this.store.select(selectedUser)
-  minDate = new Date()
-  maxDate = new Date()
+  
   subs: Subscription[] = []
   total$: Observable<number> = this.store.select(selectLeadsCurrentTotal)
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private store: Store<AppState>, private ds: DateSelectorService) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.minDate = new Date(this.minDate.getFullYear(), this.minDate.getMonth(), 1)
-    this.maxDate.setDate(this.maxDate.getDate() + 1)
-    this.subs.push(this.ds.dateSelectors$.pipe(filter(val => !!val)).subscribe(minMax => {
-      this.filter = { ...this.filter, min_date: minMax.minDate, max_date: minMax.maxDate, completed: minMax.maxDate.getTime() < new Date().getTime() }
-      this.pageChanged()
-    }))
     this.subs.push(this.selectedUser$.pipe(tap(userID => {
       this.filter = { ...this.filter, responsible: userID }
       this.pageChanged()
     })).subscribe())
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.minDate && this.maxDate) {
+      this.filter = { ...this.filter, min_date: this.minDate, max_date: this.maxDate, completed: this.maxDate.getTime() < new Date().getTime() }
+      this.pageChanged()
+    }
   }
 
   ngOnDestroy(): void {

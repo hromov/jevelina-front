@@ -1,0 +1,25 @@
+<div class="double">
+  <div></div>
+  <div class="sales">
+    <h3>
+      Sources for <user-name [id]="selectedUser$ | async"></user-name>
+    </h3>
+  </div>
+</div>
+<div>
+  <mat-table [dataSource]="sources" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="source">
+      <mat-header-cell *matHeaderCellDef> source </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.Source}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="count">
+      <mat-header-cell *matHeaderCellDef> Count </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.Count}} </mat-cell>
+    </ng-container>
+    
+    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columns"></mat-row>
+  </mat-table>
+</div>

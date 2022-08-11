@@ -1,0 +1,13 @@
+<app-date-selector [minDate]="minDate" [maxDate]="maxDate"></app-date-selector>
+<mat-tab-group>
+  <mat-tab label="Leads">
+    <ng-template matTabContent>
+      <app-leads [minDate]="minDate" [maxDate]="maxDate"></app-leads>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Sources">
+    <ng-template matTabContent>
+      <app-sources [minDate]="minDate" [maxDate]="maxDate"></app-sources>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
