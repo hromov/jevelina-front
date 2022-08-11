@@ -46,6 +46,11 @@ export class SourcesComponent implements OnInit, OnChanges {
     if (this.filter.min_date && this.filter.max_date) {
       this.als.Sources(this.filter).pipe(first()).subscribe(sources => {
         sources.sort((a, b) => b.Count - a.Count)
+        const total:SourceCount = {
+          Source: "Total",
+          Count: sources.reduce((sum, cur) => sum + cur.Count, 0)
+        }
+        sources.push(total)
         this.sources = sources
       })
     }

@@ -24,7 +24,7 @@ export function FilterToString(filter: ListFilter): string {
         `${filter.contact ? '&contact=' + filter.contact : ''}${filter.parent ? '&parent=' + filter.parent : ''}` +
         `${filter.min_date ? '&min_date=' + convertTime(filter.min_date) : ''}${filter.max_date ? '&max_date=' + convertTime(filter.max_date) : ''}` +
         `${filter.from ? '&from=' + filter.from : ''}${filter.to ? '&to=' + filter.to : ''}${filter.wallet ? '&wallet=' + filter.wallet : ''}` +
-        `${filter.steps && filter.steps.length ? '&steps=' + filter.steps.join('&steps=') :''}` +
+        `${filter.steps && filter.steps.length ? '&steps[]=' + filter.steps.join('&steps[]=') :''}` +
         `${filter.ids && filter.ids.length ? `&ids[]=${filter.ids.join('&ids[]=')}` : ''}` +
         `${filter.by_date ? '&by_date=true' : ''}`
     return `?limit=${filter.limit || defaultLimit}&offset=${filter.offset || 0}${additional}`
