@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnChanges, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ActivatedRoute,  NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute,  Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, filter, first, startWith, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/login/auth.service';
-import { Contact, ListFilter } from 'src/app/shared/model';
+import { Contact, ListFilter, Source, User } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { contactRecieved } from 'src/app/state/cotacts/contacts.actions';
 import { selectSources, selectUsers } from 'src/app/state/misc/misc.selectors';
@@ -16,12 +16,12 @@ import { ContactsService } from '../../contacts.service';
   templateUrl: './contact-data.component.html',
   styleUrls: ['./contact-data.component.sass'],
 })
-export class ContactDataComponent implements OnChanges, OnDestroy {
+export class ContactDataComponent implements OnInit, OnChanges, OnDestroy {
   @Input() contact: Contact
   subscriptions: Subscription[] = []
   errorMessage: string
-  users$ = this.store.select(selectUsers)
-  sources$ = this.store.select(selectSources)
+  users: ReadonlyArray<User> = []
+  sources: ReadonlyArray<Source> = []
   form: FormGroup
   filtered: Contact[] = [];
   total: number
@@ -46,52 +46,47 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
     public auth: AuthService,
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // if it's null - we are creating new lead now
+  ngOnInit(): void {
+    this.store.select(selectUsers).subscribe(users => this.users = users  || [])
+    this.store.select(selectSources).subscribe(sources => this.sources = sources || [])
+  }
+
+  ngOnChanges(): void {
     if (this.contact === null) {
       this.contact = this.getBlankContact()
       // console.log(this.contact)
     }
-    if (this.contact) {
-      this.form = this.fb.group({
-        Name: [this.contact.Name, Validators.required],
-        SecondName: [this.contact.SecondName],
-        Phone: [this.contact.Phone],
-        SecondPhone: [this.contact.SecondPhone],
-        ResponsibleID: [this.contact.ResponsibleID, Validators.required],
-        Email: [this.contact.Email, Validators.email],
-        SecondEmail: [this.contact.SecondEmail, Validators.email],
-        City: [this.contact.City],
-        Address: [this.contact.Address],
-        // SourceID: [this.contact.SourceID],
-        // we don't need it here
-        // Position: [this.contact.Position],
-        // URL: [this.contact.URL],
-      })
-      if (!this.contact.Analytics || !this.contact.Analytics.Domain) {
-        this.showSource = true
-        this.form.addControl("SourceID", new FormControl(this.contact.SourceID))
-      }
-      this.subscriptions.push(this.form.get("Phone").valueChanges.pipe(
-        startWith(''),
-        filter(val => val.length > 3),
-        concatMap(val => {
-          this.filter = { ...this.filter, query: val }
-          this.loading = true
-          return this.cs.List(this.filter)
-        }),
-        debounceTime(50),
-      ).subscribe(res => {
-        this.loading = false
-        this.filtered = res.body || []
-        this.total = Number(res.headers.get("X-Total-Count"))
-      })
-      )
+    this.form = this.fb.group({
+      Name: [this.contact.Name, Validators.required],
+      SecondName: [this.contact.SecondName],
+      Phone: [this.contact.Phone],
+      SecondPhone: [this.contact.SecondPhone],
+      ResponsibleID: [this.contact.Responsible.ID, Validators.required],
+      Email: [this.contact.Email, Validators.email],
+      SecondEmail: [this.contact.SecondEmail, Validators.email],
+      City: [this.contact.City],
+      Address: [this.contact.Address],
+    })
+    if (!this.contact.Analytics || !this.contact.Analytics.Domain) {
+      this.showSource = true
+      this.form.addControl("SourceID", new FormControl(this.contact.Source ? this.contact.Source.ID : null))
     }
+    this.subscriptions.push(this.form.get("Phone").valueChanges.pipe(
+      startWith(''),
+      filter(val => val.length > 3),
+      concatMap(val => {
+        this.filter = { ...this.filter, query: val }
+        this.loading = true
+        return this.cs.List(this.filter)
+      }),
+      debounceTime(50),
+    ).subscribe(res => {
+      this.loading = false
+      this.filtered = res.body || []
+      this.total = Number(res.headers.get("X-Total-Count"))
+    })
+    )
   }
-
-  // "URL": "", "City": "Днепр", "Address": "", "SourceID":
-  // "Position": "", "Analytics": { "CID": "", "UID": "", "TID": "", "UtmID": "", "UtmSource": "", "UtmMedium": "", "UtmCampaign": "", "Domain": "" } }
 
   save(force?: boolean) {
     if (force || this.contact.ID || (this.form.value.Phone.length >= 10)) {
@@ -103,13 +98,14 @@ export class ContactDataComponent implements OnChanges, OnDestroy {
         Phone: this.form.value.Phone.replace(/\D/g, ''),
         SecondPhone: this.form.value.SecondPhone.replace(/\D/g, '')
       }
-      // console.log(newContact)
+
       this.cs.Save(newContact).pipe(first()).subscribe({
         next: (contact) => {
-          this.store.dispatch(contactRecieved({ contact: this.contact.ID ? newContact : contact }))
+          this.store.dispatch(contactRecieved({ contact: contact }))
           if (!this.contact.ID) {
             this.anotherContact.emit(contact)
           }
+          this.form.markAsPristine()
         },
         error: () => this.errorMessage = `Can't save item "${newContact.Name}, with ID = ${newContact.ID}"`,
         complete: () => {this.saving = false, this.form.enable()}

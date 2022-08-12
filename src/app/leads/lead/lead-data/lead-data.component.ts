@@ -1,17 +1,16 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { first, Observable, tap } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { ContactsService } from 'src/app/contacts/contacts.service';
 import { AuthService } from 'src/app/login/auth.service';
-import { MiscService } from 'src/app/settings/misc/misc.service';
-import { Contact, Lead, Step, Task } from 'src/app/shared/model';
+import { Contact, Lead, LeadData, Manufacturer, Product, Source, Step, Task, User } from 'src/app/shared/model';
 import { AppState } from 'src/app/state/app.state';
 import { contactRecieved, contactRequired } from 'src/app/state/cotacts/contacts.actions';
 import { selectContact } from 'src/app/state/cotacts/contacts.selectors';
 import { leadRecieved } from 'src/app/state/leads/leads.actions';
-import { selectManufacturers, selectProducts, selectSources, selectSteps, selectUsers } from 'src/app/state/misc/misc.selectors';
+import { selectManufacturers, selectProducts, selectSaleStep, selectSources, selectSteps, selectUsers } from 'src/app/state/misc/misc.selectors';
 import { taskChanged } from 'src/app/state/tasks/tasks.actions';
 import { selectFilteredTasks } from 'src/app/state/tasks/tasks.selectors';
 import { LeadsService } from '../../leads.service';
@@ -21,25 +20,13 @@ import { LeadsService } from '../../leads.service';
   templateUrl: './lead-data.component.html',
   styleUrls: ['./lead-data.component.sass']
 })
-export class LeadDataComponent implements OnChanges {
+export class LeadDataComponent implements OnInit, OnChanges {
   @Input() lead: Lead
-  users$ = this.store.select(selectUsers)
-  sources$ = this.store.select(selectSources)
-  steps: ReadonlyArray<Step>
-  steps$ = this.store.select(selectSteps)
-    .pipe(
-      //TODO: same
-      tap((steps) => this.steps = steps),
-      //TODO: move this to config file / table
-      tap((steps: ReadonlyArray<Step>) => steps.forEach(s => {
-        if (s.Order == 10) {
-          this.completeStepID = s.ID
-        }
-      }))
-    )
-  
-  products$ = this.store.select(selectProducts)
-  manufacturers$ = this.store.select(selectManufacturers)
+  users: ReadonlyArray<User> = []
+  sources: ReadonlyArray<Source> = []
+  steps: ReadonlyArray<Step> = []
+  products: ReadonlyArray<Product> = []
+  manufacturers: ReadonlyArray<Manufacturer> = []
   contact$: Observable<Readonly<Contact>>
   errorMessage: string
   completeStepID: number
@@ -58,22 +45,32 @@ export class LeadDataComponent implements OnChanges {
 
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnInit(): void {
+    this.store.select(selectUsers).subscribe(users => this.users = users || [])
+    this.store.select(selectSources).subscribe(sources => this.sources = sources || [])
+    this.store.select(selectSteps).subscribe(steps => this.steps = steps || [])
+    this.store.select(selectProducts).subscribe(products => this.products = products || [])
+    this.store.select(selectManufacturers).subscribe(manufs => this.manufacturers = manufs || [])
+    this.store.select(selectSaleStep).subscribe(step => this.completeStepID = step ? step.ID : null)
+
+  }
+
+  ngOnChanges(): void {
     if (this.lead) {
       this.form = this.fb.group({
         Name: [this.lead.Name, Validators.required],
-        StepID: [this.lead.StepID],
-        ResponsibleID: [this.lead.ResponsibleID, Validators.required],
-        ProductID: [this.lead.ProductID, Validators.required],
-        ManufacturerID: [this.lead.ManufacturerID, Validators.required],
+        StepID: [this.lead.Step.ID],
+        ResponsibleID: [this.lead.Responsible.ID, [Validators.required, Validators.min(1)]],
+        ProductID: [this.lead.Product.ID, [Validators.required, Validators.min(1)]],
+        ManufacturerID: [this.lead.Manufacturer.ID, [Validators.required, Validators.min(1)]],
       })
       if (!this.lead.Analytics || !this.lead.Analytics.Domain) {
         this.showSource = true
-        this.form.addControl("SourceID", new FormControl(this.lead.SourceID, Validators.required))
+        this.form.addControl("SourceID", new FormControl(this.lead.Source.ID, [Validators.required, Validators.min(1)]))
       }
-      if (this.lead.ContactID) {
-        this.store.dispatch(contactRequired({ id: this.lead.ContactID }))
-        this.contact$ = this.store.select(selectContact(this.lead.ContactID))
+      if (this.lead.Contact.ID) {
+        this.store.dispatch(contactRequired({ id: this.lead.Contact.ID }))
+        this.contact$ = this.store.select(selectContact(this.lead.Contact.ID))
       } else {
         this.contact$ = null
       }
@@ -83,16 +80,14 @@ export class LeadDataComponent implements OnChanges {
   save() {
     this.form.disable()
     this.saving = true
-    const step = this.steps.find((s) => s.ID === this.form.value.StepID)
-    const newLead: Lead = {
+    const newLead: LeadData = {
       ...this.lead,
       ...this.form.value,
-      Step: step
     }
-
     this.ls.Save(newLead).pipe(first()).subscribe({
-      next: () => {
-        this.store.dispatch(leadRecieved({ lead: newLead }))
+      next: (updated: Lead) => {
+        this.store.dispatch(leadRecieved({ lead: updated }))
+        this.form.markAsPristine()
       },
       error: () => this.errorMessage = `Can't save item "${newLead.Name}, with ID = ${newLead.ID}"`,
       complete: () => { this.saving = false, this.form.enable() }
@@ -100,57 +95,47 @@ export class LeadDataComponent implements OnChanges {
   }
 
   relinkContact(contact: Contact) {
-    if (!this.lead.ContactID || confirm(`Are you sure want to change linked contact from ${this.lead.Contact.Name} to ${contact.Name}`)) {
-      const newLead: Lead = {
+    if (!this.lead.Contact.ID || confirm(`Are you sure want to change linked contact from ${this.lead.Contact.Name} to ${contact.Name}`)) {
+      const newLead: LeadData = {
         ...this.lead,
         ...this.form.value,
         ContactID: contact.ID,
-        Contact: contact,
       }
       this.contact$ = this.store.select(selectContact(newLead.ContactID))
       this.ls.Save(newLead).pipe(first()).subscribe({
-        next: () => {
-          this.store.dispatch(leadRecieved({ lead: newLead }))
-          // console.log(contact)
-        },
+        next: (updated) => this.store.dispatch(leadRecieved({ lead: updated })),
         error: () => this.errorMessage = `Can't link new contact to lead "${newLead.Name}, with ID = ${newLead.ID}"`
       })
     } else {
       //don't know better way to reset contact back - it's already selected
-      this.store.dispatch(contactRequired({ id: this.lead.ContactID }))
-      // const currentUrl = this.router.url;
-      // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      //   this.router.navigate([currentUrl]);
-      // });
+      this.store.dispatch(contactRequired({ id: this.lead.Contact.ID }))
     }
   }
 
   stepChanged(e: any) {
-    if (this.isBlankSource() || e.value === this.completeStepID && this.form.invalid) {
-        this.form.get('StepID').patchValue(this.lead.StepID)
-        this.form.markAllAsTouched()
-    } else {
-      this.save()
-    }   
-  }
-
-  isBlankSource(): boolean {
-    return this.showSource && !this.lead.SourceID
-  }
-
-  responsibleChanged() {
-    if (confirm("Change resposible in Tasks and Contacts?")) {
-      const newResponsible = this.form.get('ResponsibleID').value
-      this.changeTasksResponsible(newResponsible)
-      this.changeContactsResponsible(newResponsible)
-      this.save()
+    if (this.isBlankSource() || (this.form.invalid && e.value === this.completeStepID)) {
+      this.form.markAllAsTouched()
+      this.form.get('StepID').patchValue(this.lead.Step.ID)
     } else {
       this.save()
     }
   }
 
+  isBlankSource(): boolean {
+    return this.showSource && !this.lead.Source.ID
+  }
+
+  responsibleChanged() {
+    this.save()
+    if (confirm("Change resposible in Tasks and Contacts?")) {
+      const newResponsible = this.form.get('ResponsibleID').value
+      this.changeTasksResponsible(newResponsible)
+      this.changeContactsResponsible(newResponsible)
+    }
+  }
+
   changeContactsResponsible(responsible: number) {
-    this.store.select(selectContact(this.lead.ContactID))
+    this.store.select(selectContact(this.lead.Contact.ID))
       .pipe(first())
       .subscribe((contact: Contact) => {
         const newContact: Contact = {
@@ -203,6 +188,10 @@ export class LeadDataComponent implements OnChanges {
 
   get step() {
     return this.form.get("StepID")
+  }
+
+  get source() {
+    return this.form.get("SourceID")
   }
 
   get createdBy() {

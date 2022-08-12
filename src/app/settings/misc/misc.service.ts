@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { path } from '../../api.service';
-import { Manufacturer, Product, Role, Source, Step, Tag, User, Task, TaskType } from '../../shared/model';
+import { Manufacturer, Product, Role, Source, Step, Tag, User, Task, TaskType, ChangeUser } from '../../shared/model';
 
 @Injectable({ providedIn: 'root' })
 export class MiscService {
   constructor(private http: HttpClient) { }
 
-  SaveUser(user: User): Observable<any> {
+  SaveUser(user: ChangeUser): Observable<any> {
     if (user.ID) {
       return this.http.put<any>(`${path}/users/${user.ID}`, user)
     }

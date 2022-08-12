@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 import { ListFilter, Manufacturer, Product, Role, Source, Step, Tag, Task, TaskType, User } from './shared/model';
-const dev = false
-export const path = dev ? 'http://localhost:8080' : 'https://vorota-ua.ew.r.appspot.com'
+export const path = environment.production ? 'https://vorota-ua.ew.r.appspot.com' : 'http://localhost:8080'
 const defaultLimit = 25
 
 export const httpOptions = {
@@ -24,8 +24,9 @@ export function FilterToString(filter: ListFilter): string {
         `${filter.contact ? '&contact=' + filter.contact : ''}${filter.parent ? '&parent=' + filter.parent : ''}` +
         `${filter.min_date ? '&min_date=' + convertTime(filter.min_date) : ''}${filter.max_date ? '&max_date=' + convertTime(filter.max_date) : ''}` +
         `${filter.from ? '&from=' + filter.from : ''}${filter.to ? '&to=' + filter.to : ''}${filter.wallet ? '&wallet=' + filter.wallet : ''}` +
-        `${filter.steps && filter.steps.length ? '&steps=' + filter.steps.join(',') :''}` +
-        `${filter.ids && filter.ids.length ? '&ids=' + filter.ids.join(',') : ''}`
+        `${filter.steps && filter.steps.length ? '&steps[]=' + filter.steps.join('&steps[]=') :''}` +
+        `${filter.ids && filter.ids.length ? `&ids[]=${filter.ids.join('&ids[]=')}` : ''}` +
+        `${filter.by_date ? '&by_date=true' : ''}`
     return `?limit=${filter.limit || defaultLimit}&offset=${filter.offset || 0}${additional}`
 }
 

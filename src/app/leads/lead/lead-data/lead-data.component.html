@@ -17,14 +17,15 @@
             <mat-form-field appearance="standard" *ngIf="showSource">
                 <mat-label>Source</mat-label>
                 <mat-select matNativeControl formControlName="SourceID" (selectionChange)="save()">
-                    <mat-option *ngFor="let source of sources$ | async" [value]="source.ID">{{source.Name}}</mat-option>
+                    <mat-option *ngFor="let source of sources" [value]="source.ID">{{source.Name}}</mat-option>
                 </mat-select>
+                <mat-error *ngIf="source.invalid">Source is required</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="standard">
                 <mat-label>Step</mat-label>
                 <mat-select matNativeControl formControlName="StepID" (selectionChange)="stepChanged($event)">
-                    <mat-option *ngFor="let item of steps$ | async" [value]="item.ID" ngClass="step-{{item.Order}}">
+                    <mat-option *ngFor="let item of steps" [value]="item.ID" ngClass="step-{{item.Order}}">
                         {{item.Name}}
                     </mat-option>
                 </mat-select>
@@ -34,7 +35,7 @@
             <mat-form-field appearance="standard" class="resp-name">
                 <mat-label>Responsible</mat-label>
                 <mat-select matNativeControl formControlName="ResponsibleID" (selectionChange)="responsibleChanged()">
-                    <mat-option *ngFor="let user of users$ | async" [value]="user.ID">{{user.Name}}</mat-option>
+                    <mat-option *ngFor="let user of users" [value]="user.ID">{{user.Name}}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="resp.invalid">Responsible is required</mat-error>
             </mat-form-field>
@@ -42,7 +43,7 @@
             <mat-form-field appearance="standard">
                 <mat-label>Products</mat-label>
                 <mat-select matNativeControl formControlName="ProductID" (selectionChange)="save()">
-                    <mat-option *ngFor="let item of products$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+                    <mat-option *ngFor="let item of products" [value]="item.ID">{{item.Name}}</mat-option>
                 </mat-select>
                 <mat-error>Product is required</mat-error>
             </mat-form-field>
@@ -50,7 +51,7 @@
             <mat-form-field appearance="standard">
                 <mat-label>Manufacturers</mat-label>
                 <mat-select matNativeControl formControlName="ManufacturerID" (selectionChange)="save()">
-                    <mat-option *ngFor="let item of manufacturers$ | async" [value]="item.ID">{{item.Name}}</mat-option>
+                    <mat-option *ngFor="let item of manufacturers" [value]="item.ID">{{item.Name}}</mat-option>
                 </mat-select>
                 <mat-error>Manufacturer is required</mat-error>
             </mat-form-field>

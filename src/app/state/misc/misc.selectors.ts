@@ -9,6 +9,11 @@ export const selectSteps = createSelector(
     (state: MiscState) => state.steps || []
 )
 
+export const selectSaleStep = createSelector(
+  selectMisc,
+  (state: MiscState) => state.steps.find(s => s.Order === 10)
+)
+
 export const selectedSteps = createSelector(
     selectMisc,
     (state: MiscState) => state.selectedSteps || []

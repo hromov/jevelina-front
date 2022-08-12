@@ -62,7 +62,7 @@ export class AuthService {
 
   get isAdmin(): boolean {
     const user = this.userSubject.getValue()
-    return user && user.Role.Role == "Admin"
+    return user && user.Role == "Admin"
   }
 
   get currentUser(): User {
@@ -70,7 +70,9 @@ export class AuthService {
   }
 
   refreshToken(): void {
+    console.log("refresh token called")
     this.authService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
+    this.setExpiring()
   }
 
   setExpiring() {

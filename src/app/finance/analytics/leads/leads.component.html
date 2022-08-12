@@ -1,0 +1,14 @@
+<div class="double">
+  <div></div>
+  <div class="sales">
+    <h3>
+      <user-name [id]="selectedUser$ | async"></user-name> {{total$ | async}} leads
+    </h3>
+  </div>
+</div>
+<div class="leads">
+  <leads-list [leads]="leads$ | async"></leads-list>
+  <mat-paginator [length]="total$ | async" [pageSize]="filter.limit" aria-label="Select page"
+    (page)="pageChanged($event)">
+  </mat-paginator>
+</div>

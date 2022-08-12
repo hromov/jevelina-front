@@ -25,7 +25,7 @@ export class FinanceComponent implements OnInit, OnDestroy {
     filter(leads => leads.length > 0),
     map(leads => {
       this.store.dispatch(transfersRequired({ filter: { ids: leads.map(l => l.ID), limit: 1000 } }))
-      return leads.filter(l => allowed_steps.includes(l.StepID)).sort(function (a, b) {
+      return leads.filter(l => allowed_steps.includes(l.Step.ID)).sort(function (a, b) {
         return a.Step.Order - b.Step.Order;
       });
     }))
@@ -44,7 +44,7 @@ export class FinanceComponent implements OnInit, OnDestroy {
     this.minDate = new Date(this.minDate.getFullYear(), this.minDate.getMonth(), 1)
     this.maxDate.setDate(this.maxDate.getDate() + 1)
     this.subs.push(this.ds.dateSelectors$.pipe(filter(val => !!val)).subscribe(minMax => {
-      this.filter = { ...this.filter, min_date: minMax.minDate, max_date: minMax.maxDate }
+      this.filter = { ...this.filter, min_date: minMax.minDate, max_date: minMax.maxDate, completed: minMax.maxDate.getTime() < new Date().getTime() }
       this.pageChanged()
     }))
     this.subs.push(this.selectedUser$.pipe(tap(userID => {
