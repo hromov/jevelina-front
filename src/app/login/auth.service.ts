@@ -1,7 +1,7 @@
 import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, first, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, first, from, Observable, tap } from 'rxjs';
 import { ApiService } from '../api.service';
 import { User } from '../shared/model';
 
@@ -21,7 +21,7 @@ export class AuthService {
       if (socialProfile && userProfile) {
         this.socialUserSubject.next(socialProfile)
         this.userSubject.next(userProfile)
-        this.refreshToken()
+        this.refreshToken().pipe(first()).subscribe(console.log)
       }
     }
 
@@ -69,10 +69,12 @@ export class AuthService {
     return this.userSubject.getValue()
   }
 
-  refreshToken(): void {
+  refreshToken(): Observable<any> {
     console.log("refresh token called")
-    this.authService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
-    this.setExpiring()
+    return from(this.authService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID))
+      .pipe(
+        tap(() => this.setExpiring())
+      )
   }
 
   setExpiring() {
