@@ -1,11 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
 import { filter, map, Observable, Subscription, tap } from 'rxjs';
 import { DateSelectorService } from '../shared/date-selector/date-selector.service';
 import { Lead, ListFilter } from '../shared/model';
 import { AppState } from '../state/app.state';
-import { transfersRequired, walletsRequired } from '../state/finance/finance.actions';
+import { transfersRequired } from '../state/finance/finance.actions';
 import { selectProfitForPage } from '../state/finance/finance.selectors';
 import { leadsPageChanged, leadsRequired } from '../state/leads/leads.actions';
 import { selectCurrentPage, selectedUser, selectLeadsCurrentPassiveTotal, selectLeadsCurrentTotal } from '../state/leads/leads.selector';
@@ -40,7 +40,6 @@ export class FinanceComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>, private ds: DateSelectorService) { }
 
   ngOnInit(): void {
-    this.store.dispatch(walletsRequired())
     this.minDate = new Date(this.minDate.getFullYear(), this.minDate.getMonth(), 1)
     this.maxDate.setDate(this.maxDate.getDate() + 1)
     this.subs.push(this.ds.dateSelectors$.pipe(filter(val => !!val)).subscribe(minMax => {

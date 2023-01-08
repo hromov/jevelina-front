@@ -79,13 +79,13 @@ export const selectLeadsSearchTotal = createSelector(
 
 //can't fully check query :-/ I have to reproduce search search algo here then
 function _valid(l: Lead, filter: ListFilter): boolean {
-  if (filter.completed) {
+  if (filter.completed || l.ClosedAt) {
     if (filter.min_date && new Date(l.ClosedAt) <= new Date(filter.min_date)) {
       return false
     }
     if (filter.max_date && new Date(l.ClosedAt) > new Date(filter.max_date)) {
       return false
-    }
+    }   
   }
   if (filter.active && l.ClosedAt != null) {
     return false

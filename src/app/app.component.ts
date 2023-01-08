@@ -8,7 +8,7 @@ import { FinanceService } from './finance/finance.service';
 import { LeadsService } from './leads/leads.service';
 import { AuthService } from './login/auth.service';
 import { AppState } from './state/app.state';
-import { categoriesLoaded } from './state/finance/finance.actions';
+import { categoriesLoaded, walletsRequired } from './state/finance/finance.actions';
 import { retrievedManufacturers, retrievedProducts, retrievedRoles, retrievedSources, retrievedSteps, retrievedUsers } from './state/misc/misc.actions';
 
 @Component({
@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
       this.api.Products().subscribe(products => this.store.dispatch(retrievedProducts({ products: products || [] })))
       this.api.Manufacturers().subscribe(manufacturers => this.store.dispatch(retrievedManufacturers({ manufacturers: manufacturers || [] })))
       this.fs.Categories().subscribe(categories => this.store.dispatch(categoriesLoaded({ categories: categories || [] })))
+      this.store.dispatch(walletsRequired())
     })
   }
   toggle() {
